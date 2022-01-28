@@ -1,0 +1,49 @@
+{
+    "tasks":
+    [
+        {
+            "name":"Task1",
+            "duedate":"2022-01-31 12:00",
+            "details":
+            [
+                {
+                    "name":"Detail1",
+                    "type":"text",
+                    "value":"Das ist ein ganz langer Text..."
+                },
+                {
+                    "name":"Detail2",
+                    "type":"bool",
+                    "value":"Alles erledigt?"
+                },
+                {
+                    "name":"Detail3",
+                    "type":"image",
+                    "value":"Bitte ein Bild als Beweis:"
+                }
+            ]
+        },
+        {
+            "name":"Task2",
+            "duedate":"2022-01-31 14:00",
+            "details":
+            [
+                {
+                    "name":"Detail1",
+                    "type":"text",
+                    "value":"Das ist ein ganz langer Text..."
+                },
+                {
+                    "name":"Detail2",
+                    "type":"bool",
+                    "value":"Alles erledigt?"
+                },
+                {
+                    "name":"Detail3",
+                    "type":"image",
+                    "value":"Bitte ein Bild als Beweis:"
+                }
+            ]
+        }
+    ]
+}
