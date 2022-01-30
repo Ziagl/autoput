@@ -1,21 +1,21 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { TaskData } from '../data/Metadata'
+import { TaskDetails } from '../data/Metadata'
 
 interface Props {
-  data: TaskData;
+  data: TaskDetails;
 }
 
-class TaskListObject extends React.Component<Props, {}> {
+class TaskDetailObject extends React.Component<Props, {}> {
   constructor(props: Props) {
     super(props);
-    console.log("TaskListObject: " + props);
+    console.log("TaskDetailObject: " + props);
   }
 
   render() {
     return (
       <View style={styles.listItemView}>
-        <Text style={styles.text}>Test: {this.props.data.name}</Text>
+        <Text style={styles.text}>TEst: {this.props.data.name}</Text>
       </View>
     );
   }
@@ -34,4 +34,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TaskListObject;
+export default TaskDetailObject;

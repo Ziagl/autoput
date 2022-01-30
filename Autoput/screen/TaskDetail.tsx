@@ -2,27 +2,40 @@ import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
+  ScrollView,
   Text,
 } from 'react-native';
-import { TaskData } from '../data/Metadata';
+import { TaskData, TaskDetails } from '../data/Metadata';
+
+// components
+import TaskDetailObject from '../components/TaskDetailObject'
 
 interface Props {
   navigation: any,
-  data: TaskData,
+  route: any,
 }
 interface State { }
 
 class TaskDetail extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-
-    console.log(props);
   }
 
   render() {
+    const data = this.props.route.params.data;
+    console.log("TaskDetail123:");
+    console.log(data);
     return (
       <SafeAreaView style={styles.container}>
-        <Text>gffdsgdfsgdfg</Text>
+        <ScrollView contentContainerStyle={styles.scrollView}>
+          <Text style={styles.text}>{data.name}</Text>
+          {data.details.map((element: TaskDetails) => {
+            return (
+              <TaskDetailObject data={element} />
+            );
+          })
+          }
+        </ScrollView>
       </SafeAreaView>
     );
   }
@@ -32,6 +45,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
+  },
+  scrollView: {
+
+  },
+  text: {
+    color: 'black',
+    fontSize: 23,
+    textAlign: 'center',
   },
 });
 

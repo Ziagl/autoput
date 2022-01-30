@@ -67,7 +67,7 @@ class TaskList extends React.Component<Props, State> {
                   key={element.name}
                   activeOpacity={0.6}
                   underlayColor="#DDDDDD"
-                  onPress={() => this.props.navigation.navigate("TaskDetail", { element })}
+                  onPress={() => this.props.navigation.navigate("TaskDetail", { data: element })}
                   style={styles.listItem}>
                   <TaskListObject data={element} />
                 </TouchableHighlight>
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   scrollView: {
-    paddingBottom: 60,
+
   },
   listItem: {
     padding: 15,
