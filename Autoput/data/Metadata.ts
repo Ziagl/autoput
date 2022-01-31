@@ -1,7 +1,9 @@
 export interface TaskDetails {
     name: string;
     type: "text" | "bool" | "image";
+    text: string;
     value: string;
+    checked: boolean;
 };
 
 export interface TaskData {

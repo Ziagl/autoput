@@ -5,7 +5,7 @@ import {
   ScrollView,
   Text,
 } from 'react-native';
-import { TaskData, TaskDetails } from '../data/Metadata';
+import { TaskDetails } from '../data/Metadata';
 
 // components
 import TaskDetailObject from '../components/TaskDetailObject'
@@ -31,7 +31,7 @@ class TaskDetail extends React.Component<Props, State> {
           <Text style={styles.text}>{data.name}</Text>
           {data.details.map((element: TaskDetails) => {
             return (
-              <TaskDetailObject data={element} />
+              <TaskDetailObject key={element.name} data={element} />
             );
           })
           }

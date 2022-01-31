@@ -9,17 +9,19 @@
                 {
                     "name":"Detail1",
                     "type":"text",
-                    "value":"Das ist ein ganz langer Text..."
+                    "text":"Das ist ein ganz langer Text..."
                 },
                 {
                     "name":"Detail2",
                     "type":"bool",
-                    "value":"Alles erledigt?"
+                    "text":"Alles erledigt?",
+                    "checked":false
                 },
                 {
                     "name":"Detail3",
                     "type":"image",
-                    "value":"Bitte ein Bild als Beweis:"
+                    "text":"Bitte ein Bild als Beweis:",
+                    "value":""
                 }
             ]
         },
@@ -31,17 +33,19 @@
                 {
                     "name":"Detail1",
                     "type":"text",
-                    "value":"Das ist ein ganz langer Text..."
+                    "text":"Das ist ein ganz langer Text..."
                 },
                 {
                     "name":"Detail2",
                     "type":"bool",
-                    "value":"Alles erledigt?"
+                    "text":"Alles erledigt?",
+                    "checked":false
                 },
                 {
                     "name":"Detail3",
                     "type":"image",
-                    "value":"Bitte ein Bild als Beweis:"
+                    "text":"Bitte ein Bild als Beweis:",
+                    "value":""
                 }
             ]
         }
