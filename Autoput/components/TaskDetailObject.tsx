@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button, Image, Alert } from 'react-native';
 import CheckBox from 'react-native-check-box';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { TaskDetails } from '../data/Metadata';
-//import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 interface Props {
   data: TaskDetails;
@@ -49,13 +49,53 @@ class TaskDetailObject extends React.Component<Props, State> {
           </>
         );
       case "image":
+        // https://github.com/react-native-image-picker/react-native-image-picker
         return (
           <>
             <Text style={styles.textHeader}>{this.state.data.name}</Text>
             <Text style={styles.text}>{this.state.data.text}</Text>
-
+            {this.state.data.value === "" ? (
+              <Button
+                onPress={this.onPressImageUpload.bind(this)}
+                title="Upload Image"
+                color="#841584"
+              />
+            ) : (
+              <Image
+                fadeDuration={1000}
+                resizeMode={'contain'}
+                source={{ uri: this.state.data.value }}
+                style={styles.image}
+              />
+            )}
           </>
         );
+    }
+  }
+
+  async onPressImageUpload() {
+    const result = await launchCamera({
+      mediaType: 'photo',
+      maxWidth: 2000,
+      maxHeight: 2000,
+      cameraType: 'back',
+    });
+
+    if (result.errorMessage != undefined) {
+      Alert.alert(
+        "Error",
+        result.errorMessage,
+        [
+          { text: "OK" },
+        ]
+      );
+    }
+
+    if (result.assets) {
+      this.state.data.value = result.assets[0].uri as string;
+      this.setState({
+        data: this.state.data
+      });
     }
   }
 
@@ -95,6 +135,9 @@ const styles = StyleSheet.create({
   checkboxText: {
     fontSize: 23,
     color: 'black',
+  },
+  image: {
+    height: 300,
   },
 });
 

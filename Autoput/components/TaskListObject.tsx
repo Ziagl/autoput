@@ -15,7 +15,7 @@ class TaskListObject extends React.Component<Props, {}> {
   render() {
     return (
       <View style={styles.listItemView}>
-        <Text style={styles.text}>Test: {this.props.data.name}</Text>
+        <Text style={styles.text}>Test: {this.props.data.name} {this.props.data.duedate}</Text>
       </View>
     );
   }
