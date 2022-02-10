@@ -15,12 +15,13 @@ $db = $database->getConnection();
 // initialize object
 $task_job = new Task_Job($db);
 
-$searchKey = isset($_GET['key']) ? $_GET['key'] : die();
 $task_job->pageNo = isset($_GET['pageno']) ? $_GET['pageno'] : 1;
 $task_job->no_of_records_per_page = isset($_GET['pagesize']) ? $_GET['pagesize'] : 30;
+$task_job->task_id = isset($_GET['task_id']) ? $_GET['task_id'] : die();
+// read task_job will be here
 
 // query task_job
-$stmt = $task_job->search($searchKey);
+$stmt = $task_job->readBytask_id();
 $num = $stmt->rowCount();
  
 // check if more than 0 record found

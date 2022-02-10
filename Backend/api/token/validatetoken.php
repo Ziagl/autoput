@@ -9,7 +9,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
  
 // get database connection
 include_once '../config/database.php';
-include_once '../token/token.php';
+ include_once '../token/token.php';
 // instantiate product object
 include_once '../jwt/BeforeValidException.php';
 include_once '../jwt/ExpiredException.php';

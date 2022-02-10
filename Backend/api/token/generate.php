@@ -9,7 +9,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // get database connection
 include_once '../config/database.php';
  include_once '../token/token.php';
-// instantiate product object
+  include_once '../objects/user.php';
 include_once '../jwt/BeforeValidException.php';
 include_once '../jwt/ExpiredException.php';
 include_once '../jwt/SignatureInvalidException.php';
@@ -28,23 +28,25 @@ if(
 ){
 
 //validate your username and password from database call (copy the code from other generated table files or user table (if you have user or admin table)
-$username =$data->username;
-$password = $data->password;
-//Write your own logic here
-if($username == "admin" && $password == "admin123"){
+$users = new User($db);
+$users->username = $data->username;
+$users->password = md5($data->password);
+$users->login_validation();
+if($users->id!=null){
+$token["data"]=$users;
 $jwt = JWT::encode($token, SECRET_KEY);
 $tokenOutput = array(
 			"access_token" => $jwt,
             "expires_in" => $tokenExp,
 			"token_type" => "bearer",
 			);
+		$userData=$users;
   http_response_code(200);
-  echo json_encode(array("status" => "success", "code" => 1,"message"=> "Token Generated","document"=> $tokenOutput));
+  echo json_encode(array("status" => "success", "code" => 1,"message"=> "Token Generated","document"=> $tokenOutput,"user"=>$userData));
 }else{
 	http_response_code(400);
 	echo json_encode(array("status" => "error", "code" => 0,"message"=> "Invalid login.","document"=> ""));
-}
-}
+}}
  
 // tell the user data is incomplete
 else{

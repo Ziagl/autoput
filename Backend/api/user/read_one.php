@@ -7,43 +7,42 @@ header("Access-Control-Allow-Credentials: true");
 header('Content-Type: application/json');
 include_once '../config/helper.php';
 include_once '../config/database.php';
-include_once '../objects/task_job.php';
+include_once '../objects/user.php';
  include_once '../token/validatetoken.php';
 // get database connection
 $database = new Database();
 $db = $database->getConnection();
  
-// prepare task_job object
-$task_job = new Task_Job($db);
+// prepare user object
+$user = new User($db);
  
 // set ID property of record to read
-$task_job->task_id = isset($_GET['id']) ? $_GET['id'] : die();
+$user->id = isset($_GET['id']) ? $_GET['id'] : die();
  
-// read the details of task_job to be edited
-$task_job->readOne();
+// read the details of user to be edited
+$user->readOne();
  
-if($task_job->task_id!=null){
+if($user->id!=null){
     // create array
-    $task_job_arr = array(
+    $user_arr = array(
         
-"name" => html_entity_decode($task_job->name),
-"task_id" => $task_job->task_id,
-"name" => html_entity_decode($task_job->name),
-"job_id" => $task_job->job_id
+"id" => $user->id,
+"username" => html_entity_decode($user->username),
+"password" => html_entity_decode($user->password)
     );
  
     // set response code - 200 OK
     http_response_code(200);
  
     // make it json format
-   echo json_encode(array("status" => "success", "code" => 1,"message"=> "task_job found","document"=> $task_job_arr));
+   echo json_encode(array("status" => "success", "code" => 1,"message"=> "user found","document"=> $user_arr));
 }
  
 else{
     // set response code - 404 Not found
     http_response_code(404);
  
-    // tell the user task_job does not exist
-	echo json_encode(array("status" => "error", "code" => 0,"message"=> "task_job does not exist.","document"=> ""));
+    // tell the user user does not exist
+	echo json_encode(array("status" => "error", "code" => 0,"message"=> "user does not exist.","document"=> ""));
 }
 ?>
