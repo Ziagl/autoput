@@ -2,10 +2,10 @@
 class Database{
  
     // specify your own database credentials
-    private $host =     "---ADD HERE---";
-    private $db_name =  "---ADD HERE---";
-    private $username = "---ADD HERE---";
-    private $password = "---ADD HERE---";
+    private $host =     "ziegelwanger-edv.at";
+    private $db_name =  "d038dd1e";
+    private $username = "d038dd1e";
+    private $password = "8xYPRsvffzXxgtFs";
 	private $port =     "3306";
     public $conn;
  
