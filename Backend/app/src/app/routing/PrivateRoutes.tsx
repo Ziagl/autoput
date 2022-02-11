@@ -4,6 +4,7 @@ import {FallbackView} from '../../_metronic/partials'
 import {DashboardWrapper} from '../pages/dashboard/DashboardWrapper'
 import {MenuTestPage} from '../pages/MenuTestPage'
 import {Tasks} from '../pages/Tasks'
+import {Jobs} from '../pages/Jobs'
 
 export function PrivateRoutes() {
   const BuilderPageWrapper = lazy(() => import('../pages/layout-builder/BuilderPageWrapper'))
@@ -25,6 +26,7 @@ export function PrivateRoutes() {
         <Route path='/apps/chat' component={ChatPage} />
         <Route path='/menu-test' component={MenuTestPage} />
         <Route path='/tasks' component={Tasks} />
+        <Route path='/jobs' component={Jobs} />
         <Redirect from='/auth' to='/dashboard' />
         <Redirect exact from='/' to='/dashboard' />
         <Redirect to='error/404' />

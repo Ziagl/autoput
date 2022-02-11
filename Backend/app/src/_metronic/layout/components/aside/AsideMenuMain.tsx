@@ -11,6 +11,7 @@ export function AsideMenuMain() {
   return (
     <>
       <AsideMenuItem to="/tasks" title="Tasks" />
+      <AsideMenuItem to="/jobs" title="Jobs" />
       <AsideMenuItem
         to='/dashboard'
         icon='/media/icons/duotune/art/art002.svg'
