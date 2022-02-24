@@ -1,39 +1,39 @@
-/*const api = {
-    generateToken: async () => {
-        const endpoint = "https://ziegelwanger-edv.at/autoput/api/token/generate.php";
-        const data = {username: "admin", password: "admin123"};
+API_BASE_URL = 'https://ziegelwanger-edv.at'
+API_PATH = '/autoput/api/'
+API_USERNAME = 'admin'
+API_PASSWORD = 'admin123'
+
+// API endpoint code
+const api = {
+    generateToken: async (username, password) => {
+        const endpoint = API_BASE_URL + API_PATH + 'token/generate.php';
+        const data = { username: username, password: password };
         return await (await fetch(endpoint, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
             body: JSON.stringify(data),
-          })).json();
+        })).json();
     },
-    fetchJobs: async () => {
-        const endpoint = "https://ziegelwanger-edv.at/autoput/api/job/read.php?pageno=1&pagesize=30";
-        return await (await fetch(endpoint)).json();
+    fetchData: async (url, jwt) => {
+        const headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + jwt.access_token);
+        headers.append('Content-Type', 'application/json');
+        return await (await fetch(url, {
+            method: 'GET',
+            headers: headers,
+            redirect: 'follow'
+        })).json();
     }
 }
 
-console.log(api.generateToken());
-console.log(api.fetchJobs());*/
+// API endpoint usage example
+const fetchApiData = async () => {
+    const json = await api.generateToken(API_USERNAME, API_PASSWORD);
+    const jwt = json.document;
+    console.log(jwt);
+    const jobs = await api.fetchData(API_BASE_URL + API_PATH + 'job/read.php?pageno=1&pagesize=30', jwt);
+    console.log(jobs);
+    const tasks = await api.fetchData(API_BASE_URL + API_PATH + 'task/read.php?pageno=1&pagesize=30', jwt);
+    console.log(tasks);
+}
 
-const endpoint = "https://ziegelwanger-edv.at/autoput/api/token/generate.php";
-const data = {username: "admin", password: "admin123"};
-console.log(
-    fetch(
-        endpoint, 
-        {
-            method: 'POST',
-            body: JSON.stringify(data),
-        }
-    )
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    })
-);
+fetchApiData();
