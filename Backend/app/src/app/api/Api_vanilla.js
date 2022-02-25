@@ -1,3 +1,4 @@
+/*
 API_BASE_URL = 'https://ziegelwanger-edv.at'
 API_PATH = '/autoput/api/'
 API_USERNAME = 'admin'
@@ -13,15 +14,26 @@ const api = {
             body: JSON.stringify(data),
         })).json();
     },
-    fetchData: async (url, jwt) => {
+    fetchData: async (url, jwt, page = 1, count = 30) => {
         const headers = new Headers();
         headers.append('Authorization', 'Bearer ' + jwt.access_token);
         headers.append('Content-Type', 'application/json');
-        return await (await fetch(url, {
+        return await (await fetch(
+            API_BASE_URL + API_PATH + url + '?pageno=' + page + '&pagesize=' + count, {
             method: 'GET',
             headers: headers,
             redirect: 'follow'
         })).json();
+    },
+    fetchJobs: async () => {
+        const json = await api.generateToken(API_USERNAME, API_PASSWORD);
+        const jwt = json.document;
+        return await api.fetchData('job/read.php', jwt);
+    },
+    fetchTasks: async () => {
+        const json = await api.generateToken(API_USERNAME, API_PASSWORD);
+        const jwt = json.document;
+        return await api.fetchData('task/read.php', jwt);
     }
 }
 
@@ -30,10 +42,11 @@ const fetchApiData = async () => {
     const json = await api.generateToken(API_USERNAME, API_PASSWORD);
     const jwt = json.document;
     console.log(jwt);
-    const jobs = await api.fetchData(API_BASE_URL + API_PATH + 'job/read.php?pageno=1&pagesize=30', jwt);
+    const jobs = await api.fetchData('job/read.php', jwt);
     console.log(jobs);
-    const tasks = await api.fetchData(API_BASE_URL + API_PATH + 'task/read.php?pageno=1&pagesize=30', jwt);
+    const tasks = await api.fetchData('task/read.php', jwt);
     console.log(tasks);
 }
 
 fetchApiData();
+*/
