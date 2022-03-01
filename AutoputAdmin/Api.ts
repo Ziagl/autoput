@@ -1,3 +1,5 @@
+import TaskList from "./screen/TaskList";
+
 interface Token {
     access_token: string,
     expires_in: number,
@@ -11,9 +13,50 @@ interface TokenResponse {
     document: Token,
 }
 
-interface Task {
-
+export interface Task {
+    id: number,
+    name: string,
+    duedate: string,
+    date_recurrency: number,
+    time_recurrency: number,
 }
+
+interface Tasks {
+    pageno: number,
+    pagesize: number,
+    total_count: number,
+    records: Task[],
+}
+
+interface TaskResponse {
+    status: string,
+    code: number,
+    message: string,
+    document: Tasks,
+}
+
+export interface Job {
+    id: number,
+    name: string,
+    type: number,
+    text: string,
+    value: string,
+}
+
+interface Jobs {
+    pageno: number,
+    pagesize: number,
+    total_count: number,
+    records: Job[],
+}
+
+interface JobResponse {
+    status: string,
+    code: number,
+    message: string,
+    document: Jobs,
+}
+
 
 // API class as singleton
 export class Api {
@@ -22,12 +65,16 @@ export class Api {
     private _username: string;
     private _password: string;
     private _token: Token;
+    private _tasks: Tasks;
+    private _jobs: Jobs;
 
     private constructor() {
         this._apiUrl = "https://ziegelwanger-edv.at/autoput/api";
         this._username = "";
         this._password = "";
         this._token = { access_token: "", expires_in: 0, token_type: "" };
+        this._tasks = { pageno: 0, pagesize: 0, total_count: 0, records: [] }
+        this._jobs = { pageno: 0, pagesize: 0, total_count: 0, records: [] }
     }
 
     public static getInstance(): Api {
@@ -48,51 +95,81 @@ export class Api {
         return this.isLoggedIn();
     }
 
-    // get list of tasks
-    public async fetchTasks() {
-        var headers = new Headers();
-        headers.append("Content-Type", "application/json");
-        headers.append("Authorization", "Bearer " + this._token.access_token);
-
-        var requestOptions: RequestInit = {
-            method: 'GET',
-            headers: headers,
-            redirect: 'follow',
-        };
-
-        fetch(this._apiUrl + "/task/read.php?pageno=1&pagesize=30", requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
+    // get list of jobs
+    public async fetchJobs() {
+        fetch(this._apiUrl + "/job/read.php?pageno=1&pagesize=30", this.prepareRequest())
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                let jobResponse = result as JobResponse;
+                this._jobs = jobResponse.document as Jobs;
+                console.log("set job with data: " + JSON.stringify(this._jobs))
+            })
             .catch(error => console.log('error', error));
+    }
+
+    // get list of tasks
+    public async fetchTasks(): Promise<Task[]> {
+        await fetch(this._apiUrl + "/task/read.php?pageno=1&pagesize=30", this.prepareRequest())
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                let taskResponse = result as TaskResponse;
+                this._tasks = taskResponse.document as Tasks;
+                console.log("set task with data: " + JSON.stringify(this._tasks))
+
+            })
+            .catch(error => console.log('error', error));
+        return this._tasks.records;
     }
 
     // generate new bearer token for api requests
     private async generateToken() {
-        var headers = new Headers();
-        headers.append("Content-Type", "application/json");
-
         var data = JSON.stringify({
             "username": this._username,
             "password": this._password,
         });
 
-        var requestOptions: RequestInit = {
-            method: 'POST',
-            headers: headers,
-            body: data,
-            redirect: 'follow',
-        };
-
-        fetch(this._apiUrl + "/token/generate.php", requestOptions)
+        fetch(this._apiUrl + "/token/generate.php", this.prepareRequest(data))
             .then(response => response.json())
             .then(result => {
                 console.log(result);
-                let tokenResult = result as TokenResponse;
-                console.log("tokenResult: " + JSON.stringify(tokenResult));
-                this._token = tokenResult.document as Token;
+                let tokenResponse = result as TokenResponse;
+                console.log("tokenResult: " + JSON.stringify(tokenResponse));
+                this._token = tokenResponse.document as Token;
                 console.log("set token with data: " + JSON.stringify(this._token))
                 return this.isLoggedIn();
             })
             .catch(error => console.log('error', error));
+    }
+
+    private prepareRequest(data: string = ""): RequestInit {
+        var requestOptions: RequestInit;
+        if (data.length > 0) {
+            requestOptions = {
+                method: 'POST',
+                headers: this.prepareHeaders(this.isLoggedIn()),
+                body: data,
+                redirect: 'follow',
+            };
+        }
+        else {
+            requestOptions = {
+                method: 'GET',
+                headers: this.prepareHeaders(this.isLoggedIn()),
+                redirect: 'follow',
+            };
+        }
+        return requestOptions;
+    }
+
+    // prepare HTTP headers for request
+    private prepareHeaders(withToken: boolean): Headers {
+        var headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        if (withToken) {
+            headers.append("Authorization", "Bearer " + this._token.access_token);
+        }
+        return headers
     }
 }
