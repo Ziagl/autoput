@@ -8,10 +8,15 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
-interface Props { }
+import { Api } from '../Api';
+
+interface Props {
+    navigation: any,
+}
 interface State {
-    username: string;
-    password: string;
+    username: string,
+    password: string,
+    errorMessage: string,
 }
 
 class Login extends React.Component<Props, State> {
@@ -21,13 +26,29 @@ class Login extends React.Component<Props, State> {
         this.state = {
             username: "",
             password: "",
+            errorMessage: "",
         }
     }
 
     onChangeUsername = textValue => this.setState({ username: textValue });
     onChangePassword = textValue => this.setState({ password: textValue });
-    onLogin = () => {
-        console.log(this.state.username + " " + this.state.password);
+    onLogin = async () => {
+        this.setState({ errorMessage: "" });
+        if (await Api.getInstance().login(this.state.username, this.state.password)) {
+            this.props.navigation.navigate("TaskList");
+        }
+        else {
+            this.setState({ errorMessage: "Something went wrong." });
+        }
+    }
+    onTestLogin = async () => {
+        this.setState({ errorMessage: "" });
+        if (await Api.getInstance().login("admin", "admin123")) {
+            this.props.navigation.navigate("TaskList");
+        }
+        else {
+            this.setState({ errorMessage: "Something went wrong." });
+        }
     }
 
     render() {
@@ -40,6 +61,10 @@ class Login extends React.Component<Props, State> {
                 <TouchableOpacity style={styles.btn} onPress={() => this.onLogin()}>
                     <Text style={styles.btnText}><Icon name="plus" size={20} />Login</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.btn} onPress={() => this.onTestLogin()}>
+                    <Text style={styles.btnText}><Icon name="plus" size={20} />TestLogin</Text>
+                </TouchableOpacity>
+                <Text>{this.state.errorMessage}</Text>
             </SafeAreaView>
         );
     }

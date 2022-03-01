@@ -8,6 +8,8 @@ import {
     Text,
 } from 'react-native';
 
+import { Api } from '../Api';
+
 interface Props { }
 interface State {
 }
@@ -16,6 +18,11 @@ class TaskList extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
+        this.init();
+    }
+
+    async init() {
+        await Api.getInstance().fetchTasks();
     }
 
     render() {
