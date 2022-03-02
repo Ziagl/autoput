@@ -96,8 +96,8 @@ export class Api {
     }
 
     // get list of jobs
-    public async fetchJobs() {
-        fetch(this._apiUrl + "/job/read.php?pageno=1&pagesize=30", this.prepareRequest())
+    public async fetchJobs(): Promise<Job[]> {
+        await fetch(this._apiUrl + "/job/read.php?pageno=1&pagesize=30", this.prepareRequest())
             .then(response => response.json())
             .then(result => {
                 console.log(result);
@@ -106,6 +106,7 @@ export class Api {
                 console.log("set job with data: " + JSON.stringify(this._jobs))
             })
             .catch(error => console.log('error', error));
+        return this._jobs.records;
     }
 
     // get list of tasks

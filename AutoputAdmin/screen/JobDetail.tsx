@@ -8,34 +8,33 @@ import {
     Text,
 } from 'react-native';
 
-import { Api, Task } from '../Api';
+import { Api, Job } from '../Api';
 
 interface Props { }
 interface State {
-    tasks: Task[],
+    jobs: Job[]
 }
 
-class TaskList extends React.Component<Props, State> {
+class JobDetail extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            tasks: [],
+            jobs: [],
         }
         this.init();
     }
 
     async init() {
-        //let tasksList = await Api.getInstance().fetchTasks();
-        //tasksList.map(task => console.log("Task init: " + task.name));
-        this.setState({ tasks: await Api.getInstance().fetchTasks() });
+        this.setState({ jobs: await Api.getInstance().fetchJobs() });
     }
+
 
     render() {
         return (
             <SafeAreaView style={styles.container}>
-                {this.state.tasks.map(task => (
-                    <Text style={styles.text}>{task.name}</Text>
+                {this.state.jobs.map(job => (
+                    <Text style={styles.text}>{job.name}</Text>
                 ))}
             </SafeAreaView>
         );
@@ -54,4 +53,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default TaskList;
+export default JobDetail;
