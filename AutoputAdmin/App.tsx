@@ -5,7 +5,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // screens
 import Login from './screen/Login';
 import TaskList from './screen/TaskList';
+import TaskDetail from './screen/TaskDetail';
 import JobList from './screen/JobList';
+import JobDetail from './screen/JobDetail';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,8 +32,16 @@ class App extends React.Component<Props, State> {
             component={TaskList}
           />
           <Stack.Screen
+            name="TaskDetail"
+            component={TaskDetail}
+          />
+          <Stack.Screen
             name="JobList"
             component={JobList}
+          />
+          <Stack.Screen
+            name="JobDetail"
+            component={JobDetail}
           />
         </Stack.Navigator>
       </NavigationContainer>

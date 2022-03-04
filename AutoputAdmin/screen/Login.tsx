@@ -59,10 +59,10 @@ class Login extends React.Component<Props, State> {
                 <Text style={styles.text}>Password:</Text>
                 <TextInput placeholder="Password" secureTextEntry={true} style={styles.input} onChangeText={this.onChangePassword} />
                 <TouchableOpacity style={styles.btn} onPress={() => this.onLogin()}>
-                    <Text style={styles.btnText}><Icon name="login" size={20} />Login</Text>
+                    <Text style={styles.btnText}><Icon name="sign-in" size={20} /> Login</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btn} onPress={() => this.onTestLogin()}>
-                    <Text style={styles.btnText}><Icon name="login" size={20} />TestLogin</Text>
+                    <Text style={styles.btnText}><Icon name="sign-in" size={20} /> TestLogin</Text>
                 </TouchableOpacity>
                 <Text>{this.state.errorMessage}</Text>
             </SafeAreaView>

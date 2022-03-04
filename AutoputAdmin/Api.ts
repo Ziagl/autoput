@@ -50,13 +50,19 @@ interface Jobs {
     records: Job[],
 }
 
-interface JobResponse {
+interface JobsResponse {
     status: string,
     code: number,
     message: string,
     document: Jobs,
 }
 
+interface JobResponse {
+    status: string,
+    code: number,
+    message: string,
+    document: Job,
+}
 
 // API class as singleton
 export class Api {
@@ -67,6 +73,7 @@ export class Api {
     private _token: Token;
     private _tasks: Tasks;
     private _jobs: Jobs;
+    private _job: Job;
 
     private constructor() {
         this._apiUrl = "https://ziegelwanger-edv.at/autoput/api";
@@ -75,6 +82,7 @@ export class Api {
         this._token = { access_token: "", expires_in: 0, token_type: "" };
         this._tasks = { pageno: 0, pagesize: 0, total_count: 0, records: [] }
         this._jobs = { pageno: 0, pagesize: 0, total_count: 0, records: [] }
+        this._job = { id: 0, name: "", type: 0, text: "", value: "" }
     }
 
     public static getInstance(): Api {
@@ -101,12 +109,26 @@ export class Api {
             .then(response => response.json())
             .then(result => {
                 console.log(result);
-                let jobResponse = result as JobResponse;
+                let jobResponse = result as JobsResponse;
                 this._jobs = jobResponse.document as Jobs;
-                console.log("set job with data: " + JSON.stringify(this._jobs))
+                console.log("set jobs with data: " + JSON.stringify(this._jobs))
             })
             .catch(error => console.log('error', error));
         return this._jobs.records;
+    }
+
+    // get one job by id
+    public async fetchJob(id: number): Promise<Job> {
+        await fetch(this._apiUrl + "/job/read_one.php?id=" + id, this.prepareRequest())
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                let jobResponse = result as JobResponse;
+                this._job = jobResponse.document as Job;
+                console.log("set job with data: " + JSON.stringify(this._job))
+            })
+            .catch(error => console.log('error', error));
+        return this._job;
     }
 
     // get list of tasks

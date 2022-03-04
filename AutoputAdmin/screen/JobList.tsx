@@ -16,7 +16,9 @@ import { Api, Job } from '../Api';
 // components
 import ListItem from '../components/ListItem'
 
-interface Props { }
+interface Props {
+    navigation: any,
+}
 interface State {
     jobs: Job[]
 }
@@ -37,6 +39,7 @@ class JobList extends React.Component<Props, State> {
 
     onEditJob = (id) => {
         console.log("edit job called with id " + id);
+        this.props.navigation.navigate("JobDetail", { id: id });
     }
 
     onDeleteJob = (id) => {
@@ -45,13 +48,9 @@ class JobList extends React.Component<Props, State> {
 
     onAddJob = () => {
         console.log("add job called");
+        this.props.navigation.navigate("JobDetail", { id: 0 });
     }
 
-    /*
-    {this.state.jobs.map(job => (
-                    <Text style={styles.text}>{job.name}</Text>
-                ))}
-     */
     render() {
         return (
             <SafeAreaView style={styles.container}>
@@ -60,7 +59,7 @@ class JobList extends React.Component<Props, State> {
                     renderItem={({ item }) => <ListItem item={item} editItem={this.onEditJob} deleteItem={this.onDeleteJob} />}
                 />
                 <TouchableOpacity style={styles.btn} onPress={() => this.onAddJob()}>
-                    <Text style={styles.btnText}><Icon name="plus" size={20} />New Job</Text>
+                    <Text style={styles.btnText}><Icon name="plus" size={20} /> New Job</Text>
                 </TouchableOpacity>
             </SafeAreaView>
         );
