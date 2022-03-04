@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import { Api, Task } from '../Api';
+import styles from '../Style';
 
 interface Props {
     id: number | null
@@ -43,13 +44,5 @@ class TaskDetail extends React.Component<Props, State> {
         );
     }
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-    },
-
-});
 
 export default TaskDetail;

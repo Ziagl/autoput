@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import { Api, Task } from '../Api';
+import styles from '../Style';
 
 interface Props { }
 interface State {
@@ -41,17 +42,5 @@ class TaskList extends React.Component<Props, State> {
         );
     }
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-    },
-    text: {
-        color: 'black',
-        fontSize: 23,
-        textAlign: 'center',
-    },
-});
 
 export default TaskList;

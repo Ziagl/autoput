@@ -9,6 +9,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { Api } from '../Api';
+import styles from '../Style';
 
 interface Props {
     navigation: any,
@@ -69,33 +70,5 @@ class Login extends React.Component<Props, State> {
         );
     }
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#ffffff',
-    },
-    text: {
-        color: 'black',
-        fontSize: 23,
-        textAlign: 'left',
-    },
-    input: {
-        color: 'black',
-        height: 60,
-        padding: 8,
-        fontSize: 16,
-    },
-    btn: {
-        backgroundColor: '#c2bad8',
-        padding: 9,
-        margin: 5,
-    },
-    btnText: {
-        color: 'darkslateblue',
-        fontSize: 20,
-        textAlign: 'center',
-    },
-});
 
 export default Login;

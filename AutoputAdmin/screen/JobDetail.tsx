@@ -13,6 +13,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { Api, Job } from '../Api';
+import styles from '../Style';
 
 interface Props {
     id: number | null
@@ -85,33 +86,5 @@ class JobDetail extends React.Component<Props, State> {
         );
     }
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-    },
-    text: {
-        color: 'black',
-        fontSize: 23,
-        textAlign: 'left',
-    },
-    input: {
-        color: 'black',
-        height: 60,
-        padding: 8,
-        fontSize: 16,
-    },
-    btn: {
-        backgroundColor: '#c2bad8',
-        padding: 9,
-        margin: 5,
-    },
-    btnText: {
-        color: 'darkslateblue',
-        fontSize: 20,
-        textAlign: 'center',
-    },
-});
 
 export default JobDetail;

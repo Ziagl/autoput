@@ -12,6 +12,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { Api, Job } from '../Api';
+import styles from '../Style';
 
 // components
 import ListItem from '../components/ListItem'
@@ -65,27 +66,5 @@ class JobList extends React.Component<Props, State> {
         );
     }
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-    },
-    text: {
-        color: 'black',
-        fontSize: 23,
-        textAlign: 'center',
-    },
-    btn: {
-        backgroundColor: '#c2bad8',
-        padding: 9,
-        margin: 5,
-    },
-    btnText: {
-        color: 'darkslateblue',
-        fontSize: 20,
-        textAlign: 'center',
-    },
-});
 
 export default JobList;
