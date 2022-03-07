@@ -16,7 +16,8 @@ import { Api, Job } from '../Api';
 import styles from '../Style';
 
 interface Props {
-    id: number | null
+    id: number | null,
+    navigation: any,
 }
 interface State {
     job: Job
@@ -47,7 +48,8 @@ class JobDetail extends React.Component<Props, State> {
     onSave = () => {
         console.log(this.state.job.id);
         if (this.state.job.id == 0 || this.state.job.id == undefined) {
-            console.log("create new job");
+            Api.getInstance().addJob(this.state.job);
+            this.props.navigation.navigate("JobList");
         }
         else {
             console.log("update job");
@@ -66,6 +68,7 @@ class JobDetail extends React.Component<Props, State> {
                     buttonTextAfterSelection={(selectedItem, index) => {
                         // text represented after item is selected
                         // if data array is an array of objects then return selectedItem.property to render after item is selected
+                        this.state.job.type = index;
                         return selectedItem
                     }}
                     rowTextForSelection={(item, index) => {

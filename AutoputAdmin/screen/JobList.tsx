@@ -5,6 +5,7 @@ import {
     ActivityIndicator,
     Image,
     Dimensions,
+    RefreshControl,
     FlatList,
     Text,
     TouchableOpacity,
@@ -21,7 +22,8 @@ interface Props {
     navigation: any,
 }
 interface State {
-    jobs: Job[]
+    jobs: Job[],
+    refreshing: boolean,
 }
 
 class JobList extends React.Component<Props, State> {
@@ -30,6 +32,7 @@ class JobList extends React.Component<Props, State> {
 
         this.state = {
             jobs: [],
+            refreshing: false,
         }
         this.init();
     }
@@ -44,12 +47,35 @@ class JobList extends React.Component<Props, State> {
     }
 
     onDeleteJob = (id) => {
-        console.log("delete job called with id: " + id);
+        // remove item by api call from database
+        Api.getInstance().deleteJob(id);
+        // remove item from local state to force a reload
+        let index = this.state.jobs.findIndex((job) => {
+            if (job.id == id) {
+                return true;
+            }
+            return false;
+        });
+        this.state.jobs.splice(index, 1);
+        this.setState({ jobs: this.state.jobs });
+    }
+
+    wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
     }
 
     onAddJob = () => {
-        console.log("add job called");
         this.props.navigation.navigate("JobDetail", { id: 0 });
+    }
+
+    onRefresh = () => {
+        this.setState({ refreshing: true });
+        this.wait(2000)
+            .then(() => {
+                this.setState({ refreshing: false });
+                this.init();
+            });
+
     }
 
     render() {
@@ -58,6 +84,12 @@ class JobList extends React.Component<Props, State> {
                 <FlatList
                     data={this.state.jobs}
                     renderItem={({ item }) => <ListItem item={item} editItem={this.onEditJob} deleteItem={this.onDeleteJob} />}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.onRefresh}
+                        />
+                    }
                 />
                 <TouchableOpacity style={styles.btn} onPress={() => this.onAddJob()}>
                     <Text style={styles.btnText}><Icon name="plus" size={20} /> New Job</Text>
