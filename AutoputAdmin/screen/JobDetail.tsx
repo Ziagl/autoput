@@ -16,7 +16,6 @@ import { Api, Job } from '../Api';
 import styles from '../Style';
 
 interface Props {
-    id: number | null,
     navigation: any,
 }
 interface State {
@@ -30,15 +29,16 @@ class JobDetail extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            job: { id: props.id, name: "", type: 0, text: "", value: "" },
+            job: { id: props.navigation.params.id, name: "", type: 0, text: "", value: "" },
         }
-        if (props.id != null) {
+        console.log(props.navigation.params.id);
+        if (props.navigation.params.id != null) {
             this.init();
         }
     }
 
     async init() {
-        this.setState({ job: await Api.getInstance().fetchJob(this.props.id) });
+        this.setState({ job: await Api.getInstance().fetchJob(this.props.navigation.params.id) });
     }
 
     onChangeName = textValue => this.state.job.name = textValue;
