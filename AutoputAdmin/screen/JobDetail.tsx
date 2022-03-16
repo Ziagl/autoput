@@ -17,9 +17,11 @@ import styles from '../Style';
 
 interface Props {
     navigation: any,
+    route: any,
 }
 interface State {
-    job: Job
+    job: Job,
+    loading: boolean
 }
 
 class JobDetail extends React.Component<Props, State> {
@@ -29,16 +31,18 @@ class JobDetail extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            job: { id: props.navigation.params.id, name: "", type: 0, text: "", value: "" },
+            job: { id: props.route.params.id, name: "", type: 0, text: "", value: "" },
+            loading: true
         }
-        console.log(props.navigation.params.id);
-        if (props.navigation.params.id != null) {
+        if (props.route.params.id != null) {
             this.init();
         }
     }
 
     async init() {
-        this.setState({ job: await Api.getInstance().fetchJob(this.props.navigation.params.id) });
+        var job = await Api.getInstance().fetchJob(this.props.route.params.id);
+        this.setState({ job: job });
+        this.setState({ loading: false });
     }
 
     onChangeName = textValue => this.state.job.name = textValue;
@@ -60,7 +64,7 @@ class JobDetail extends React.Component<Props, State> {
         return (
             <SafeAreaView style={styles.container}>
                 <Text style={styles.text}>Name</Text>
-                <TextInput placeholder="Name" style={styles.input} onChangeText={this.onChangeName} />
+                <TextInput placeholder="Name" style={styles.input} value={this.state.job.name} onChangeText={this.onChangeName} />
                 <Text style={styles.text}>Type</Text>
                 <SelectDropdown
                     data={this._types}
@@ -78,12 +82,12 @@ class JobDetail extends React.Component<Props, State> {
                     }}
                 />
                 <Text style={styles.text}>Text</Text>
-                <TextInput placeholder="Text" style={styles.input} onChangeText={this.onChangeText} />
+                <TextInput placeholder="Text" style={styles.input} value={this.state.job.text} onChangeText={this.onChangeText} />
                 <Text style={styles.text}>Value</Text>
-                <TextInput placeholder="Value" style={styles.input} onChangeText={this.onChangeValue} />
+                <TextInput placeholder="Value" style={styles.input} value={this.state.job.value} onChangeText={this.onChangeValue} />
 
                 <TouchableOpacity style={styles.btn} onPress={() => this.onSave()}>
-                    <Text style={styles.btnText}><Icon name="plus" size={20} /> New Job</Text>
+                    <Text style={styles.btnText}><Icon name="save" size={20} /> Save</Text>
                 </TouchableOpacity>
             </SafeAreaView>
         );
