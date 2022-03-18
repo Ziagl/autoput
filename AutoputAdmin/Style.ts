@@ -26,4 +26,8 @@ export default StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
     },
+    loader: {
+        width: 100,
+        height: 100
+    }
 });
