@@ -45,7 +45,7 @@ class Login extends React.Component<Props, State> {
     onTestLogin = async () => {
         this.setState({ errorMessage: "" });
         if (await Api.getInstance().login("admin", "admin123")) {
-            this.props.navigation.navigate("JobList");
+            this.props.navigation.navigate("TaskList");
         }
         else {
             this.setState({ errorMessage: "Something went wrong." });

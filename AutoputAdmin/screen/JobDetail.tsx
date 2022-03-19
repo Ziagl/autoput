@@ -78,6 +78,17 @@ class JobDetail extends React.Component<Props, State> {
                 <Text style={styles.text}>Type</Text>
                 <SelectDropdown
                     data={this._types}
+                    defaultValueByIndex={this.state.job.type}
+                    dropdownIconPosition="right"
+                    renderDropdownIcon={(isOpened) => {
+                        return (
+                            <Icon
+                                style={styles.dropdownIconColor}
+                                name={isOpened ? "chevron-up" : "chevron-down"}
+                                size={18}
+                            />
+                        );
+                    }}
                     onSelect={(selectedItem, index) => console.log(selectedItem, index)}
                     buttonTextAfterSelection={(selectedItem, index) => {
                         // text represented after item is selected

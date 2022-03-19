@@ -29,5 +29,8 @@ export default StyleSheet.create({
     loader: {
         width: 100,
         height: 100
-    }
+    },
+    dropdownIconColor: {
+        color: 'black',
+    },
 });
