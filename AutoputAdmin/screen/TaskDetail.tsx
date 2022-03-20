@@ -8,15 +8,20 @@ import {
     Text,
     TextInput,
 } from 'react-native';
+import SelectDropdown from 'react-native-select-dropdown'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import AnimatedLoader from "react-native-animated-loader";
 
 import { Api, Task } from '../Api';
 import styles from '../Style';
 
 interface Props {
-    id: number | null
+    navigation: any,
+    route: any,
 }
 interface State {
-    //task: Task
+    task: Task,
+    loading: boolean
 }
 
 class TaskDetail extends React.Component<Props, State> {
@@ -24,17 +29,19 @@ class TaskDetail extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            task: { id: 0, name: "", type: 0, text: "", value: "" },
+            task: { id: props.route.params.id, name: "", duedate: "", date_recurrency: 0, time_recurrency: 0 },
+            loading: true,
         }
-        if (props.id != null) {
+        if (props.route.params.id != null) {
             this.init();
         }
     }
 
     async init() {
-        //this.setState({ task: await Api.getInstance().fetchTask(this.props.id) });
+        var task = await Api.getInstance().fetchTask(this.props.route.params.id);
+        this.setState({ task: task });
+        this.setState({ loading: false });
     }
-
 
     render() {
         return (

@@ -33,7 +33,7 @@ class JobDetail extends React.Component<Props, State> {
 
         this.state = {
             job: { id: props.route.params.id, name: "", type: 0, text: "", value: "" },
-            loading: true
+            loading: true,
         }
         if (props.route.params.id != null) {
             this.init();

@@ -143,16 +143,16 @@ export class Api {
     }
 
     // delete job
-    public /*async */deleteJob(id: number)/*: Promise<void>*/ {
+    public async deleteJob(id: number): Promise<void> {
         let data = { id: id };
-        /*await */fetch(this._apiUrl + "/job/delete.php", this.prepareRequest(JSON.stringify(data)))
+        await fetch(this._apiUrl + "/job/delete.php", this.prepareRequest(JSON.stringify(data)))
             .then(response => console.log(response))
             .catch(error => console.log('error', error));
     }
 
     // get list of tasks
-    public /*async */fetchTasks()/*: Promise<Task[]>*/ {
-        /*await */fetch(this._apiUrl + "/task/read.php?pageno=1&pagesize=30", this.prepareRequest())
+    public async fetchTasks(): Promise<Task[]> {
+        await fetch(this._apiUrl + "/task/read.php?pageno=1&pagesize=30", this.prepareRequest())
             .then(response => response.json())
             .then(result => {
                 console.log(result);

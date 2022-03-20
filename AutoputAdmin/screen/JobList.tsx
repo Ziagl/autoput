@@ -75,7 +75,6 @@ class JobList extends React.Component<Props, State> {
                 this.setState({ refreshing: false });
                 this.init();
             });
-
     }
 
     render() {
