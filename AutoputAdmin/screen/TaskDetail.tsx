@@ -37,6 +37,9 @@ class TaskDetail extends React.Component<Props, State> {
         }
     }
 
+    onChangeName = textValue => this.state.task.name = textValue;
+    onChangeDuedate = textValue => this.state.task.duedate = textValue;
+
     async init() {
         var task = await Api.getInstance().fetchTask(this.props.route.params.id);
         this.setState({ task: task });
@@ -46,6 +49,19 @@ class TaskDetail extends React.Component<Props, State> {
     render() {
         return (
             <SafeAreaView style={styles.container}>
+                <AnimatedLoader
+                    visible={this.state.loading}
+                    overlayColor="rgba(255,255,255,0.75)"
+                    source={require("../loader.json")}
+                    animationStyle={styles.loader}
+                    speed={1}
+                >
+                    <Text style={styles.text}>Doing something...</Text>
+                </AnimatedLoader>
+                <Text style={styles.text}>Name</Text>
+                <TextInput placeholder="Name" style={styles.input} value={this.state.task.name} onChangeText={this.onChangeName} />
+                <Text style={styles.text}>Duedate</Text>
+                <TextInput placeholder="01-01-2022 12:00" style={styles.input} value={this.state.task.name} onChangeText={this.onChangeDuedate} />
 
             </SafeAreaView>
         );

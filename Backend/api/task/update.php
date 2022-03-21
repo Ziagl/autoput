@@ -35,6 +35,9 @@ $task->name = $data->name;
 $task->name = '';
 }
 $task->duedate = $data->duedate;
+$task->duetime = $data->duetime;
+$task->enddate = $data->enddate;
+$task->endtime = $data->endtime;
 if(!isEmpty($data->date_recurrency)) { 
 $task->date_recurrency = $data->date_recurrency;
 } else { 

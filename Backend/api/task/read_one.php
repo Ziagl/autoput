@@ -29,6 +29,9 @@ if($task->id!=null){
 "id" => $task->id,
 "name" => html_entity_decode($task->name),
 "duedate" => $task->duedate,
+"duetime" => $task->duetime,
+"enddate" => $task->enddate,
+"endtime" => $task->endtime,
 "date_recurrency" => html_entity_decode($task->date_recurrency),
 "time_recurrency" => html_entity_decode($task->time_recurrency)
     );

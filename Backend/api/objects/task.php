@@ -11,6 +11,9 @@ class Task{
 public $id;
 public $name;
 public $duedate;
+public $duetime;
+public $enddate;
+public $endtime;
 public $date_recurrency;
 public $time_recurrency;
     
@@ -97,7 +100,7 @@ public $time_recurrency;
 		$offset = ($this->pageNo-1) * $this->no_of_records_per_page; 
 
 		// select all query
-		$query = "SELECT  t.* FROM ". $this->table_name ." t  WHERE t.id LIKE ? OR t.name LIKE ?  OR t.duedate LIKE ?  OR t.date_recurrency LIKE ?  OR t.time_recurrency LIKE ?  LIMIT ".$offset." , ". $this->no_of_records_per_page."";
+		$query = "SELECT  t.* FROM ". $this->table_name ." t  WHERE t.id LIKE ? OR t.name LIKE ?  OR t.duedate LIKE ?  OR t.duetime LIKE ?  OR t.enddate LIKE ?  OR t.endtime LIKE ?  OR t.date_recurrency LIKE ?  OR t.time_recurrency LIKE ?  LIMIT ".$offset." , ". $this->no_of_records_per_page."";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);
@@ -109,6 +112,9 @@ $stmt->bindParam(2, $searchKey);
 $stmt->bindParam(3, $searchKey);
 $stmt->bindParam(4, $searchKey);
 $stmt->bindParam(5, $searchKey);
+$stmt->bindParam(6, $searchKey);
+$stmt->bindParam(7, $searchKey);
+$stmt->bindParam(8, $searchKey);
 	 
 		// execute query
 		$stmt->execute();
@@ -177,6 +183,9 @@ $stmt->bindParam(5, $searchKey);
 $this->id = $row['id'];
 $this->name = $row['name'];
 $this->duedate = $row['duedate'];
+$this->duetime = $row['duetime'];
+$this->enddate = $row['enddate'];
+$this->endtime = $row['endtime'];
 $this->date_recurrency = $row['date_recurrency'];
 $this->time_recurrency = $row['time_recurrency'];
 		}
@@ -191,7 +200,7 @@ $this->time_recurrency = $row['time_recurrency'];
 	function create(){
 	 
 		// query to insert record
-		$query ="INSERT INTO ".$this->table_name." SET name=:name,duedate=:duedate,date_recurrency=:date_recurrency,time_recurrency=:time_recurrency";
+		$query ="INSERT INTO ".$this->table_name." SET name=:name,duedate=:duedate,duetime=:duetime,enddate=:enddate,endtime=:endtime,date_recurrency=:date_recurrency,time_recurrency=:time_recurrency";
 
 		// prepare query
 		$stmt = $this->conn->prepare($query);
@@ -200,6 +209,9 @@ $this->time_recurrency = $row['time_recurrency'];
 		
 $this->name=htmlspecialchars(strip_tags($this->name));
 $this->duedate=htmlspecialchars(strip_tags($this->duedate));
+$this->duetime=htmlspecialchars(strip_tags($this->duetime));
+$this->enddate=htmlspecialchars(strip_tags($this->enddate));
+$this->endtime=htmlspecialchars(strip_tags($this->endtime));
 $this->date_recurrency=htmlspecialchars(strip_tags($this->date_recurrency));
 $this->time_recurrency=htmlspecialchars(strip_tags($this->time_recurrency));
 	 
@@ -207,6 +219,9 @@ $this->time_recurrency=htmlspecialchars(strip_tags($this->time_recurrency));
 		
 $stmt->bindParam(":name", $this->name);
 $stmt->bindParam(":duedate", $this->duedate);
+$stmt->bindParam(":duetime", $this->duetime);
+$stmt->bindParam(":enddate", $this->enddate);
+$stmt->bindParam(":endtime", $this->endtime);
 $stmt->bindParam(":date_recurrency", $this->date_recurrency);
 $stmt->bindParam(":time_recurrency", $this->time_recurrency);
 	 
@@ -225,7 +240,7 @@ $stmt->bindParam(":time_recurrency", $this->time_recurrency);
 	function update(){
 	 
 		// update query
-		$query ="UPDATE ".$this->table_name." SET name=:name,duedate=:duedate,date_recurrency=:date_recurrency,time_recurrency=:time_recurrency WHERE id = :id";
+		$query ="UPDATE ".$this->table_name." SET name=:name,duedate=:duedate,duetime=:duetime,enddate=:enddate,endtime=:endtime,date_recurrency=:date_recurrency,time_recurrency=:time_recurrency WHERE id = :id";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);
@@ -234,6 +249,9 @@ $stmt->bindParam(":time_recurrency", $this->time_recurrency);
 		
 $this->name=htmlspecialchars(strip_tags($this->name));
 $this->duedate=htmlspecialchars(strip_tags($this->duedate));
+$this->duetime=htmlspecialchars(strip_tags($this->duetime));
+$this->enddate=htmlspecialchars(strip_tags($this->enddate));
+$this->endtime=htmlspecialchars(strip_tags($this->endtime));
 $this->date_recurrency=htmlspecialchars(strip_tags($this->date_recurrency));
 $this->time_recurrency=htmlspecialchars(strip_tags($this->time_recurrency));
 $this->id=htmlspecialchars(strip_tags($this->id));
@@ -242,6 +260,9 @@ $this->id=htmlspecialchars(strip_tags($this->id));
 		
 $stmt->bindParam(":name", $this->name);
 $stmt->bindParam(":duedate", $this->duedate);
+$stmt->bindParam(":duetime", $this->duetime);
+$stmt->bindParam(":enddate", $this->enddate);
+$stmt->bindParam(":endtime", $this->endtime);
 $stmt->bindParam(":date_recurrency", $this->date_recurrency);
 $stmt->bindParam(":time_recurrency", $this->time_recurrency);
 $stmt->bindParam(":id", $this->id);

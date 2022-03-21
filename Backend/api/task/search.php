@@ -43,6 +43,9 @@ if($num>0){
 "id" => $id,
 "name" => html_entity_decode($name),
 "duedate" => $duedate,
+"duetime" => $duetime,
+"enddate" => $enddate,
+"endtime" => $endtime,
 "date_recurrency" => html_entity_decode($date_recurrency),
 "time_recurrency" => html_entity_decode($time_recurrency)
         );

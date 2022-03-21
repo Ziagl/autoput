@@ -24,6 +24,9 @@ export interface Task {
     id: number,
     name: string,
     duedate: string,
+    duetime: string,
+    enddate: string,
+    endtime: string,
     date_recurrency: number,
     time_recurrency: number,
 }
