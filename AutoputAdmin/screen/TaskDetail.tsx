@@ -11,6 +11,7 @@ import {
 import SelectDropdown from 'react-native-select-dropdown'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AnimatedLoader from "react-native-animated-loader";
+import { TimePicker, ValueMap } from 'react-native-simple-time-picker';
 
 import { Api, Task } from '../Api';
 import styles from '../Style';
@@ -46,15 +47,15 @@ class TaskDetail extends React.Component<Props, State> {
     onChangeDuedate = textValue => this.setState(
         { task: { ...this.state.task, duedate: textValue } }
     );
-    onChangeDuetime = textValue => this.setState(
+    /*onChangeDuetime = textValue => this.setState(
         { task: { ...this.state.task, duetime: textValue } }
-    );
+    );*/
     onChangeEnddate = textValue => this.setState(
         { task: { ...this.state.task, enddate: textValue } }
     );
-    onChangeEndtime = textValue => this.setState(
+    /*onChangeEndtime = textValue => this.setState(
         { task: { ...this.state.task, endtime: textValue } }
-    );
+    );*/
 
     async init() {
         var task = await Api.getInstance().fetchTask(this.props.route.params.id);
@@ -78,11 +79,37 @@ class TaskDetail extends React.Component<Props, State> {
                 <Text style={styles.text}>Duedate</Text>
                 <TextInput placeholder="01-01-2022" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.task.duedate} onChangeText={this.onChangeDuedate} />
                 <Text style={styles.text}>Duetime</Text>
-                <TextInput placeholder="12:00" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.task.duetime} onChangeText={this.onChangeDuetime} />
+                <TimePicker
+                    defaultValue={{
+                        hours: parseInt(this.state.task.duetime.split(":")[0]),
+                        minutes: parseInt(this.state.task.duetime.split(":")[1]),
+                        seconds: 0
+                    }}
+                    pickerShows={["hours", "minutes"]}
+                    minutesInterval={15}
+                    textColor={styles.timePickerColor.color}
+                    itemStyle={styles.timePickerItemStyle}
+                    onChange={(value: ValueMap) => {
+                        this.setState({ task: { ...this.state.task, duetime: value.hours + ":" + value.minutes } });
+                    }}
+                />
                 <Text style={styles.text}>Enddate</Text>
                 <TextInput placeholder="01-01-2022" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.task.enddate} onChangeText={this.onChangeEnddate} />
                 <Text style={styles.text}>Endtime</Text>
-                <TextInput placeholder="12:00" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.task.endtime} onChangeText={this.onChangeEndtime} />
+                <TimePicker
+                    defaultValue={{
+                        hours: parseInt(this.state.task.endtime.split(":")[0]),
+                        minutes: parseInt(this.state.task.endtime.split(":")[1]),
+                        seconds: 0
+                    }}
+                    pickerShows={["hours", "minutes"]}
+                    minutesInterval={15}
+                    textColor={styles.timePickerColor.color}
+                    itemStyle={styles.timePickerItemStyle}
+                    onChange={(value: ValueMap) => {
+                        this.setState({ task: { ...this.state.task, endtime: value.hours + ":" + value.minutes } });
+                    }}
+                />
                 <Text style={styles.text}>Date recurrency</Text>
                 <SelectDropdown
                     data={this._dateRecurrencies}

@@ -34,4 +34,10 @@ export default StyleSheet.create({
     dropdownIconColor: {
         color: 'black',
     },
+    timePickerColor: {
+        color: 'black',
+    },
+    timePickerItemStyle: {
+        margin: 24,
+    },
 });
