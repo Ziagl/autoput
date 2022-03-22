@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 21. Mrz 2022 um 17:14
+-- Erstellungszeit: 21. Mrz 2022 um 17:53
 -- Server-Version: 5.7.37-nmm1-log
 -- PHP-Version: 7.4.28
 
@@ -54,8 +54,8 @@ CREATE TABLE IF NOT EXISTS `task` (
   `duetime` time DEFAULT NULL,
   `enddate` date DEFAULT NULL,
   `endtime` time DEFAULT NULL,
-  `date_recurrency` varchar(255) NOT NULL,
-  `time_recurrency` varchar(255) NOT NULL,
+  `date_recurrency` int(1) NOT NULL,
+  `time_recurrency` int(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

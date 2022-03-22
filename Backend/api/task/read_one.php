@@ -32,8 +32,8 @@ if($task->id!=null){
 "duetime" => $task->duetime,
 "enddate" => $task->enddate,
 "endtime" => $task->endtime,
-"date_recurrency" => html_entity_decode($task->date_recurrency),
-"time_recurrency" => html_entity_decode($task->time_recurrency)
+"date_recurrency" => $task->date_recurrency,
+"time_recurrency" => $task->time_recurrency
     );
  
     // set response code - 200 OK

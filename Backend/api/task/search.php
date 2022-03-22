@@ -46,8 +46,8 @@ if($num>0){
 "duetime" => $duetime,
 "enddate" => $enddate,
 "endtime" => $endtime,
-"date_recurrency" => html_entity_decode($date_recurrency),
-"time_recurrency" => html_entity_decode($time_recurrency)
+"date_recurrency" => $date_recurrency,
+"time_recurrency" => $time_recurrency
         );
  
         array_push($task_arr["records"], $task_item);

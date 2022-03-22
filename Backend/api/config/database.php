@@ -3,7 +3,7 @@ class Database{
  
     // specify your own database credentials
     private $host =     "localhost";
-    private $db_name =  "d038dd1e";
+    private $db_name = "d038dd1e";
     private $username = "d038dd1e";
     private $password = "8xYPRsvffzXxgtFs";
 	private $port =     "3306";

@@ -11,6 +11,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AnimatedLoader from "react-native-animated-loader";
 
 import { Api, Job } from '../Api';
 import styles from '../Style';
@@ -23,6 +24,7 @@ interface Props {
 }
 interface State {
     jobs: Job[],
+    loading: boolean,
     refreshing: boolean,
 }
 
@@ -32,13 +34,15 @@ class JobList extends React.Component<Props, State> {
 
         this.state = {
             jobs: [],
+            loading: true,
             refreshing: false,
         }
         this.init();
     }
 
     async init() {
-        this.setState({ jobs: await Api.getInstance().fetchJobs() });
+        var jobs = await Api.getInstance().fetchJobs();
+        this.setState({ jobs: jobs, loading: false, refreshing: false });
     }
 
     onEditJob = (id) => {
@@ -70,16 +74,21 @@ class JobList extends React.Component<Props, State> {
 
     onRefresh = () => {
         this.setState({ refreshing: true });
-        this.wait(2000)
-            .then(() => {
-                this.setState({ refreshing: false });
-                this.init();
-            });
+        this.init();
     }
 
     render() {
         return (
             <SafeAreaView style={styles.container}>
+                <AnimatedLoader
+                    visible={this.state.loading}
+                    overlayColor="rgba(255,255,255,0.75)"
+                    source={require("../loader.json")}
+                    animationStyle={styles.loader}
+                    speed={1}
+                >
+                    <Text style={styles.text}>Doing something...</Text>
+                </AnimatedLoader>
                 <FlatList
                     data={this.state.jobs}
                     renderItem={({ item }) => <ListItem item={item} editItem={this.onEditJob} deleteItem={this.onDeleteJob} />}

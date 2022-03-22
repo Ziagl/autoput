@@ -25,25 +25,40 @@ interface State {
 }
 
 class TaskDetail extends React.Component<Props, State> {
+    private _dateRecurrencies: string[] = ["exact date", "same day of week", "every day"];
+    private _timeRecurrencies: string[] = ["exact time", "every hour from time", "every 2 hours from time", "every 3 hours from time"];
+
     constructor(props: Props) {
         super(props);
 
         this.state = {
-            task: { id: props.route.params.id, name: "", duedate: "", date_recurrency: 0, time_recurrency: 0 },
-            loading: true,
+            task: { id: props.route.params.id, name: "", duedate: "", duetime: "", enddate: "", endtime: "", date_recurrency: 0, time_recurrency: 0 },
+            loading: props.route.params.id === 0 ? false : true,
         }
-        if (props.route.params.id != null) {
+        if (props.route.params.id != 0) {
             this.init();
         }
     }
 
-    onChangeName = textValue => this.state.task.name = textValue;
-    onChangeDuedate = textValue => this.state.task.duedate = textValue;
+    onChangeName = textValue => this.setState(
+        { task: { ...this.state.task, name: textValue } }
+    );
+    onChangeDuedate = textValue => this.setState(
+        { task: { ...this.state.task, duedate: textValue } }
+    );
+    onChangeDuetime = textValue => this.setState(
+        { task: { ...this.state.task, duetime: textValue } }
+    );
+    onChangeEnddate = textValue => this.setState(
+        { task: { ...this.state.task, enddate: textValue } }
+    );
+    onChangeEndtime = textValue => this.setState(
+        { task: { ...this.state.task, endtime: textValue } }
+    );
 
     async init() {
         var task = await Api.getInstance().fetchTask(this.props.route.params.id);
-        this.setState({ task: task });
-        this.setState({ loading: false });
+        this.setState({ task: task, loading: false });
     }
 
     render() {
@@ -59,10 +74,69 @@ class TaskDetail extends React.Component<Props, State> {
                     <Text style={styles.text}>Doing something...</Text>
                 </AnimatedLoader>
                 <Text style={styles.text}>Name</Text>
-                <TextInput placeholder="Name" style={styles.input} value={this.state.task.name} onChangeText={this.onChangeName} />
+                <TextInput placeholder="Name" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.task.name} onChangeText={this.onChangeName} />
                 <Text style={styles.text}>Duedate</Text>
-                <TextInput placeholder="01-01-2022 12:00" style={styles.input} value={this.state.task.name} onChangeText={this.onChangeDuedate} />
-
+                <TextInput placeholder="01-01-2022" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.task.duedate} onChangeText={this.onChangeDuedate} />
+                <Text style={styles.text}>Duetime</Text>
+                <TextInput placeholder="12:00" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.task.duetime} onChangeText={this.onChangeDuetime} />
+                <Text style={styles.text}>Enddate</Text>
+                <TextInput placeholder="01-01-2022" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.task.enddate} onChangeText={this.onChangeEnddate} />
+                <Text style={styles.text}>Endtime</Text>
+                <TextInput placeholder="12:00" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.task.endtime} onChangeText={this.onChangeEndtime} />
+                <Text style={styles.text}>Date recurrency</Text>
+                <SelectDropdown
+                    data={this._dateRecurrencies}
+                    defaultValueByIndex={this.state.task.date_recurrency}
+                    dropdownIconPosition="right"
+                    renderDropdownIcon={(isOpened) => {
+                        return (
+                            <Icon
+                                style={styles.dropdownIconColor}
+                                name={isOpened ? "chevron-up" : "chevron-down"}
+                                size={18}
+                            />
+                        );
+                    }}
+                    onSelect={(selectedItem, index) => console.log(selectedItem, index)}
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                        // text represented after item is selected
+                        // if data array is an array of objects then return selectedItem.property to render after item is selected
+                        this.state.task.date_recurrency = index;
+                        return selectedItem
+                    }}
+                    rowTextForSelection={(item, index) => {
+                        // text represented for each item in dropdown
+                        // if data array is an array of objects then return item.property to represent item in dropdown
+                        return item
+                    }}
+                />
+                <Text style={styles.text}>Time recurrency</Text>
+                <SelectDropdown
+                    data={this._timeRecurrencies}
+                    defaultValueByIndex={this.state.task.time_recurrency}
+                    dropdownIconPosition="right"
+                    renderDropdownIcon={(isOpened) => {
+                        return (
+                            <Icon
+                                style={styles.dropdownIconColor}
+                                name={isOpened ? "chevron-up" : "chevron-down"}
+                                size={18}
+                            />
+                        );
+                    }}
+                    onSelect={(selectedItem, index) => console.log(selectedItem, index)}
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                        // text represented after item is selected
+                        // if data array is an array of objects then return selectedItem.property to render after item is selected
+                        this.state.task.time_recurrency = index;
+                        return selectedItem
+                    }}
+                    rowTextForSelection={(item, index) => {
+                        // text represented for each item in dropdown
+                        // if data array is an array of objects then return item.property to represent item in dropdown
+                        return item
+                    }}
+                />
             </SafeAreaView>
         );
     }

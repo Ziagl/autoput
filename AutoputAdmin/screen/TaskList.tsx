@@ -11,6 +11,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AnimatedLoader from "react-native-animated-loader";
 
 import { Api, Task } from '../Api';
 import styles from '../Style';
@@ -23,6 +24,7 @@ interface Props {
 }
 interface State {
     tasks: Task[],
+    loading: boolean,
     refreshing: boolean,
 }
 
@@ -32,13 +34,15 @@ class TaskList extends React.Component<Props, State> {
 
         this.state = {
             tasks: [],
+            loading: true,
             refreshing: false,
         }
         this.init();
     }
 
     async init() {
-        this.setState({ tasks: await Api.getInstance().fetchTasks() });
+        var tasks = await Api.getInstance().fetchTasks();
+        this.setState({ tasks: tasks, loading: false, refreshing: false });
     }
 
     onEditTask = (id) => {
@@ -70,16 +74,21 @@ class TaskList extends React.Component<Props, State> {
 
     onRefresh = () => {
         this.setState({ refreshing: true });
-        this.wait(2000)
-            .then(() => {
-                this.setState({ refreshing: false });
-                this.init();
-            });
+        this.init();
     }
 
     render() {
         return (
             <SafeAreaView style={styles.container}>
+                <AnimatedLoader
+                    visible={this.state.loading}
+                    overlayColor="rgba(255,255,255,0.75)"
+                    source={require("../loader.json")}
+                    animationStyle={styles.loader}
+                    speed={1}
+                >
+                    <Text style={styles.text}>Doing something...</Text>
+                </AnimatedLoader>
                 <FlatList
                     data={this.state.tasks}
                     renderItem={({ item }) => <ListItem item={item} editItem={this.onEditTask} deleteItem={this.onDeleteTask} />}

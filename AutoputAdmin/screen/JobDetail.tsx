@@ -33,22 +33,27 @@ class JobDetail extends React.Component<Props, State> {
 
         this.state = {
             job: { id: props.route.params.id, name: "", type: 0, text: "", value: "" },
-            loading: true,
+            loading: props.route.params.id === 0 ? false : true,
         }
-        if (props.route.params.id != null) {
+        if (props.route.params.id != 0) {
             this.init();
         }
     }
 
     async init() {
         var job = await Api.getInstance().fetchJob(this.props.route.params.id);
-        this.setState({ job: job });
-        this.setState({ loading: false });
+        this.setState({ job: job, loading: false });
     }
 
-    onChangeName = textValue => this.state.job.name = textValue;
-    onChangeText = textValue => this.state.job.text = textValue;
-    onChangeValue = textValue => this.state.job.value = textValue;
+    onChangeName = textValue => this.setState(
+        { job: { ...this.state.job, name: textValue } }
+    );
+    onChangeText = textValue => this.setState(
+        { job: { ...this.state.job, text: textValue } }
+    );
+    onChangeValue = textValue => this.setState(
+        { job: { ...this.state.job, value: textValue } }
+    );
 
     onSave = () => {
         console.log(this.state.job.id);
@@ -74,7 +79,7 @@ class JobDetail extends React.Component<Props, State> {
                     <Text style={styles.text}>Doing something...</Text>
                 </AnimatedLoader>
                 <Text style={styles.text}>Name</Text>
-                <TextInput placeholder="Name" style={styles.input} value={this.state.job.name} onChangeText={this.onChangeName} />
+                <TextInput placeholder="Name" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.job.name} onChangeText={this.onChangeName} />
                 <Text style={styles.text}>Type</Text>
                 <SelectDropdown
                     data={this._types}
@@ -103,9 +108,9 @@ class JobDetail extends React.Component<Props, State> {
                     }}
                 />
                 <Text style={styles.text}>Text</Text>
-                <TextInput placeholder="Text" style={styles.input} value={this.state.job.text} onChangeText={this.onChangeText} />
+                <TextInput placeholder="Text" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.job.text} onChangeText={this.onChangeText} />
                 <Text style={styles.text}>Value</Text>
-                <TextInput placeholder="Value" style={styles.input} value={this.state.job.value} onChangeText={this.onChangeValue} />
+                <TextInput placeholder="Value" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.job.value} onChangeText={this.onChangeValue} />
 
                 <TouchableOpacity style={styles.btn} onPress={() => this.onSave()}>
                     <Text style={styles.btnText}><Icon name="save" size={20} /> Save</Text>

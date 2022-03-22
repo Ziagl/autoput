@@ -81,7 +81,7 @@ export class Api {
         this._password = "";
         this._token = { access_token: "", expires_in: 0, token_type: "" };
         this._tasks = { pageno: 0, pagesize: 0, total_count: 0, records: [] }
-        this._task = { id: 0, name: "", duedate: "", date_recurrency: 0, time_recurrency: 0 }
+        this._task = { id: 0, name: "", duedate: "", duetime: "", enddate: "", endtime: "", date_recurrency: 0, time_recurrency: 0 }
         this._jobs = { pageno: 0, pagesize: 0, total_count: 0, records: [] }
         this._job = { id: 0, name: "", type: 0, text: "", value: "" }
     }
@@ -97,10 +97,10 @@ export class Api {
         return this._token.access_token != "" ? true : false;
     }
 
-    public login(username: string, password: string): boolean {
+    public async login(username: string, password: string): Promise<boolean> {
         this._username = username;
         this._password = password;
-        this.generateToken()
+        await this.generateToken()
         return this.isLoggedIn();
     }
 
