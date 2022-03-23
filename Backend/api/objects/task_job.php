@@ -43,7 +43,7 @@ public $job_id;
 				$where=$where." ". $orAnd ." LOWER(t." . $columnName . ") ".$columnLogic." :".$columnName;
 			}
 		}
-		$query = "SELECT count(1) as total FROM ". $this->table_name ." t  join task n on t.task_id = n.id  join job l on t.job_id = l.id  WHERE ".$where."";
+		$query = "SELECT count(1) as total FROM ". $this->table_name ." t  join task s on t.task_id = s.id  join job e on t.job_id = e.id  WHERE ".$where."";
 		
 		$stmt = $this->conn->prepare($query);
 		$paramCount=1;
@@ -76,7 +76,7 @@ public $job_id;
 		}
 		$offset = ($this->pageNo-1) * $this->no_of_records_per_page; 
 		// select all query
-		$query = "SELECT  n.name, l.name, t.* FROM ". $this->table_name ." t  join task n on t.task_id = n.id  join job l on t.job_id = l.id  LIMIT ".$offset." , ". $this->no_of_records_per_page."";
+		$query = "SELECT  s.name, e.name, t.* FROM ". $this->table_name ." t  join task s on t.task_id = s.id  join job e on t.job_id = e.id  LIMIT ".$offset." , ". $this->no_of_records_per_page."";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);
@@ -94,7 +94,7 @@ public $job_id;
 		$offset = ($this->pageNo-1) * $this->no_of_records_per_page; 
 
 		// select all query
-		$query = "SELECT  n.name, l.name, t.* FROM ". $this->table_name ." t  join task n on t.task_id = n.id  join job l on t.job_id = l.id  WHERE t.task_id LIKE ? OR n.name LIKE ?  OR t.job_id LIKE ?  OR l.name LIKE ?  LIMIT ".$offset." , ". $this->no_of_records_per_page."";
+		$query = "SELECT  s.name, e.name, t.* FROM ". $this->table_name ." t  join task s on t.task_id = s.id  join job e on t.job_id = e.id  WHERE t.task_id LIKE ? OR s.name LIKE ?  OR t.job_id LIKE ?  OR e.name LIKE ?  LIMIT ".$offset." , ". $this->no_of_records_per_page."";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);
@@ -127,7 +127,7 @@ $stmt->bindParam(4, $searchKey);
 				$where=$where." ". $orAnd ." LOWER(t." . $columnName . ") ".$columnLogic." :".$columnName;
 			}
 		}
-		$query = "SELECT  n.name, l.name, t.* FROM ". $this->table_name ." t  join task n on t.task_id = n.id  join job l on t.job_id = l.id  WHERE ".$where." LIMIT ".$offset." , ". $this->no_of_records_per_page."";
+		$query = "SELECT  s.name, e.name, t.* FROM ". $this->table_name ." t  join task s on t.task_id = s.id  join job e on t.job_id = e.id  WHERE ".$where." LIMIT ".$offset." , ". $this->no_of_records_per_page."";
 		
 		$stmt = $this->conn->prepare($query);
 		$paramCount=1;
@@ -153,7 +153,7 @@ $stmt->bindParam(4, $searchKey);
 	function readOne(){
 	 
 		// query to read single record
-		$query = "SELECT  n.name, l.name, t.* FROM ". $this->table_name ." t  join task n on t.task_id = n.id  join job l on t.job_id = l.id  WHERE t.task_id = ? LIMIT 0,1";
+		$query = "SELECT  s.name, e.name, t.* FROM ". $this->table_name ." t  join task s on t.task_id = s.id  join job e on t.job_id = e.id  WHERE t.task_id = ? LIMIT 0,1";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);
@@ -308,7 +308,7 @@ if (isset($_GET["pageNo"]))
 {
 $this->pageNo =$_GET["pageNo"]; } 
 $offset = ($this->pageNo - 1) * $this->no_of_records_per_page;
-$query = "SELECT  n.name, l.name, t.* FROM ". $this->table_name ." t  join task n on t.task_id = n.id  join job l on t.job_id = l.id  WHERE t.task_id = ? LIMIT ".$offset." , ". $this->no_of_records_per_page."";
+$query = "SELECT  s.name, e.name, t.* FROM ". $this->table_name ." t  join task s on t.task_id = s.id  join job e on t.job_id = e.id  WHERE t.task_id = ? LIMIT ".$offset." , ". $this->no_of_records_per_page."";
 
 $stmt = $this->conn->prepare( $query );
 $stmt->bindParam(1, $this->task_id);
@@ -323,7 +323,7 @@ if (isset($_GET["pageNo"]))
 {
 $this->pageNo =$_GET["pageNo"]; } 
 $offset = ($this->pageNo - 1) * $this->no_of_records_per_page;
-$query = "SELECT  n.name, l.name, t.* FROM ". $this->table_name ." t  join task n on t.task_id = n.id  join job l on t.job_id = l.id  WHERE t.job_id = ? LIMIT ".$offset." , ". $this->no_of_records_per_page."";
+$query = "SELECT  s.name, e.name, t.* FROM ". $this->table_name ." t  join task s on t.task_id = s.id  join job e on t.job_id = e.id  WHERE t.job_id = ? LIMIT ".$offset." , ". $this->no_of_records_per_page."";
 
 $stmt = $this->conn->prepare( $query );
 $stmt->bindParam(1, $this->job_id);

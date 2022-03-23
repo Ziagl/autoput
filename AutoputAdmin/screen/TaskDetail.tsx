@@ -11,7 +11,7 @@ import {
 import SelectDropdown from 'react-native-select-dropdown'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AnimatedLoader from "react-native-animated-loader";
-import { TimePicker, ValueMap } from 'react-native-simple-time-picker';
+import DatePicker from 'react-native-date-picker'
 
 import { Api, Task } from '../Api';
 import styles from '../Style';
@@ -33,7 +33,7 @@ class TaskDetail extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            task: { id: props.route.params.id, name: "", duedate: "", duetime: "", enddate: "", endtime: "", date_recurrency: 0, time_recurrency: 0 },
+            task: { id: props.route.params.id, name: "", duedate: "2022-01-01 00:00", enddate: "2022-01-01 00:00", date_recurrency: 0, time_recurrency: 0 },
             loading: props.route.params.id === 0 ? false : true,
         }
         if (props.route.params.id != 0) {
@@ -44,22 +44,31 @@ class TaskDetail extends React.Component<Props, State> {
     onChangeName = textValue => this.setState(
         { task: { ...this.state.task, name: textValue } }
     );
-    onChangeDuedate = textValue => this.setState(
-        { task: { ...this.state.task, duedate: textValue } }
-    );
-    /*onChangeDuetime = textValue => this.setState(
-        { task: { ...this.state.task, duetime: textValue } }
-    );*/
-    onChangeEnddate = textValue => this.setState(
-        { task: { ...this.state.task, enddate: textValue } }
-    );
-    /*onChangeEndtime = textValue => this.setState(
-        { task: { ...this.state.task, endtime: textValue } }
-    );*/
 
     async init() {
         var task = await Api.getInstance().fetchTask(this.props.route.params.id);
         this.setState({ task: task, loading: false });
+    }
+
+    dbDateToDate(date: string): Date {
+        var t = date.split(/[- :]/);
+        return new Date(Date.UTC(
+            parseInt(t[0]),
+            parseInt(t[1]) - 1,
+            parseInt(t[2]),
+            parseInt(t[3]),
+            parseInt(t[4]),
+            parseInt(t[5])
+        ));
+    }
+
+    dateToDbDate(date: Date): string {
+        return date.getUTCFullYear() + "-" +
+            (date.getUTCMonth() + 1).toString().padStart(2, '0') + "-" +
+            date.getUTCDate().toString().padStart(2, '0') + " " +
+            date.getUTCHours().toString().padStart(2, '0') + ":" +
+            date.getUTCMinutes().toString().padStart(2, '0') + ":" +
+            date.getUTCSeconds().toString().padStart(2, '0');
     }
 
     render() {
@@ -77,38 +86,22 @@ class TaskDetail extends React.Component<Props, State> {
                 <Text style={styles.text}>Name</Text>
                 <TextInput placeholder="Name" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.task.name} onChangeText={this.onChangeName} />
                 <Text style={styles.text}>Duedate</Text>
-                <TextInput placeholder="01-01-2022" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.task.duedate} onChangeText={this.onChangeDuedate} />
-                <Text style={styles.text}>Duetime</Text>
-                <TimePicker
-                    defaultValue={{
-                        hours: parseInt(this.state.task.duetime.split(":")[0]),
-                        minutes: parseInt(this.state.task.duetime.split(":")[1]),
-                        seconds: 0
+                <DatePicker
+                    date={this.dbDateToDate(this.state.task.duedate)}
+                    onDateChange={(date: Date) => {
+                        this.setState({ task: { ...this.state.task, duedate: this.dateToDbDate(date) } })
                     }}
-                    pickerShows={["hours", "minutes"]}
-                    minutesInterval={15}
-                    textColor={styles.timePickerColor.color}
-                    itemStyle={styles.timePickerItemStyle}
-                    onChange={(value: ValueMap) => {
-                        this.setState({ task: { ...this.state.task, duetime: value.hours + ":" + value.minutes } });
-                    }}
+                    mode="datetime"
+                    textColor="black"
                 />
                 <Text style={styles.text}>Enddate</Text>
-                <TextInput placeholder="01-01-2022" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.task.enddate} onChangeText={this.onChangeEnddate} />
-                <Text style={styles.text}>Endtime</Text>
-                <TimePicker
-                    defaultValue={{
-                        hours: parseInt(this.state.task.endtime.split(":")[0]),
-                        minutes: parseInt(this.state.task.endtime.split(":")[1]),
-                        seconds: 0
+                <DatePicker
+                    date={this.dbDateToDate(this.state.task.enddate)}
+                    onDateChange={(date: Date) => {
+                        this.setState({ task: { ...this.state.task, enddate: this.dateToDbDate(date) } })
                     }}
-                    pickerShows={["hours", "minutes"]}
-                    minutesInterval={15}
-                    textColor={styles.timePickerColor.color}
-                    itemStyle={styles.timePickerItemStyle}
-                    onChange={(value: ValueMap) => {
-                        this.setState({ task: { ...this.state.task, endtime: value.hours + ":" + value.minutes } });
-                    }}
+                    mode="datetime"
+                    textColor="black"
                 />
                 <Text style={styles.text}>Date recurrency</Text>
                 <SelectDropdown

@@ -22,6 +22,8 @@ $data = json_decode(file_get_contents("php://input"));
  
 // make sure data is not empty
 if(!isEmpty($data->name)
+&&!isEmpty($data->duedate)
+&&!isEmpty($data->enddate)
 &&!isEmpty($data->date_recurrency)
 &&!isEmpty($data->time_recurrency)){
  
@@ -32,10 +34,16 @@ $task->name = $data->name;
 } else { 
 $task->name = '';
 }
+if(!isEmpty($data->duedate)) { 
 $task->duedate = $data->duedate;
-$task->duetime = $data->duetime;
+} else { 
+$task->duedate = '';
+}
+if(!isEmpty($data->enddate)) { 
 $task->enddate = $data->enddate;
-$task->endtime = $data->endtime;
+} else { 
+$task->enddate = '';
+}
 if(!isEmpty($data->date_recurrency)) { 
 $task->date_recurrency = $data->date_recurrency;
 } else { 

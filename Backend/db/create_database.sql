@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 21. Mrz 2022 um 17:53
+-- Erstellungszeit: 22. Mrz 2022 um 18:38
 -- Server-Version: 5.7.37-nmm1-log
 -- PHP-Version: 7.4.28
 
@@ -50,10 +50,8 @@ DROP TABLE IF EXISTS `task`;
 CREATE TABLE IF NOT EXISTS `task` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `duedate` date DEFAULT NULL,
-  `duetime` time DEFAULT NULL,
-  `enddate` date DEFAULT NULL,
-  `endtime` time DEFAULT NULL,
+  `duedate` datetime NOT NULL,
+  `enddate` datetime NOT NULL,
   `date_recurrency` int(1) NOT NULL,
   `time_recurrency` int(1) NOT NULL,
   PRIMARY KEY (`id`)
