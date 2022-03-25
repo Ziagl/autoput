@@ -79,7 +79,7 @@ class JobDetail extends React.Component<Props, State> {
                     <Text style={styles.text}>Doing something...</Text>
                 </AnimatedLoader>
                 <Text style={styles.text}>Name</Text>
-                <TextInput placeholder="Name" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.job.name} onChangeText={this.onChangeName} />
+                <TextInput placeholder="Name" placeholderTextColor={styles.placeholderTextColor.color} style={styles.input} value={this.state.job.name} onChangeText={this.onChangeName} />
                 <Text style={styles.text}>Type</Text>
                 <SelectDropdown
                     data={this._types}
@@ -108,9 +108,9 @@ class JobDetail extends React.Component<Props, State> {
                     }}
                 />
                 <Text style={styles.text}>Text</Text>
-                <TextInput placeholder="Text" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.job.text} onChangeText={this.onChangeText} />
+                <TextInput placeholder="Text" placeholderTextColor={styles.placeholderTextColor.color} style={styles.input} value={this.state.job.text} onChangeText={this.onChangeText} />
                 <Text style={styles.text}>Value</Text>
-                <TextInput placeholder="Value" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.job.value} onChangeText={this.onChangeValue} />
+                <TextInput placeholder="Value" placeholderTextColor={styles.placeholderTextColor.color} style={styles.input} value={this.state.job.value} onChangeText={this.onChangeValue} />
 
                 <TouchableOpacity style={styles.btn} onPress={() => this.onSave()}>
                     <Text style={styles.btnText}><Icon name="save" size={20} /> Save</Text>

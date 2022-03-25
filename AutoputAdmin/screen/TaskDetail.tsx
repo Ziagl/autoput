@@ -84,7 +84,7 @@ class TaskDetail extends React.Component<Props, State> {
                     <Text style={styles.text}>Doing something...</Text>
                 </AnimatedLoader>
                 <Text style={styles.text}>Name</Text>
-                <TextInput placeholder="Name" placeholderTextColor={styles.input.placeholderTextColor} style={styles.input} value={this.state.task.name} onChangeText={this.onChangeName} />
+                <TextInput placeholder="Name" placeholderTextColor={styles.placeholderTextColor.color} style={styles.input} value={this.state.task.name} onChangeText={this.onChangeName} />
                 <Text style={styles.text}>Duedate</Text>
                 <DatePicker
                     date={this.dbDateToDate(this.state.task.duedate)}

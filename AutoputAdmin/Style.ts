@@ -12,7 +12,6 @@ export default StyleSheet.create({
     },
     input: {
         color: 'black',
-        placeholderTextColor: 'grey',
         height: 60,
         padding: 8,
         fontSize: 16,
@@ -39,5 +38,8 @@ export default StyleSheet.create({
     },
     timePickerItemStyle: {
         margin: 24,
+    },
+    placeholderTextColor: {
+        color: 'grey',
     },
 });
