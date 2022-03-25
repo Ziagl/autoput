@@ -79,7 +79,7 @@ export class Api {
         this._password = "";
         this._token = { access_token: "", expires_in: 0, token_type: "" };
         this._tasks = { pageno: 0, pagesize: 0, total_count: 0, records: [] }
-        this._task = { id: 0, name: "", duedate: "", duetime: "", enddate: "", endtime: "", date_recurrency: 0, time_recurrency: 0 }
+        this._task = { id: 0, name: "", duedate: "2022-01-01 00:00:00", enddate: "2022-01-01 00:00:00", date_recurrency: 0, time_recurrency: 0 }
         this._jobs = { pageno: 0, pagesize: 0, total_count: 0, records: [] }
         this._job = { id: 0, name: "", type: 0, text: "", value: "" }
     }
@@ -177,6 +177,28 @@ export class Api {
             })
             .catch(error => console.log('error', error));
         return this._task;
+    }
+
+    // add new task
+    public async addTask(task: Task): Promise<void> {
+        let data = {
+            name: task.name,
+            duedate: task.duedate,
+            enddate: task.enddate,
+            date_recurrency: task.date_recurrency,
+            time_recurrency: task.time_recurrency,
+        }
+        await fetch(this._apiUrl + "/task/create.php", this.prepareRequest(JSON.stringify(data)))
+            .then(response => console.log(response))
+            .catch(error => console.log('error', error));
+    }
+
+    // delete task
+    public async deleteTask(id: number): Promise<void> {
+        let data = { id: id };
+        await fetch(this._apiUrl + "/task/delete.php", this.prepareRequest(JSON.stringify(data)))
+            .then(response => console.log(response))
+            .catch(error => console.log('error', error));
     }
 
     // generate new bearer token for api requests

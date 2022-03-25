@@ -8,6 +8,7 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
+    ScrollView,
 } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -78,40 +79,41 @@ class JobDetail extends React.Component<Props, State> {
                 >
                     <Text style={styles.text}>Doing something...</Text>
                 </AnimatedLoader>
-                <Text style={styles.text}>Name</Text>
-                <TextInput placeholder="Name" placeholderTextColor={styles.placeholderTextColor.color} style={styles.input} value={this.state.job.name} onChangeText={this.onChangeName} />
-                <Text style={styles.text}>Type</Text>
-                <SelectDropdown
-                    data={this._types}
-                    defaultValueByIndex={this.state.job.type}
-                    dropdownIconPosition="right"
-                    renderDropdownIcon={(isOpened) => {
-                        return (
-                            <Icon
-                                style={styles.dropdownIconColor}
-                                name={isOpened ? "chevron-up" : "chevron-down"}
-                                size={18}
-                            />
-                        );
-                    }}
-                    onSelect={(selectedItem, index) => console.log(selectedItem, index)}
-                    buttonTextAfterSelection={(selectedItem, index) => {
-                        // text represented after item is selected
-                        // if data array is an array of objects then return selectedItem.property to render after item is selected
-                        this.state.job.type = index;
-                        return selectedItem
-                    }}
-                    rowTextForSelection={(item, index) => {
-                        // text represented for each item in dropdown
-                        // if data array is an array of objects then return item.property to represent item in dropdown
-                        return item
-                    }}
-                />
-                <Text style={styles.text}>Text</Text>
-                <TextInput placeholder="Text" placeholderTextColor={styles.placeholderTextColor.color} style={styles.input} value={this.state.job.text} onChangeText={this.onChangeText} />
-                <Text style={styles.text}>Value</Text>
-                <TextInput placeholder="Value" placeholderTextColor={styles.placeholderTextColor.color} style={styles.input} value={this.state.job.value} onChangeText={this.onChangeValue} />
-
+                <ScrollView>
+                    <Text style={styles.text}>Name</Text>
+                    <TextInput placeholder="Name" placeholderTextColor={styles.placeholderTextColor.color} style={styles.input} value={this.state.job.name} onChangeText={this.onChangeName} />
+                    <Text style={styles.text}>Type</Text>
+                    <SelectDropdown
+                        data={this._types}
+                        defaultValueByIndex={this.state.job.type}
+                        dropdownIconPosition="right"
+                        renderDropdownIcon={(isOpened) => {
+                            return (
+                                <Icon
+                                    style={styles.dropdownIconColor}
+                                    name={isOpened ? "chevron-up" : "chevron-down"}
+                                    size={18}
+                                />
+                            );
+                        }}
+                        onSelect={(selectedItem, index) => console.log(selectedItem, index)}
+                        buttonTextAfterSelection={(selectedItem, index) => {
+                            // text represented after item is selected
+                            // if data array is an array of objects then return selectedItem.property to render after item is selected
+                            this.state.job.type = index;
+                            return selectedItem
+                        }}
+                        rowTextForSelection={(item, index) => {
+                            // text represented for each item in dropdown
+                            // if data array is an array of objects then return item.property to represent item in dropdown
+                            return item
+                        }}
+                    />
+                    <Text style={styles.text}>Text</Text>
+                    <TextInput placeholder="Text" placeholderTextColor={styles.placeholderTextColor.color} style={styles.input} value={this.state.job.text} onChangeText={this.onChangeText} />
+                    <Text style={styles.text}>Value</Text>
+                    <TextInput placeholder="Value" placeholderTextColor={styles.placeholderTextColor.color} style={styles.input} value={this.state.job.value} onChangeText={this.onChangeValue} />
+                </ScrollView>
                 <TouchableOpacity style={styles.btn} onPress={() => this.onSave()}>
                     <Text style={styles.btnText}><Icon name="save" size={20} /> Save</Text>
                 </TouchableOpacity>

@@ -52,7 +52,7 @@ class TaskList extends React.Component<Props, State> {
 
     onDeleteTask = (id) => {
         // remove item by api call from database
-        Api.getInstance().deleteJob(id);
+        Api.getInstance().deleteTask(id);
         // remove item from local state to force a reload
         let index = this.state.tasks.findIndex((task) => {
             if (task.id == id) {
