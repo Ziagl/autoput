@@ -4,6 +4,7 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#ffffff',
+        justifyContent: 'center'
     },
     text: {
         color: 'black',
@@ -28,7 +29,14 @@ export default StyleSheet.create({
     },
     loader: {
         width: 100,
-        height: 100
+        height: 100,
+    },
+    menu: {
+        marginRight: 16,
+    },
+    menuText: {
+        color: 'black',
+        fontSize: 20,
     },
     dropdownIconColor: {
         color: 'black',

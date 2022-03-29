@@ -9,6 +9,9 @@ import TaskDetail from './screen/TaskDetail';
 import JobList from './screen/JobList';
 import JobDetail from './screen/JobDetail';
 
+// menu
+import AutoputMenu from './menu/AutoputMenu';
+
 const Stack = createNativeStackNavigator();
 
 interface Props { }
@@ -22,10 +25,23 @@ class App extends React.Component<Props, State> {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator
+          initialRouteName="Login"
+          screenOptions={({ route, navigation }) => ({
+            headerRight: () => (
+              route.name === "TaskList" || route.name === "JobList" ?
+                <AutoputMenu
+                  menuText="Menu"
+                  navigation={navigation}
+                  route={route}
+                  isIcon={true}
+                /> : null
+            ),
+          })}>
           <Stack.Screen
             name="Login"
             component={Login}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="TaskList"
