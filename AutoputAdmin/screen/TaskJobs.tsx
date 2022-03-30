@@ -77,7 +77,8 @@ class TaskJobs extends React.Component<Props, State> {
   }
 
   onAddJob = (id: number) => {
-    console.log("add job " + id);
+    Api.getInstance().addTaskJob(this.state.task.id, id);
+    this.setState({ dialogVisible: false });
   }
 
   render() {
@@ -94,20 +95,22 @@ class TaskJobs extends React.Component<Props, State> {
         </AnimatedLoader>
         <Modal
           animationType="slide"
-          transparent={true}
+          transparent={false}
           visible={this.state.dialogVisible}
           onRequestClose={() => {
-            //Alert.alert("Modal has been closed.");
-            this.setState({ dialogVisible: !this.state.dialogVisible });
+            this.setState({ dialogVisible: false });
           }}
         >
           <View style={styles.dialog}>
             <View style={styles.modal}>
-              {this.state.jobs.map(job => (
-                <TouchableOpacity style={styles.btn} onPress={() => this.onAddJob(job.id)}>
+              {this.state.jobs === undefined ? null : this.state.jobs.map(job => (
+                <TouchableOpacity style={styles.btn} onPress={() => this.onAddJob(job.id)} key={job.id}>
                   <Text style={styles.btnText}>{job.name}</Text>
                 </TouchableOpacity>
               ))}
+              <TouchableOpacity style={styles.btn} onPress={() => this.setState({ dialogVisible: false })}>
+                <Text style={styles.btnText}>Close</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </Modal>

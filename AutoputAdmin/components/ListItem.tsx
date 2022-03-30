@@ -5,11 +5,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const ListItem = ({ item, functions }) => {
   console.log(functions);
   return (
-    <TouchableOpacity style={styles.listItem}>
+    <TouchableOpacity style={styles.listItem} key={item.id}>
       <View style={styles.listItemView}>
         <Text style={styles.listItemText}>{item.name}</Text>
         <View style={styles.listItemButtons}>
-          {functions.map(element => (
+          {functions === undefined ? null : functions.map(element => (
             <>
               <Text>     </Text>
               <Icon name={element.icon} size={30} color={element.color} onPress={() => element.callback(item.id)} />

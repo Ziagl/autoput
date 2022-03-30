@@ -244,6 +244,17 @@ export class Api {
       .catch(error => console.log('error', error));
   }
 
+  // add TaskJob
+  public async addTaskJob(task_id: number, job_id: number): Promise<void> {
+    let data = {
+      task_id: task_id,
+      job_id: job_id,
+    }
+    await fetch(this._apiUrl + "/task_job/create.php", this.prepareRequest(JSON.stringify(data)))
+      .then(response => console.log(response))
+      .catch(error => console.log('error', error));
+  }
+
   // generate new bearer token for api requests
   private async generateToken() {
     var data = JSON.stringify({
