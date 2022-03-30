@@ -1,14 +1,14 @@
 import React from 'react';
 import {
-    SafeAreaView,
-    StyleSheet,
-    ActivityIndicator,
-    Image,
-    Dimensions,
-    RefreshControl,
-    FlatList,
-    Text,
-    TouchableOpacity,
+  SafeAreaView,
+  StyleSheet,
+  ActivityIndicator,
+  Image,
+  Dimensions,
+  RefreshControl,
+  FlatList,
+  Text,
+  TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AnimatedLoader from "react-native-animated-loader";
@@ -20,91 +20,95 @@ import styles from '../Style';
 import ListItem from '../components/ListItem'
 
 interface Props {
-    navigation: any,
+  navigation: any,
 }
 interface State {
-    tasks: Task[],
-    loading: boolean,
-    refreshing: boolean,
+  tasks: Task[],
+  loading: boolean,
+  refreshing: boolean,
 }
 
 class TaskList extends React.Component<Props, State> {
-    constructor(props: Props) {
-        super(props);
+  constructor(props: Props) {
+    super(props);
 
-        this.state = {
-            tasks: [],
-            loading: true,
-            refreshing: false,
-        }
-        this.init();
+    this.state = {
+      tasks: [],
+      loading: true,
+      refreshing: false,
     }
+    this.init();
+  }
 
-    async init() {
-        var tasks = await Api.getInstance().fetchTasks();
-        this.setState({ tasks: tasks, loading: false, refreshing: false });
-    }
+  async init() {
+    var tasks = await Api.getInstance().fetchTasks();
+    this.setState({ tasks: tasks, loading: false, refreshing: false });
+  }
 
-    onEditTask = (id) => {
-        console.log("edit task called with id " + id);
-        this.props.navigation.navigate("TaskDetail", { id: id });
-    }
+  onEditTask = (id) => {
+    console.log("edit task called with id " + id);
+    this.props.navigation.navigate("TaskDetail", { id: id });
+  }
 
-    onDeleteTask = (id) => {
-        // remove item by api call from database
-        Api.getInstance().deleteTask(id);
-        // remove item from local state to force a reload
-        let index = this.state.tasks.findIndex((task) => {
-            if (task.id == id) {
-                return true;
-            }
-            return false;
-        });
-        this.state.tasks.splice(index, 1);
-        this.setState({ tasks: this.state.tasks });
-    }
+  onDeleteTask = (id) => {
+    // remove item by api call from database
+    Api.getInstance().deleteTask(id);
+    // remove item from local state to force a reload
+    let index = this.state.tasks.findIndex((task) => {
+      if (task.id == id) {
+        return true;
+      }
+      return false;
+    });
+    this.state.tasks.splice(index, 1);
+    this.setState({ tasks: this.state.tasks });
+  }
 
-    wait = (timeout) => {
-        return new Promise(resolve => setTimeout(resolve, timeout));
-    }
+  wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
 
-    onAddTask = () => {
-        this.props.navigation.navigate("TaskDetail", { id: 0 });
-    }
+  onAddJobs = (id: number) => {
+    this.props.navigation.navigate("TaskJobs", { id: id });
+  }
 
-    onRefresh = () => {
-        this.setState({ refreshing: true });
-        this.init();
-    }
+  onAddTask = () => {
+    this.props.navigation.navigate("TaskDetail", { id: 0 });
+  }
 
-    render() {
-        return (
-            <SafeAreaView style={styles.container}>
-                <AnimatedLoader
-                    visible={this.state.loading}
-                    overlayColor="rgba(255,255,255,0.75)"
-                    source={require("../loader.json")}
-                    animationStyle={styles.loader}
-                    speed={1}
-                >
-                    <Text style={styles.text}>Doing something...</Text>
-                </AnimatedLoader>
-                <FlatList
-                    data={this.state.tasks}
-                    renderItem={({ item }) => <ListItem item={item} editItem={this.onEditTask} deleteItem={this.onDeleteTask} />}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={this.state.refreshing}
-                            onRefresh={this.onRefresh}
-                        />
-                    }
-                />
-                <TouchableOpacity style={styles.btn} onPress={() => this.onAddTask()}>
-                    <Text style={styles.btnText}><Icon name="plus" size={20} /> New Task</Text>
-                </TouchableOpacity>
-            </SafeAreaView>
-        );
-    }
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.init();
+  }
+
+  render() {
+    return (
+      <SafeAreaView style={styles.container}>
+        <AnimatedLoader
+          visible={this.state.loading}
+          overlayColor="rgba(255,255,255,0.75)"
+          source={require("../loader.json")}
+          animationStyle={styles.loader}
+          speed={1}
+        >
+          <Text style={styles.text}>Doing something...</Text>
+        </AnimatedLoader>
+        <FlatList
+          data={this.state.tasks}
+          renderItem={({ item }) => <ListItem item={item} addItem={this.onAddJobs} editItem={this.onEditTask} deleteItem={this.onDeleteTask} />}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
+        />
+        <TouchableOpacity style={styles.btn} onPress={() => this.onAddTask()}>
+          <Text style={styles.btnText}><Icon name="plus" size={20} /> New Task</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    );
+  }
 };
 
 export default TaskList;

@@ -17,15 +17,16 @@ $db = $database->getConnection();
 $task_job = new Task_Job($db);
  
 // set ID property of record to read
-$task_job->task_id = isset($_GET['id']) ? $_GET['id'] : die();
+$task_job->id = isset($_GET['id']) ? $_GET['id'] : die();
  
 // read the details of task_job to be edited
 $task_job->readOne();
  
-if($task_job->task_id!=null){
+if($task_job->id!=null){
     // create array
     $task_job_arr = array(
         
+"id" => $task_job->id,
 "name" => html_entity_decode($task_job->name),
 "task_id" => $task_job->task_id,
 "name" => html_entity_decode($task_job->name),

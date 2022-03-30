@@ -38,6 +38,7 @@ if($num>0){
  
         $task_job_item=array(
             
+"id" => $id,
 "name" => html_entity_decode($name),
 "task_id" => $task_id,
 "name" => html_entity_decode($name),

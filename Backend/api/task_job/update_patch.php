@@ -20,9 +20,9 @@ $task_job = new Task_Job($db);
 $data = json_decode(file_get_contents("php://input"));
  
 // set ID property of task_job to be edited
-$task_job->task_id = $data->task_id;
+$task_job->id = $data->id;
 
-if(!isEmpty($task_job->task_id)){
+if(!isEmpty($task_job->id)){
  
 // update the task_job
 if($task_job->update_patch($data)){

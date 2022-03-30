@@ -20,7 +20,7 @@ $task_job = new Task_Job($db);
 $data = json_decode(file_get_contents("php://input"));
  
 // set task_job id to be deleted
-$task_job->task_id = $data->task_id;
+$task_job->id = $data->id;
  
 // delete the task_job
 if($task_job->delete()){

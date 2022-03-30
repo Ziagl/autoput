@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 22. Mrz 2022 um 18:38
+-- Erstellungszeit: 30. Mrz 2022 um 10:24
 -- Server-Version: 5.7.37-nmm1-log
 -- PHP-Version: 7.4.28
 
@@ -65,10 +65,12 @@ CREATE TABLE IF NOT EXISTS `task` (
 
 DROP TABLE IF EXISTS `task_job`;
 CREATE TABLE IF NOT EXISTS `task_job` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `task_id` int(11) NOT NULL,
   `job_id` int(11) NOT NULL,
-  PRIMARY KEY (`task_id`,`job_id`),
-  KEY `foreign_key_job` (`job_id`)
+  PRIMARY KEY (`id`),
+  KEY `foreign_key_job` (`job_id`),
+  KEY `foreign_key_task` (`task_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -98,5 +100,3 @@ ALTER TABLE `task_job`
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
