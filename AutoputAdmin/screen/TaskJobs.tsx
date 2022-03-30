@@ -1,10 +1,9 @@
 import React from 'react';
 import {
   SafeAreaView,
-  StyleSheet,
-  ActivityIndicator,
-  Image,
-  Dimensions,
+  View,
+  ScrollView,
+  Modal,
   RefreshControl,
   FlatList,
   Text,
@@ -29,6 +28,7 @@ interface State {
   taskJobs: TaskJob[],
   loading: boolean,
   refreshing: boolean,
+  dialogVisible: boolean,
 }
 
 class TaskJobs extends React.Component<Props, State> {
@@ -41,6 +41,7 @@ class TaskJobs extends React.Component<Props, State> {
       taskJobs: [],
       loading: props.route.params.id === 0 ? false : true,
       refreshing: false,
+      dialogVisible: false,
     }
     this.init();
   }
@@ -71,8 +72,12 @@ class TaskJobs extends React.Component<Props, State> {
     this.setState({ taskJobs: this.state.taskJobs });
   }
 
-  onAddJob = () => {
-    console.log("onAddJob");
+  onShowDialog = () => {
+    this.setState({ dialogVisible: true });
+  }
+
+  onAddJob = (id: number) => {
+    console.log("add job " + id);
   }
 
   render() {
@@ -87,9 +92,28 @@ class TaskJobs extends React.Component<Props, State> {
         >
           <Text style={styles.text}>Doing something...</Text>
         </AnimatedLoader>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.dialogVisible}
+          onRequestClose={() => {
+            //Alert.alert("Modal has been closed.");
+            this.setState({ dialogVisible: !this.state.dialogVisible });
+          }}
+        >
+          <View style={styles.dialog}>
+            <View style={styles.modal}>
+              {this.state.jobs.map(job => (
+                <TouchableOpacity style={styles.btn} onPress={() => this.onAddJob(job.id)}>
+                  <Text style={styles.btnText}>{job.name}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+        </Modal>
         <FlatList
           data={this.state.taskJobs}
-          renderItem={({ item }) => <ListItem item={item} addItem={null} editItem={null} deleteItem={this.onDeleteJob} />}
+          renderItem={({ item }) => <ListItem item={item} functions={[{ callback: this.onDeleteJob, icon: "remove", color: "firebrick" }]} />}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
@@ -97,7 +121,7 @@ class TaskJobs extends React.Component<Props, State> {
             />
           }
         />
-        <TouchableOpacity style={styles.btn} onPress={() => this.onAddJob()}>
+        <TouchableOpacity style={styles.btn} onPress={() => this.onShowDialog()}>
           <Text style={styles.btnText}><Icon name="plus" size={20} /> Add Job</Text>
         </TouchableOpacity>
       </SafeAreaView>

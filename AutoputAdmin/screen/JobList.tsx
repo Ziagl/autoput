@@ -91,7 +91,7 @@ class JobList extends React.Component<Props, State> {
         </AnimatedLoader>
         <FlatList
           data={this.state.jobs}
-          renderItem={({ item }) => <ListItem item={item} addItem={null} editItem={this.onEditJob} deleteItem={this.onDeleteJob} />}
+          renderItem={({ item }) => <ListItem item={item} functions={[{ callback: this.onEditJob, icon: "edit", color: "green" }, { callback: this.onDeleteJob, icon: "remove", color: "firebrick" }]} />}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}

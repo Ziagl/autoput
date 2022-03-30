@@ -2,27 +2,19 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const ListItem = ({ item, addItem, editItem, deleteItem }) => {
+const ListItem = ({ item, functions }) => {
+  console.log(functions);
   return (
     <TouchableOpacity style={styles.listItem}>
       <View style={styles.listItemView}>
         <Text style={styles.listItemText}>{item.name}</Text>
         <View style={styles.listItemButtons}>
-          {addItem != null ? (
-            <Icon name="handshake-o" size={30} color="blue" onPress={() => addItem(item.id)} />
-          ) : null}
-          {editItem != null && addItem != null ? (
-            <Text>     </Text>
-          ) : null}
-          {editItem != null ? (
-            <Icon name="edit" size={30} color="green" onPress={() => editItem(item.id)} />
-          ) : null}
-          {editItem != null && deleteItem != null ? (
-            <Text>     </Text>
-          ) : null}
-          {deleteItem != null ? (
-            <Icon name="remove" size={30} color="firebrick" onPress={() => deleteItem(item.id)} />
-          ) : null}
+          {functions.map(element => (
+            <>
+              <Text>     </Text>
+              <Icon name={element.icon} size={30} color={element.color} onPress={() => element.callback(item.id)} />
+            </>
+          ))}
         </View>
       </View>
     </TouchableOpacity>
