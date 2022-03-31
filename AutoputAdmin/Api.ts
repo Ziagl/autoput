@@ -171,6 +171,13 @@ export class Api {
       .catch(error => console.log('error', error));
   }
 
+  // update job
+  public async updateJob(job: Job): Promise<void> {
+    await fetch(this._apiUrl + "/job/update.php", this.prepareRequest(JSON.stringify(job)))
+      .then(response => console.log(response))
+      .catch(error => console.log('error', error));
+  }
+
   // get list of tasks
   public async fetchTasks(): Promise<Task[]> {
     await fetch(this._apiUrl + "/task/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
@@ -217,6 +224,13 @@ export class Api {
   public async deleteTask(id: number): Promise<void> {
     let data = { id: id };
     await fetch(this._apiUrl + "/task/delete.php", this.prepareRequest(JSON.stringify(data)))
+      .then(response => console.log(response))
+      .catch(error => console.log('error', error));
+  }
+
+  // update task
+  public async updateTask(task: Task): Promise<void> {
+    await fetch(this._apiUrl + "/task/update.php", this.prepareRequest(JSON.stringify(task)))
       .then(response => console.log(response))
       .catch(error => console.log('error', error));
   }

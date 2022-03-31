@@ -57,14 +57,13 @@ class JobDetail extends React.Component<Props, State> {
   );
 
   onSave = () => {
-    console.log(this.state.job.id);
     if (this.state.job.id == 0 || this.state.job.id == undefined) {
       Api.getInstance().addJob(this.state.job);
-      this.props.navigation.navigate("JobList");
     }
     else {
-      console.log("update job");
+      Api.getInstance().updateJob(this.state.job);
     }
+    this.props.navigation.navigate("JobList");
   }
 
   render() {

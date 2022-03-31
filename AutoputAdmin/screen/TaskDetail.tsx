@@ -75,14 +75,13 @@ class TaskDetail extends React.Component<Props, State> {
   }
 
   onSave = () => {
-    console.log(this.state.task.id);
     if (this.state.task.id == 0 || this.state.task.id == undefined) {
       Api.getInstance().addTask(this.state.task);
-      this.props.navigation.navigate("TaskList");
     }
     else {
-      console.log("update task");
+      Api.getInstance().updateTask(this.state.task);
     }
+    this.props.navigation.navigate("TaskList");
   }
 
   render() {
