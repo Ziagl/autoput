@@ -122,6 +122,18 @@ export class Api {
     return this.isLoggedIn();
   }
 
+  public async ping(): Promise<boolean> {
+    let success = false;
+    await fetch(this._apiUrl)
+      .then(response => {
+        if (response.status === 200) {
+          success = true;
+        }
+      })
+      .catch(error => console.log('error', error));
+    return success;
+  }
+
   // get list of jobs
   public async fetchJobs(): Promise<Job[]> {
     await fetch(this._apiUrl + "/job/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())

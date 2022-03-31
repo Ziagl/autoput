@@ -25,6 +25,12 @@ export default StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  img: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   text: {
     color: 'black',
     fontSize: 23,
@@ -69,4 +75,31 @@ export default StyleSheet.create({
   placeholderTextColor: {
     color: 'grey',
   },
+  // login styles
+  loginInput: {
+    color: 'black',
+    backgroundColor: 'lightgrey',
+    height: 60,
+    width: 200,
+    padding: 8,
+    fontSize: 30,
+    marginBottom: 10,
+  },
+  loginBtn: {
+    backgroundColor: '#ee162a',
+    padding: 9,
+    marginTop: 20,
+    width: 200,
+  },
+  loginBtnText: {
+    color: 'white',
+    fontSize: 30,
+    textAlign: 'center',
+  },
+  loginError: {
+    color: '#ee162a',
+    marginTop: 20,
+    fontSize: 30,
+    fontWeight: "500",
+  }
 });

@@ -64,10 +64,6 @@ class JobList extends React.Component<Props, State> {
     this.setState({ jobs: this.state.jobs });
   }
 
-  wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  }
-
   onAddJob = () => {
     this.props.navigation.navigate("JobDetail", { id: 0 });
   }

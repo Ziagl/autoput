@@ -1,10 +1,11 @@
 import React from 'react';
 import {
   SafeAreaView,
-  StyleSheet,
+  ImageBackground,
   Text,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -35,12 +36,19 @@ class Login extends React.Component<Props, State> {
   onChangePassword = textValue => this.setState({ password: textValue });
   onLogin = async () => {
     this.setState({ errorMessage: "" });
-    if (await Api.getInstance().login(this.state.username, this.state.password)) {
-      this.props.navigation.navigate("TaskList");
+    if (await Api.getInstance().ping()) {
+      if (await Api.getInstance().login(this.state.username, this.state.password)) {
+        this.props.navigation.navigate("TaskList");
+      }
+      else {
+        this.setState({ errorMessage: "Username or Password wrong." });
+      }
     }
     else {
-      this.setState({ errorMessage: "Something went wrong." });
+      this.setState({ errorMessage: "Connection to Server failed." });
     }
+
+    setTimeout(() => { this.setState({ errorMessage: "" }) }, 5000);
   }
   onTestLogin = async () => {
     this.setState({ errorMessage: "" });
@@ -48,24 +56,36 @@ class Login extends React.Component<Props, State> {
       this.props.navigation.navigate("TaskList");
     }
     else {
-      this.setState({ errorMessage: "Something went wrong." });
+      this.setState({ errorMessage: "Connection to Server failed." });
     }
   }
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.text}>Username:</Text>
-        <TextInput placeholder="Username" style={styles.input} onChangeText={this.onChangeUsername} />
-        <Text style={styles.text}>Password:</Text>
-        <TextInput placeholder="Password" secureTextEntry={true} style={styles.input} onChangeText={this.onChangePassword} />
-        <TouchableOpacity style={styles.btn} onPress={() => this.onLogin()}>
-          <Text style={styles.btnText}><Icon name="sign-in" size={20} /> Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btn} onPress={() => this.onTestLogin()}>
-          <Text style={styles.btnText}><Icon name="sign-in" size={20} /> TestLogin</Text>
-        </TouchableOpacity>
-        <Text>{this.state.errorMessage}</Text>
+        <ImageBackground
+          source={require('../assets/login.jpg')}
+          resizeMode="stretch"
+          style={styles.img}>
+          <TextInput
+            placeholder="Username"
+            placeholderTextColor="black"
+            style={styles.loginInput}
+            onChangeText={this.onChangeUsername} />
+          <TextInput
+            placeholder="Password"
+            placeholderTextColor="black"
+            secureTextEntry={true}
+            style={styles.loginInput}
+            onChangeText={this.onChangePassword} />
+          <TouchableOpacity style={styles.loginBtn} onPress={() => this.onLogin()}>
+            <Text style={styles.loginBtnText}><Icon name="sign-in" size={30} /> Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.loginBtn} onPress={() => this.onTestLogin()}>
+            <Text style={styles.loginBtnText}><Icon name="sign-in" size={30} /> TestLogin</Text>
+          </TouchableOpacity>
+          <Text style={styles.loginError}>{this.state.errorMessage}</Text>
+        </ImageBackground>
       </SafeAreaView>
     );
   }
