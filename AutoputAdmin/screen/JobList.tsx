@@ -1,10 +1,7 @@
 import React from 'react';
 import {
   SafeAreaView,
-  StyleSheet,
-  ActivityIndicator,
-  Image,
-  Dimensions,
+  ImageBackground,
   RefreshControl,
   FlatList,
   Text,
@@ -77,19 +74,24 @@ class JobList extends React.Component<Props, State> {
     return (
       <SafeAreaView style={styles.container}>
         <Loader visible={this.state.loading} />
-        <FlatList
-          data={this.state.jobs}
-          renderItem={({ item }) => <ListItem item={item} functions={[{ callback: this.onEditJob, icon: "edit", color: "green" }, { callback: this.onDeleteJob, icon: "remove", color: "firebrick" }]} />}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this.onRefresh}
-            />
-          }
-        />
-        <TouchableOpacity style={styles.btn} onPress={() => this.onAddJob()}>
-          <Text style={styles.btnText}><Icon name="plus" size={20} /> New Job</Text>
-        </TouchableOpacity>
+        <ImageBackground
+          source={require('../assets/login.jpg')}
+          resizeMode="stretch"
+          style={styles.img}>
+          <FlatList
+            data={this.state.jobs}
+            renderItem={({ item }) => <ListItem item={item} functions={[{ callback: this.onEditJob, icon: "edit", color: "green" }, { callback: this.onDeleteJob, icon: "remove", color: "firebrick" }]} />}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this.onRefresh}
+              />
+            }
+          />
+          <TouchableOpacity style={styles.btn} onPress={() => this.onAddJob()}>
+            <Text style={styles.btnText}><Icon name="plus" size={30} /> New Job</Text>
+          </TouchableOpacity>
+        </ImageBackground>
       </SafeAreaView>
     );
   }

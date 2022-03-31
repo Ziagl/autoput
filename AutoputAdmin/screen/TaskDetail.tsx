@@ -1,10 +1,8 @@
 import React from 'react';
 import {
+  View,
   SafeAreaView,
-  StyleSheet,
-  ActivityIndicator,
-  Image,
-  Dimensions,
+  ImageBackground,
   TouchableOpacity,
   Text,
   TextInput,
@@ -90,91 +88,102 @@ class TaskDetail extends React.Component<Props, State> {
     return (
       <SafeAreaView style={styles.container}>
         <Loader visible={this.state.loading} />
-        <ScrollView>
-          <Text style={styles.text}>Name</Text>
-          <TextInput placeholder="Name" placeholderTextColor={styles.placeholderTextColor.color} style={styles.input} value={this.state.task.name} onChangeText={this.onChangeName} />
-          <Text style={styles.text}>Duedate</Text>
-          <DatePicker
-            date={this.dbDateToDate(this.state.task.duedate)}
-            onDateChange={(date: Date) => {
-              this.setState({ task: { ...this.state.task, duedate: this.dateToDbDate(date) } })
-            }}
-            mode="datetime"
-            textColor="black"
-            minimumDate={new Date()}
-            maximumDate={new Date("2023-01-01")}
-            minuteInterval={15}
-          />
-          <Text style={styles.text}>Enddate</Text>
-          <DatePicker
-            date={this.dbDateToDate(this.state.task.enddate)}
-            onDateChange={(date: Date) => {
-              this.setState({ task: { ...this.state.task, enddate: this.dateToDbDate(date) } })
-            }}
-            mode="datetime"
-            textColor="black"
-            minimumDate={new Date()}
-            maximumDate={new Date("2023-01-01")}
-            minuteInterval={15}
-          />
-          <Text style={styles.text}>Date recurrency</Text>
-          <SelectDropdown
-            data={this._dateRecurrencies}
-            defaultValueByIndex={this.state.task.date_recurrency}
-            dropdownIconPosition="right"
-            renderDropdownIcon={(isOpened) => {
-              return (
-                <Icon
-                  style={styles.dropdownIconColor}
-                  name={isOpened ? "chevron-up" : "chevron-down"}
-                  size={18}
-                />
-              );
-            }}
-            onSelect={(selectedItem, index) => console.log(selectedItem, index)}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              // text represented after item is selected
-              // if data array is an array of objects then return selectedItem.property to render after item is selected
-              this.state.task.date_recurrency = index;
-              return selectedItem
-            }}
-            rowTextForSelection={(item, index) => {
-              // text represented for each item in dropdown
-              // if data array is an array of objects then return item.property to represent item in dropdown
-              return item
-            }}
-          />
-          <Text style={styles.text}>Time recurrency</Text>
-          <SelectDropdown
-            data={this._timeRecurrencies}
-            defaultValueByIndex={this.state.task.time_recurrency}
-            dropdownIconPosition="right"
-            renderDropdownIcon={(isOpened) => {
-              return (
-                <Icon
-                  style={styles.dropdownIconColor}
-                  name={isOpened ? "chevron-up" : "chevron-down"}
-                  size={18}
-                />
-              );
-            }}
-            onSelect={(selectedItem, index) => console.log(selectedItem, index)}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              // text represented after item is selected
-              // if data array is an array of objects then return selectedItem.property to render after item is selected
-              this.state.task.time_recurrency = index;
-              return selectedItem
-            }}
-            rowTextForSelection={(item, index) => {
-              // text represented for each item in dropdown
-              // if data array is an array of objects then return item.property to represent item in dropdown
-              return item
-            }}
-          />
-        </ScrollView>
-        <TouchableOpacity style={styles.btn} onPress={() => this.onSave()}>
-          <Text style={styles.btnText}><Icon name="save" size={20} /> Save</Text>
-        </TouchableOpacity>
+        <ImageBackground
+          source={require('../assets/login.jpg')}
+          resizeMode="stretch"
+          style={styles.img}>
+          <ScrollView style={styles.detailScrollView}>
+            <Text style={styles.text}>Name:</Text>
+            <TextInput placeholder="Name" placeholderTextColor={styles.placeholderTextColor.color} style={styles.input} value={this.state.task.name} onChangeText={this.onChangeName} />
+            <Text style={styles.text}>Duedate:</Text>
+            <View style={{ alignItems: 'center' }}>
+              <DatePicker
+                date={this.dbDateToDate(this.state.task.duedate)}
+                onDateChange={(date: Date) => {
+                  this.setState({ task: { ...this.state.task, duedate: this.dateToDbDate(date) } })
+                }}
+                mode="datetime"
+                textColor="black"
+                minimumDate={new Date()}
+                maximumDate={new Date("2023-01-01")}
+                minuteInterval={15}
+              />
+            </View>
+            <Text style={styles.text}>Enddate:</Text>
+            <View style={{ alignItems: 'center' }}>
+              <DatePicker
+                date={this.dbDateToDate(this.state.task.enddate)}
+                onDateChange={(date: Date) => {
+                  this.setState({ task: { ...this.state.task, enddate: this.dateToDbDate(date) } })
+                }}
+                mode="datetime"
+                textColor="black"
+                minimumDate={new Date()}
+                maximumDate={new Date("2023-01-01")}
+                minuteInterval={15}
+              />
+            </View>
+            <Text style={styles.text}>Date recurrency:</Text>
+            <SelectDropdown
+              data={this._dateRecurrencies}
+              defaultValueByIndex={this.state.task.date_recurrency}
+              dropdownIconPosition="right"
+              buttonStyle={styles.dropdownButton}
+              renderDropdownIcon={(isOpened) => {
+                return (
+                  <Icon
+                    style={styles.dropdownIconColor}
+                    name={isOpened ? "chevron-up" : "chevron-down"}
+                    size={18}
+                  />
+                );
+              }}
+              onSelect={(selectedItem, index) => console.log(selectedItem, index)}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                // text represented after item is selected
+                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                this.state.task.date_recurrency = index;
+                return selectedItem
+              }}
+              rowTextForSelection={(item, index) => {
+                // text represented for each item in dropdown
+                // if data array is an array of objects then return item.property to represent item in dropdown
+                return item
+              }}
+            />
+            <Text style={styles.text}>Time recurrency:</Text>
+            <SelectDropdown
+              data={this._timeRecurrencies}
+              defaultValueByIndex={this.state.task.time_recurrency}
+              dropdownIconPosition="right"
+              buttonStyle={styles.dropdownButton}
+              renderDropdownIcon={(isOpened) => {
+                return (
+                  <Icon
+                    style={styles.dropdownIconColor}
+                    name={isOpened ? "chevron-up" : "chevron-down"}
+                    size={18}
+                  />
+                );
+              }}
+              onSelect={(selectedItem, index) => console.log(selectedItem, index)}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                // text represented after item is selected
+                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                this.state.task.time_recurrency = index;
+                return selectedItem
+              }}
+              rowTextForSelection={(item, index) => {
+                // text represented for each item in dropdown
+                // if data array is an array of objects then return item.property to represent item in dropdown
+                return item
+              }}
+            />
+          </ScrollView>
+          <TouchableOpacity style={styles.btn} onPress={() => this.onSave()}>
+            <Text style={styles.btnText}><Icon name="save" size={30} /> Save</Text>
+          </TouchableOpacity>
+        </ImageBackground>
       </SafeAreaView>
     );
   }

@@ -23,14 +23,15 @@ const ListItem = ({ item, functions }) => {
 const styles = StyleSheet.create({
   listItem: {
     padding: 15,
-    backgroundColor: '#f8f8f8',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
+    backgroundColor: '#f8f8f8aa',
+    borderBottomWidth: 2,
+    borderColor: '#000000aa',
   },
   listItemView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    width: "100%",
   },
   listItemButtons: {
     flexDirection: 'row',
@@ -39,7 +40,8 @@ const styles = StyleSheet.create({
   },
   listItemText: {
     color: 'black',
-    fontSize: 18,
+    fontSize: 20,
+    fontWeight: "500",
   },
 });
 

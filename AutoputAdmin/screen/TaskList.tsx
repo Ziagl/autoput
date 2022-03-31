@@ -1,10 +1,7 @@
 import React from 'react';
 import {
   SafeAreaView,
-  StyleSheet,
-  ActivityIndicator,
-  Image,
-  Dimensions,
+  ImageBackground,
   RefreshControl,
   FlatList,
   Text,
@@ -85,19 +82,24 @@ class TaskList extends React.Component<Props, State> {
     return (
       <SafeAreaView style={styles.container}>
         <Loader visible={this.state.loading} />
-        <FlatList
-          data={this.state.tasks}
-          renderItem={({ item }) => <ListItem item={item} functions={[{ callback: this.onAddJobs, icon: "handshake-o", color: "blue" }, { callback: this.onEditTask, icon: "edit", color: "green" }, { callback: this.onDeleteTask, icon: "remove", color: "firebrick" }]} />}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this.onRefresh}
-            />
-          }
-        />
-        <TouchableOpacity style={styles.btn} onPress={() => this.onAddTask()}>
-          <Text style={styles.btnText}><Icon name="plus" size={20} /> New Task</Text>
-        </TouchableOpacity>
+        <ImageBackground
+          source={require('../assets/login.jpg')}
+          resizeMode="stretch"
+          style={styles.img}>
+          <FlatList
+            data={this.state.tasks}
+            renderItem={({ item }) => <ListItem item={item} functions={[{ callback: this.onAddJobs, icon: "handshake-o", color: "blue" }, { callback: this.onEditTask, icon: "edit", color: "green" }, { callback: this.onDeleteTask, icon: "remove", color: "firebrick" }]} />}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this.onRefresh}
+              />
+            }
+          />
+          <TouchableOpacity style={styles.btn} onPress={() => this.onAddTask()}>
+            <Text style={styles.btnText}><Icon name="plus" size={30} /> New Task</Text>
+          </TouchableOpacity>
+        </ImageBackground>
       </SafeAreaView>
     );
   }

@@ -3,6 +3,7 @@ import {
   SafeAreaView,
   View,
   ScrollView,
+  ImageBackground,
   Modal,
   RefreshControl,
   FlatList,
@@ -85,40 +86,47 @@ class TaskJobs extends React.Component<Props, State> {
     return (
       <SafeAreaView style={styles.container}>
         <Loader visible={this.state.loading} />
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={this.state.dialogVisible}
-          onRequestClose={() => {
-            this.setState({ dialogVisible: false });
-          }}
-        >
-          <View style={styles.dialog}>
-            <View style={styles.modal}>
-              {this.state.jobs === undefined ? null : this.state.jobs.map(job => (
-                <TouchableOpacity style={styles.btn} onPress={() => this.onAddJob(job.id)} key={job.id}>
-                  <Text style={styles.btnText}>{job.name}</Text>
+        <ImageBackground
+          source={require('../assets/login.jpg')}
+          resizeMode="stretch"
+          style={styles.img}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.dialogVisible}
+            onRequestClose={() => {
+              this.setState({ dialogVisible: false });
+            }}
+          >
+            <View style={styles.dialog}>
+              <View style={styles.modal}>
+                <ScrollView>
+                  {this.state.jobs === undefined ? null : this.state.jobs.map(job => (
+                    <TouchableOpacity style={styles.modalBtn} onPress={() => this.onAddJob(job.id)} key={job.id}>
+                      <Text style={styles.btnText}>{job.name}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+                <TouchableOpacity style={styles.modalCloseBtn} onPress={() => this.setState({ dialogVisible: false })}>
+                  <Text style={styles.btnText}>Close</Text>
                 </TouchableOpacity>
-              ))}
-              <TouchableOpacity style={styles.btn} onPress={() => this.setState({ dialogVisible: false })}>
-                <Text style={styles.btnText}>Close</Text>
-              </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </Modal>
-        <FlatList
-          data={this.state.taskJobs}
-          renderItem={({ item }) => <ListItem item={item} functions={[{ callback: this.onDeleteJob, icon: "remove", color: "firebrick" }]} />}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this.onRefresh}
-            />
-          }
-        />
-        <TouchableOpacity style={styles.btn} onPress={() => this.onShowDialog()}>
-          <Text style={styles.btnText}><Icon name="plus" size={20} /> Add Job</Text>
-        </TouchableOpacity>
+          </Modal>
+          <FlatList
+            data={this.state.taskJobs}
+            renderItem={({ item }) => <ListItem item={item} functions={[{ callback: this.onDeleteJob, icon: "remove", color: "firebrick" }]} />}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this.onRefresh}
+              />
+            }
+          />
+          <TouchableOpacity style={styles.btn} onPress={() => this.onShowDialog()}>
+            <Text style={styles.btnText}><Icon name="plus" size={30} /> Add Job</Text>
+          </TouchableOpacity>
+        </ImageBackground>
       </SafeAreaView>
     );
   }

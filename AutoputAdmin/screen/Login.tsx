@@ -81,9 +81,6 @@ class Login extends React.Component<Props, State> {
           <TouchableOpacity style={styles.loginBtn} onPress={() => this.onLogin()}>
             <Text style={styles.loginBtnText}><Icon name="sign-in" size={30} /> Login</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.loginBtn} onPress={() => this.onTestLogin()}>
-            <Text style={styles.loginBtnText}><Icon name="sign-in" size={30} /> TestLogin</Text>
-          </TouchableOpacity>
           <Text style={styles.loginError}>{this.state.errorMessage}</Text>
         </ImageBackground>
       </SafeAreaView>

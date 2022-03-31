@@ -8,15 +8,15 @@ export default StyleSheet.create({
   },
   dialog: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   modal: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2
@@ -38,18 +38,31 @@ export default StyleSheet.create({
   },
   input: {
     color: 'black',
-    height: 60,
-    padding: 8,
-    fontSize: 16,
+    padding: 10,
+    fontSize: 25,
   },
   btn: {
-    backgroundColor: '#c2bad8',
+    backgroundColor: '#ee162a',
     padding: 9,
-    margin: 5,
+    margin: 0,
+    width: '100%',
+  },
+  modalBtn: {
+    backgroundColor: '#ee162a',
+    padding: 9,
+    margin: 10,
+    width: 250,
+  },
+  modalCloseBtn: {
+    backgroundColor: '#ee162a',
+    padding: 9,
+    margin: 10,
+    marginTop: 30,
+    width: 250,
   },
   btnText: {
-    color: 'darkslateblue',
-    fontSize: 20,
+    color: 'white',
+    fontSize: 30,
     textAlign: 'center',
   },
   loader: {
@@ -66,6 +79,9 @@ export default StyleSheet.create({
   dropdownIconColor: {
     color: 'black',
   },
+  dropdownButton: {
+    width: '100%',
+  },
   timePickerColor: {
     color: 'black',
   },
@@ -74,6 +90,10 @@ export default StyleSheet.create({
   },
   placeholderTextColor: {
     color: 'grey',
+  },
+  detailScrollView: {
+    width: '100%',
+    backgroundColor: '#f8f8f8aa',
   },
   // login styles
   loginInput: {
@@ -100,6 +120,6 @@ export default StyleSheet.create({
     color: '#ee162a',
     marginTop: 20,
     fontSize: 30,
-    fontWeight: "500",
+    fontWeight: '500',
   }
 });
