@@ -10,13 +10,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import AnimatedLoader from "react-native-animated-loader";
 
 import { Api, Task, Job, TaskJob } from '../Api';
 import styles from '../Style';
 
 // components
 import ListItem from '../components/ListItem'
+import Loader from '../components/Loader'
 
 interface Props {
   navigation: any,
@@ -84,15 +84,7 @@ class TaskJobs extends React.Component<Props, State> {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <AnimatedLoader
-          visible={this.state.loading}
-          overlayColor="rgba(255,255,255,0.75)"
-          source={require("../loader.json")}
-          animationStyle={styles.loader}
-          speed={1}
-        >
-          <Text style={styles.text}>Doing something...</Text>
-        </AnimatedLoader>
+        <Loader visible={this.state.loading} />
         <Modal
           animationType="slide"
           transparent={false}

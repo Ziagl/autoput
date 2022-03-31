@@ -112,7 +112,9 @@ export class Api {
   }
 
   public isLoggedIn(): boolean {
-    return this._token.access_token != "" ? true : false;
+    console.log("access token:");
+    console.log(this._token.access_token);
+    return this._token.access_token != "" && this._token.access_token != undefined ? true : false;
   }
 
   public async login(username: string, password: string): Promise<boolean> {

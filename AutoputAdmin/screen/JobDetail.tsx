@@ -12,10 +12,12 @@ import {
 } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import AnimatedLoader from "react-native-animated-loader";
 
 import { Api, Job } from '../Api';
 import styles from '../Style';
+
+// components
+import Loader from '../components/Loader'
 
 interface Props {
   navigation: any,
@@ -69,15 +71,7 @@ class JobDetail extends React.Component<Props, State> {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <AnimatedLoader
-          visible={this.state.loading}
-          overlayColor="rgba(255,255,255,0.75)"
-          source={require("../loader.json")}
-          animationStyle={styles.loader}
-          speed={1}
-        >
-          <Text style={styles.text}>Doing something...</Text>
-        </AnimatedLoader>
+        <Loader visible={this.state.loading} />
         <ScrollView>
           <Text style={styles.text}>Name</Text>
           <TextInput placeholder="Name" placeholderTextColor={styles.placeholderTextColor.color} style={styles.input} value={this.state.job.name} onChangeText={this.onChangeName} />
