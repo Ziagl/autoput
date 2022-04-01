@@ -50,15 +50,6 @@ class Login extends React.Component<Props, State> {
 
     setTimeout(() => { this.setState({ errorMessage: "" }) }, 5000);
   }
-  onTestLogin = async () => {
-    this.setState({ errorMessage: "" });
-    if (await Api.getInstance().login("admin", "admin123")) {
-      this.props.navigation.navigate("TaskList");
-    }
-    else {
-      this.setState({ errorMessage: "Connection to Server failed." });
-    }
-  }
 
   render() {
     return (

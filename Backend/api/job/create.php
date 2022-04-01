@@ -42,7 +42,6 @@ $job->text = $data->text;
 } else { 
 $job->text = '';
 }
-$job->value = $data->value;
  	$lastInsertedId=$job->create();
     // create the job
     if($lastInsertedId!=0){

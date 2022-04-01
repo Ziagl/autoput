@@ -7,46 +7,25 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 include_once '../config/helper.php';
 include_once '../config/database.php';
-include_once '../objects/job.php';
+include_once '../objects/data.php';
  include_once '../token/validatetoken.php';
 // get database connection
 $database = new Database();
 $db = $database->getConnection();
  
-// prepare job object
-$job = new Job($db);
+// prepare data object
+$data = new Data($db);
  
-// get id of job to be edited
+// get id of data to be edited
 $data = json_decode(file_get_contents("php://input"));
  
-// set ID property of job to be edited
-$job->id = $data->id;
+// set ID property of data to be edited
+$data->id = $data->id;
 
-if(
-!isEmpty($data->name)
-&&!isEmpty($data->type)
-&&!isEmpty($data->text)
-){
-// set job property values
-
-if(!isEmpty($data->name)) { 
-$job->name = $data->name;
-} else { 
-$job->name = '';
-}
-if(!isEmpty($data->type)) { 
-$job->type = $data->type;
-} else { 
-$job->type = '';
-}
-if(!isEmpty($data->text)) { 
-$job->text = $data->text;
-} else { 
-$job->text = '';
-}
+if(!isEmpty($data->id)){
  
-// update the job
-if($job->update()){
+// update the data
+if($data->update_patch($data)){
  
     // set response code - 200 ok
     http_response_code(200);
@@ -55,14 +34,14 @@ if($job->update()){
 	echo json_encode(array("status" => "success", "code" => 1,"message"=> "Updated Successfully","document"=> ""));
 }
  
-// if unable to update the job, tell the user
+// if unable to update the data, tell the user
 else{
  
     // set response code - 503 service unavailable
     http_response_code(503);
  
     // tell the user
-	echo json_encode(array("status" => "error", "code" => 0,"message"=> "Unable to update job","document"=> ""));
+	echo json_encode(array("status" => "error", "code" => 0,"message"=> "Unable to update data","document"=> ""));
     
 }
 }
@@ -73,6 +52,6 @@ else{
     http_response_code(400);
  
     // tell the user
-	echo json_encode(array("status" => "error", "code" => 0,"message"=> "Unable to update job. Data is incomplete.","document"=> ""));
+	echo json_encode(array("status" => "error", "code" => 0,"message"=> "Unable to update data. Data is incomplete.","document"=> ""));
 }
 ?>

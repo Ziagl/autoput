@@ -10,7 +10,7 @@ class Task{
 	
 public $id;
 public $name;
-public $duedate;
+public $startdate;
 public $enddate;
 public $date_recurrency;
 public $time_recurrency;
@@ -98,7 +98,7 @@ public $time_recurrency;
 		$offset = ($this->pageNo-1) * $this->no_of_records_per_page; 
 
 		// select all query
-		$query = "SELECT  t.* FROM ". $this->table_name ." t  WHERE t.id LIKE ? OR t.name LIKE ?  OR t.duedate LIKE ?  OR t.enddate LIKE ?  OR t.date_recurrency LIKE ?  OR t.time_recurrency LIKE ?  LIMIT ".$offset." , ". $this->no_of_records_per_page."";
+		$query = "SELECT  t.* FROM ". $this->table_name ." t  WHERE t.id LIKE ? OR t.name LIKE ?  OR t.startdate LIKE ?  OR t.enddate LIKE ?  OR t.date_recurrency LIKE ?  OR t.time_recurrency LIKE ?  LIMIT ".$offset." , ". $this->no_of_records_per_page."";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);
@@ -178,7 +178,7 @@ $stmt->bindParam(6, $searchKey);
 		
 $this->id = $row['id'];
 $this->name = $row['name'];
-$this->duedate = $row['duedate'];
+$this->startdate = $row['startdate'];
 $this->enddate = $row['enddate'];
 $this->date_recurrency = $row['date_recurrency'];
 $this->time_recurrency = $row['time_recurrency'];
@@ -194,7 +194,7 @@ $this->time_recurrency = $row['time_recurrency'];
 	function create(){
 	 
 		// query to insert record
-		$query ="INSERT INTO ".$this->table_name." SET name=:name,duedate=:duedate,enddate=:enddate,date_recurrency=:date_recurrency,time_recurrency=:time_recurrency";
+		$query ="INSERT INTO ".$this->table_name." SET name=:name,startdate=:startdate,enddate=:enddate,date_recurrency=:date_recurrency,time_recurrency=:time_recurrency";
 
 		// prepare query
 		$stmt = $this->conn->prepare($query);
@@ -202,7 +202,7 @@ $this->time_recurrency = $row['time_recurrency'];
 		// sanitize
 		
 $this->name=htmlspecialchars(strip_tags($this->name));
-$this->duedate=htmlspecialchars(strip_tags($this->duedate));
+$this->startdate=htmlspecialchars(strip_tags($this->startdate));
 $this->enddate=htmlspecialchars(strip_tags($this->enddate));
 $this->date_recurrency=htmlspecialchars(strip_tags($this->date_recurrency));
 $this->time_recurrency=htmlspecialchars(strip_tags($this->time_recurrency));
@@ -210,7 +210,7 @@ $this->time_recurrency=htmlspecialchars(strip_tags($this->time_recurrency));
 		// bind values
 		
 $stmt->bindParam(":name", $this->name);
-$stmt->bindParam(":duedate", $this->duedate);
+$stmt->bindParam(":startdate", $this->startdate);
 $stmt->bindParam(":enddate", $this->enddate);
 $stmt->bindParam(":date_recurrency", $this->date_recurrency);
 $stmt->bindParam(":time_recurrency", $this->time_recurrency);
@@ -230,7 +230,7 @@ $stmt->bindParam(":time_recurrency", $this->time_recurrency);
 	function update(){
 	 
 		// update query
-		$query ="UPDATE ".$this->table_name." SET name=:name,duedate=:duedate,enddate=:enddate,date_recurrency=:date_recurrency,time_recurrency=:time_recurrency WHERE id = :id";
+		$query ="UPDATE ".$this->table_name." SET name=:name,startdate=:startdate,enddate=:enddate,date_recurrency=:date_recurrency,time_recurrency=:time_recurrency WHERE id = :id";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);
@@ -238,7 +238,7 @@ $stmt->bindParam(":time_recurrency", $this->time_recurrency);
 		// sanitize
 		
 $this->name=htmlspecialchars(strip_tags($this->name));
-$this->duedate=htmlspecialchars(strip_tags($this->duedate));
+$this->startdate=htmlspecialchars(strip_tags($this->startdate));
 $this->enddate=htmlspecialchars(strip_tags($this->enddate));
 $this->date_recurrency=htmlspecialchars(strip_tags($this->date_recurrency));
 $this->time_recurrency=htmlspecialchars(strip_tags($this->time_recurrency));
@@ -247,7 +247,7 @@ $this->id=htmlspecialchars(strip_tags($this->id));
 		// bind new values
 		
 $stmt->bindParam(":name", $this->name);
-$stmt->bindParam(":duedate", $this->duedate);
+$stmt->bindParam(":startdate", $this->startdate);
 $stmt->bindParam(":enddate", $this->enddate);
 $stmt->bindParam(":date_recurrency", $this->date_recurrency);
 $stmt->bindParam(":time_recurrency", $this->time_recurrency);

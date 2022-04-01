@@ -35,7 +35,7 @@ class TaskDetail extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      task: { id: props.route.params.id, name: "", duedate: "2022-01-01 00:00:00", enddate: "2022-01-01 00:00:00", date_recurrency: 0, time_recurrency: 0 },
+      task: { id: props.route.params.id, name: "", startdate: "2022-01-01 00:00:00", enddate: "2022-01-01 00:00:00", date_recurrency: 0, time_recurrency: 0 },
       loading: props.route.params.id === 0 ? false : true,
     }
     if (props.route.params.id != 0) {
@@ -95,12 +95,12 @@ class TaskDetail extends React.Component<Props, State> {
           <ScrollView style={styles.detailScrollView}>
             <Text style={styles.text}>Name:</Text>
             <TextInput placeholder="Name" placeholderTextColor={styles.placeholderTextColor.color} style={styles.input} value={this.state.task.name} onChangeText={this.onChangeName} />
-            <Text style={styles.text}>Duedate:</Text>
+            <Text style={styles.text}>Start date:</Text>
             <View style={{ alignItems: 'center' }}>
               <DatePicker
-                date={this.dbDateToDate(this.state.task.duedate)}
+                date={this.dbDateToDate(this.state.task.startdate)}
                 onDateChange={(date: Date) => {
-                  this.setState({ task: { ...this.state.task, duedate: this.dateToDbDate(date) } })
+                  this.setState({ task: { ...this.state.task, startdate: this.dateToDbDate(date) } })
                 }}
                 mode="datetime"
                 textColor="black"
@@ -109,7 +109,7 @@ class TaskDetail extends React.Component<Props, State> {
                 minuteInterval={15}
               />
             </View>
-            <Text style={styles.text}>Enddate:</Text>
+            <Text style={styles.text}>End date:</Text>
             <View style={{ alignItems: 'center' }}>
               <DatePicker
                 date={this.dbDateToDate(this.state.task.enddate)}

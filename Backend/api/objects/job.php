@@ -12,7 +12,6 @@ public $id;
 public $name;
 public $type;
 public $text;
-public $value;
     
  
     // constructor with $db as database connection
@@ -97,7 +96,7 @@ public $value;
 		$offset = ($this->pageNo-1) * $this->no_of_records_per_page; 
 
 		// select all query
-		$query = "SELECT  t.* FROM ". $this->table_name ." t  WHERE t.id LIKE ? OR t.name LIKE ?  OR t.type LIKE ?  OR t.text LIKE ?  OR t.value LIKE ?  LIMIT ".$offset." , ". $this->no_of_records_per_page."";
+		$query = "SELECT  t.* FROM ". $this->table_name ." t  WHERE t.id LIKE ? OR t.name LIKE ?  OR t.type LIKE ?  OR t.text LIKE ?  LIMIT ".$offset." , ". $this->no_of_records_per_page."";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);
@@ -108,7 +107,6 @@ $stmt->bindParam(1, $searchKey);
 $stmt->bindParam(2, $searchKey);
 $stmt->bindParam(3, $searchKey);
 $stmt->bindParam(4, $searchKey);
-$stmt->bindParam(5, $searchKey);
 	 
 		// execute query
 		$stmt->execute();
@@ -178,7 +176,6 @@ $this->id = $row['id'];
 $this->name = $row['name'];
 $this->type = $row['type'];
 $this->text = $row['text'];
-$this->value = $row['value'];
 		}
 		else{
 		$this->id=null;
@@ -191,7 +188,7 @@ $this->value = $row['value'];
 	function create(){
 	 
 		// query to insert record
-		$query ="INSERT INTO ".$this->table_name." SET name=:name,type=:type,text=:text,value=:value";
+		$query ="INSERT INTO ".$this->table_name." SET name=:name,type=:type,text=:text";
 
 		// prepare query
 		$stmt = $this->conn->prepare($query);
@@ -201,14 +198,12 @@ $this->value = $row['value'];
 $this->name=htmlspecialchars(strip_tags($this->name));
 $this->type=htmlspecialchars(strip_tags($this->type));
 $this->text=htmlspecialchars(strip_tags($this->text));
-$this->value=htmlspecialchars(strip_tags($this->value));
 	 
 		// bind values
 		
 $stmt->bindParam(":name", $this->name);
 $stmt->bindParam(":type", $this->type);
 $stmt->bindParam(":text", $this->text);
-$stmt->bindParam(":value", $this->value);
 	 
 		// execute query
 		if($stmt->execute()){
@@ -225,7 +220,7 @@ $stmt->bindParam(":value", $this->value);
 	function update(){
 	 
 		// update query
-		$query ="UPDATE ".$this->table_name." SET name=:name,type=:type,text=:text,value=:value WHERE id = :id";
+		$query ="UPDATE ".$this->table_name." SET name=:name,type=:type,text=:text WHERE id = :id";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);
@@ -235,7 +230,6 @@ $stmt->bindParam(":value", $this->value);
 $this->name=htmlspecialchars(strip_tags($this->name));
 $this->type=htmlspecialchars(strip_tags($this->type));
 $this->text=htmlspecialchars(strip_tags($this->text));
-$this->value=htmlspecialchars(strip_tags($this->value));
 $this->id=htmlspecialchars(strip_tags($this->id));
 	 
 		// bind new values
@@ -243,7 +237,6 @@ $this->id=htmlspecialchars(strip_tags($this->id));
 $stmt->bindParam(":name", $this->name);
 $stmt->bindParam(":type", $this->type);
 $stmt->bindParam(":text", $this->text);
-$stmt->bindParam(":value", $this->value);
 $stmt->bindParam(":id", $this->id);
 	 
 		$stmt->execute();

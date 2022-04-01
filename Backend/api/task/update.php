@@ -24,7 +24,7 @@ $task->id = $data->id;
 
 if(
 !isEmpty($data->name)
-&&!isEmpty($data->duedate)
+&&!isEmpty($data->startdate)
 &&!isEmpty($data->enddate)
 &&!isEmpty($data->date_recurrency)
 &&!isEmpty($data->time_recurrency)
@@ -36,10 +36,10 @@ $task->name = $data->name;
 } else { 
 $task->name = '';
 }
-if(!isEmpty($data->duedate)) { 
-$task->duedate = $data->duedate;
+if(!isEmpty($data->startdate)) { 
+$task->startdate = $data->startdate;
 } else { 
-$task->duedate = '';
+$task->startdate = '';
 }
 if(!isEmpty($data->enddate)) { 
 $task->enddate = $data->enddate;

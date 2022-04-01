@@ -40,7 +40,7 @@ if($num>0){
             
 "id" => $id,
 "name" => html_entity_decode($name),
-"duedate" => $duedate,
+"startdate" => $startdate,
 "enddate" => $enddate,
 "date_recurrency" => $date_recurrency,
 "time_recurrency" => $time_recurrency

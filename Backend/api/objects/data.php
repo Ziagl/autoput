@@ -1,16 +1,22 @@
 <?php
-class Task_Job{
+class Data{
  
     // database connection and table name
     private $conn;
-    private $table_name = "task_job";
+    private $table_name = "data";
 	public $pageNo = 1;
 	public  $no_of_records_per_page=30;
     // object properties
 	
 public $id;
 public $task_id;
+public $task_name;
+public $time;
 public $job_id;
+public $job_name;
+public $text;
+public $type;
+public $value;
     
  
     // constructor with $db as database connection
@@ -44,7 +50,7 @@ public $job_id;
 				$where=$where." ". $orAnd ." LOWER(t." . $columnName . ") ".$columnLogic." :".$columnName;
 			}
 		}
-		$query = "SELECT count(1) as total FROM ". $this->table_name ." t  join task b on t.task_id = b.id  join job w on t.job_id = w.id  WHERE ".$where."";
+		$query = "SELECT count(1) as total FROM ". $this->table_name ." t  WHERE ".$where."";
 		
 		$stmt = $this->conn->prepare($query);
 		$paramCount=1;
@@ -70,14 +76,14 @@ public $job_id;
 			return 0;
 		}
 	}
-	// read task_job
+	// read data
 	function read(){
 		if(isset($_GET["pageNo"])){
 		$this->pageNo=$_GET["pageNo"];
 		}
 		$offset = ($this->pageNo-1) * $this->no_of_records_per_page; 
 		// select all query
-		$query = "SELECT  b.name, w.name, t.* FROM ". $this->table_name ." t  join task b on t.task_id = b.id  join job w on t.job_id = w.id  LIMIT ".$offset." , ". $this->no_of_records_per_page."";
+		$query = "SELECT  t.* FROM ". $this->table_name ." t  LIMIT ".$offset." , ". $this->no_of_records_per_page."";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);
@@ -95,7 +101,7 @@ public $job_id;
 		$offset = ($this->pageNo-1) * $this->no_of_records_per_page; 
 
 		// select all query
-		$query = "SELECT  b.name, w.name, t.* FROM ". $this->table_name ." t  join task b on t.task_id = b.id  join job w on t.job_id = w.id  WHERE t.id LIKE ? OR t.task_id LIKE ?  OR b.name LIKE ?  OR t.job_id LIKE ?  OR w.name LIKE ?  LIMIT ".$offset." , ". $this->no_of_records_per_page."";
+		$query = "SELECT  t.* FROM ". $this->table_name ." t  WHERE t.id LIKE ? OR t.task_id LIKE ?  OR t.task_name LIKE ?  OR t.time LIKE ?  OR t.job_id LIKE ?  OR t.job_name LIKE ?  OR t.text LIKE ?  OR t.type LIKE ?  OR t.value LIKE ?  LIMIT ".$offset." , ". $this->no_of_records_per_page."";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);
@@ -107,6 +113,10 @@ $stmt->bindParam(2, $searchKey);
 $stmt->bindParam(3, $searchKey);
 $stmt->bindParam(4, $searchKey);
 $stmt->bindParam(5, $searchKey);
+$stmt->bindParam(6, $searchKey);
+$stmt->bindParam(7, $searchKey);
+$stmt->bindParam(8, $searchKey);
+$stmt->bindParam(9, $searchKey);
 	 
 		// execute query
 		$stmt->execute();
@@ -129,7 +139,7 @@ $stmt->bindParam(5, $searchKey);
 				$where=$where." ". $orAnd ." LOWER(t." . $columnName . ") ".$columnLogic." :".$columnName;
 			}
 		}
-		$query = "SELECT  b.name, w.name, t.* FROM ". $this->table_name ." t  join task b on t.task_id = b.id  join job w on t.job_id = w.id  WHERE ".$where." LIMIT ".$offset." , ". $this->no_of_records_per_page."";
+		$query = "SELECT  t.* FROM ". $this->table_name ." t  WHERE ".$where." LIMIT ".$offset." , ". $this->no_of_records_per_page."";
 		
 		$stmt = $this->conn->prepare($query);
 		$paramCount=1;
@@ -155,7 +165,7 @@ $stmt->bindParam(5, $searchKey);
 	function readOne(){
 	 
 		// query to read single record
-		$query = "SELECT  b.name, w.name, t.* FROM ". $this->table_name ." t  join task b on t.task_id = b.id  join job w on t.job_id = w.id  WHERE t.id = ? LIMIT 0,1";
+		$query = "SELECT  t.* FROM ". $this->table_name ." t  WHERE t.id = ? LIMIT 0,1";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);
@@ -174,9 +184,13 @@ $stmt->bindParam(5, $searchKey);
 		
 $this->id = $row['id'];
 $this->task_id = $row['task_id'];
-$this->name = $row['name'];
+$this->task_name = $row['task_name'];
+$this->time = $row['time'];
 $this->job_id = $row['job_id'];
-$this->name = $row['name'];
+$this->job_name = $row['job_name'];
+$this->text = $row['text'];
+$this->type = $row['type'];
+$this->value = $row['value'];
 		}
 		else{
 		$this->id=null;
@@ -185,11 +199,11 @@ $this->name = $row['name'];
 
 	
 	
-	// create task_job
+	// create data
 	function create(){
 	 
 		// query to insert record
-		$query ="INSERT INTO ".$this->table_name." SET task_id=:task_id,job_id=:job_id";
+		$query ="INSERT INTO ".$this->table_name." SET task_id=:task_id,task_name=:task_name,time=:time,job_id=:job_id,job_name=:job_name,text=:text,type=:type,value=:value";
 
 		// prepare query
 		$stmt = $this->conn->prepare($query);
@@ -197,12 +211,24 @@ $this->name = $row['name'];
 		// sanitize
 		
 $this->task_id=htmlspecialchars(strip_tags($this->task_id));
+$this->task_name=htmlspecialchars(strip_tags($this->task_name));
+$this->time=htmlspecialchars(strip_tags($this->time));
 $this->job_id=htmlspecialchars(strip_tags($this->job_id));
+$this->job_name=htmlspecialchars(strip_tags($this->job_name));
+$this->text=htmlspecialchars(strip_tags($this->text));
+$this->type=htmlspecialchars(strip_tags($this->type));
+$this->value=htmlspecialchars(strip_tags($this->value));
 	 
 		// bind values
 		
 $stmt->bindParam(":task_id", $this->task_id);
+$stmt->bindParam(":task_name", $this->task_name);
+$stmt->bindParam(":time", $this->time);
 $stmt->bindParam(":job_id", $this->job_id);
+$stmt->bindParam(":job_name", $this->job_name);
+$stmt->bindParam(":text", $this->text);
+$stmt->bindParam(":type", $this->type);
+$stmt->bindParam(":value", $this->value);
 	 
 		// execute query
 		if($stmt->execute()){
@@ -215,11 +241,11 @@ $stmt->bindParam(":job_id", $this->job_id);
 	
 	
 	
-	// update the task_job
+	// update the data
 	function update(){
 	 
 		// update query
-		$query ="UPDATE ".$this->table_name." SET task_id=:task_id,job_id=:job_id WHERE id = :id";
+		$query ="UPDATE ".$this->table_name." SET task_id=:task_id,task_name=:task_name,time=:time,job_id=:job_id,job_name=:job_name,text=:text,type=:type,value=:value WHERE id = :id";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);
@@ -227,13 +253,25 @@ $stmt->bindParam(":job_id", $this->job_id);
 		// sanitize
 		
 $this->task_id=htmlspecialchars(strip_tags($this->task_id));
+$this->task_name=htmlspecialchars(strip_tags($this->task_name));
+$this->time=htmlspecialchars(strip_tags($this->time));
 $this->job_id=htmlspecialchars(strip_tags($this->job_id));
+$this->job_name=htmlspecialchars(strip_tags($this->job_name));
+$this->text=htmlspecialchars(strip_tags($this->text));
+$this->type=htmlspecialchars(strip_tags($this->type));
+$this->value=htmlspecialchars(strip_tags($this->value));
 $this->id=htmlspecialchars(strip_tags($this->id));
 	 
 		// bind new values
 		
 $stmt->bindParam(":task_id", $this->task_id);
+$stmt->bindParam(":task_name", $this->task_name);
+$stmt->bindParam(":time", $this->time);
 $stmt->bindParam(":job_id", $this->job_id);
+$stmt->bindParam(":job_name", $this->job_name);
+$stmt->bindParam(":text", $this->text);
+$stmt->bindParam(":type", $this->type);
+$stmt->bindParam(":value", $this->value);
 $stmt->bindParam(":id", $this->id);
 	 
 		$stmt->execute();
@@ -280,7 +318,7 @@ $stmt->bindParam(":id", $this->id);
 				   return false;
 				}
 	}
-	// delete the task_job
+	// delete the data
 	function delete(){
 	 
 		// delete query
@@ -305,36 +343,6 @@ $stmt->bindParam(":id", $this->id);
 	}
 
 	
-function readBytask_id(){
-
-if (isset($_GET["pageNo"]))
-{
-$this->pageNo =$_GET["pageNo"]; } 
-$offset = ($this->pageNo - 1) * $this->no_of_records_per_page;
-$query = "SELECT  b.name, w.name, t.* FROM ". $this->table_name ." t  join task b on t.task_id = b.id  join job w on t.job_id = w.id  WHERE t.task_id = ? LIMIT ".$offset." , ". $this->no_of_records_per_page."";
-
-$stmt = $this->conn->prepare( $query );
-$stmt->bindParam(1, $this->task_id);
-
-$stmt->execute();
-return $stmt;
-}
-
-function readByjob_id(){
-
-if (isset($_GET["pageNo"]))
-{
-$this->pageNo =$_GET["pageNo"]; } 
-$offset = ($this->pageNo - 1) * $this->no_of_records_per_page;
-$query = "SELECT  b.name, w.name, t.* FROM ". $this->table_name ." t  join task b on t.task_id = b.id  join job w on t.job_id = w.id  WHERE t.job_id = ? LIMIT ".$offset." , ". $this->no_of_records_per_page."";
-
-$stmt = $this->conn->prepare( $query );
-$stmt->bindParam(1, $this->job_id);
-
-$stmt->execute();
-return $stmt;
-}
-
 	//extra function will be generated for one to many relations
 }
 ?>

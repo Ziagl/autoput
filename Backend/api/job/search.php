@@ -43,8 +43,7 @@ if($num>0){
 "id" => $id,
 "name" => html_entity_decode($name),
 "type" => $type,
-"text" => $text,
-"value" => html_entity_decode($value)
+"text" => $text
         );
  
         array_push($job_arr["records"], $job_item);

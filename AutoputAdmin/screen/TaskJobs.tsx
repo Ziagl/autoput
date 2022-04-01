@@ -37,7 +37,7 @@ class TaskJobs extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      task: { id: props.route.params.id, name: "", duedate: "2022-01-01 00:00:00", enddate: "2022-01-01 00:00:00", date_recurrency: 0, time_recurrency: 0 },
+      task: { id: props.route.params.id, name: "", startdate: "2022-01-01 00:00:00", enddate: "2022-01-01 00:00:00", date_recurrency: 0, time_recurrency: 0 },
       jobs: [],
       taskJobs: [],
       loading: props.route.params.id === 0 ? false : true,

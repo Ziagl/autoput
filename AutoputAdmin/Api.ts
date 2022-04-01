@@ -23,7 +23,7 @@ interface TokenResponse extends Response {
 export interface Task {
   id: number,
   name: string,
-  duedate: string,
+  startdate: string,
   enddate: string,
   date_recurrency: number,
   time_recurrency: number,
@@ -97,7 +97,7 @@ export class Api {
     this._password = "";
     this._token = { access_token: "", expires_in: 0, token_type: "" };
     this._tasks = { pageno: 0, pagesize: 0, total_count: 0, records: [] };
-    this._task = { id: 0, name: "", duedate: "2022-01-01 00:00:00", enddate: "2022-01-01 00:00:00", date_recurrency: 0, time_recurrency: 0 };
+    this._task = { id: 0, name: "", startdate: "2022-01-01 00:00:00", enddate: "2022-01-01 00:00:00", date_recurrency: 0, time_recurrency: 0 };
     this._jobs = { pageno: 0, pagesize: 0, total_count: 0, records: [] };
     this._job = { id: 0, name: "", type: 0, text: "", value: "" };
     this._taskjobs = [];
@@ -187,7 +187,13 @@ export class Api {
 
   // update job
   public async updateJob(job: Job): Promise<void> {
-    await fetch(this._apiUrl + "/job/update.php", this.prepareRequest(JSON.stringify(job)))
+    let data = {
+      id: "" + job.id,
+      name: job.name,
+      type: job.type,
+      text: job.text,
+    }
+    await fetch(this._apiUrl + "/job/update.php", this.prepareRequest(JSON.stringify(data)))
       .then(response => console.log(response))
       .catch(error => console.log('error', error));
   }
@@ -224,7 +230,7 @@ export class Api {
   public async addTask(task: Task): Promise<void> {
     let data = {
       name: task.name,
-      duedate: task.duedate,
+      duedate: task.startdate,
       enddate: task.enddate,
       date_recurrency: task.date_recurrency,
       time_recurrency: task.time_recurrency,
@@ -244,7 +250,15 @@ export class Api {
 
   // update task
   public async updateTask(task: Task): Promise<void> {
-    await fetch(this._apiUrl + "/task/update.php", this.prepareRequest(JSON.stringify(task)))
+    let data = {
+      id: "" + task.id,
+      name: task.name,
+      startdate: task.startdate,
+      enddate: task.enddate,
+      date_recurrency: "" + task.date_recurrency,
+      time_recurrency: "" + task.time_recurrency,
+    }
+    await fetch(this._apiUrl + "/task/update.php", this.prepareRequest(JSON.stringify(data)))
       .then(response => console.log(response))
       .catch(error => console.log('error', error));
   }

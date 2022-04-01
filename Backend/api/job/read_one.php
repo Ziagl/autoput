@@ -29,8 +29,7 @@ if($job->id!=null){
 "id" => $job->id,
 "name" => html_entity_decode($job->name),
 "type" => $job->type,
-"text" => $job->text,
-"value" => html_entity_decode($job->value)
+"text" => $job->text
     );
  
     // set response code - 200 OK

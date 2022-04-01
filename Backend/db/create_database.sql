@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 30. Mrz 2022 um 10:24
+-- Erstellungszeit: 31. Mrz 2022 um 14:57
 -- Server-Version: 5.7.37-nmm1-log
 -- PHP-Version: 7.4.28
 
@@ -27,6 +27,26 @@ USE `d038dd1e`;
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `data`
+--
+
+DROP TABLE IF EXISTS `data`;
+CREATE TABLE IF NOT EXISTS `data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `task_id` int(11) NOT NULL,
+  `task_name` text NOT NULL,
+  `time` datetime NOT NULL,
+  `job_id` int(11) NOT NULL,
+  `job_name` text NOT NULL,
+  `text` text NOT NULL,
+  `type` int(11) NOT NULL,
+  `value` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `job`
 --
 
@@ -36,7 +56,6 @@ CREATE TABLE IF NOT EXISTS `job` (
   `name` varchar(255) NOT NULL,
   `type` int(1) NOT NULL,
   `text` text NOT NULL,
-  `value` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -50,7 +69,7 @@ DROP TABLE IF EXISTS `task`;
 CREATE TABLE IF NOT EXISTS `task` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `duedate` datetime NOT NULL,
+  `startdate` datetime NOT NULL,
   `enddate` datetime NOT NULL,
   `date_recurrency` int(1) NOT NULL,
   `time_recurrency` int(1) NOT NULL,
@@ -100,3 +119,5 @@ ALTER TABLE `task_job`
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
