@@ -1,53 +1,95 @@
 {
-    "tasks":
+    "data":
     [
         {
-            "name":"Task1",
-            "duedate":"2022-01-31 12:00",
-            "details":
-            [
-                {
-                    "name":"Detail1",
-                    "type":"text",
-                    "text":"Das ist ein ganz langer Text..."
-                },
-                {
-                    "name":"Detail2",
-                    "type":"bool",
-                    "text":"Alles erledigt?",
-                    "checked":false
-                },
-                {
-                    "name":"Detail3",
-                    "type":"image",
-                    "text":"Bitte ein Bild als Beweis:",
-                    "value":""
-                }
-            ]
+            "task_id":"1",
+            "task_name":"Task1",
+            "job_id":"1",
+            "job_name":"Detail1",
+            "text":"Das ist ein ganz langer Text...",
+            "time":"2022-03-31 17:45:00",
+            "type":"0",
+            "value":null
         },
         {
-            "name":"Task2",
-            "duedate":"2022-01-31 14:00",
-            "details":
-            [
-                {
-                    "name":"Detail1",
-                    "type":"text",
-                    "text":"Das ist ein ganz langer Text..."
-                },
-                {
-                    "name":"Detail2",
-                    "type":"bool",
-                    "text":"Alles erledigt?",
-                    "checked":false
-                },
-                {
-                    "name":"Detail3",
-                    "type":"image",
-                    "text":"Bitte ein Bild als Beweis:",
-                    "value":""
-                }
-            ]
+            "task_id":"1",
+            "task_name":"Task1",
+            "job_id":"3",
+            "job_name":"Detail3",
+            "text":"Bitte ein Bild als Beweis:",
+            "time":"2022-03-31 17:45:00",
+            "type":"2",
+            "value":null
+        },
+        {
+            "task_id":"1",
+            "task_name":"Task1",
+            "job_id":"13",
+            "job_name":"testname",
+            "text":"testtext",
+            "time":"2022-03-31 17:45:00",
+            "type":"0",
+            "value":null
+        },
+        {
+            "task_id":"1",
+            "task_name":"Task1",
+            "job_id":"1",
+            "job_name":"Detail1",
+            "text":"Das ist ein ganz langer Text...",
+            "time":"2022-03-31 18:45:00",
+            "type":"0",
+            "value":null
+        },
+        {
+            "task_id":"1",
+            "task_name":"Task1",
+            "job_id":"3",
+            "job_name":"Detail3",
+            "text":"Bitte ein Bild als Beweis:",
+            "time":"2022-03-31 18:45:00",
+            "type":"2",
+            "value":null
+        },
+        {
+            "task_id":"1",
+            "task_name":"Task1",
+            "job_id":"13",
+            "job_name":"testname",
+            "text":"testtext",
+            "time":"2022-03-31 18:45:00",
+            "type":"0",
+            "value":null
+        },
+        {
+            "task_id":"1",
+            "task_name":"Task1",
+            "job_id":"1",
+            "job_name":"Detail1",
+            "text":"Das ist ein ganz langer Text...",
+            "time":"2022-03-31 19:45:00",
+            "type":"0",
+            "value":null
+        },
+        {
+            "task_id":"1",
+            "task_name":"Task1",
+            "job_id":"3",
+            "job_name":"Detail3",
+            "text":"Bitte ein Bild als Beweis:",
+            "time":"2022-03-31 19:45:00",
+            "type":"2",
+            "value":null
+        },
+        {
+            "task_id":"1",
+            "task_name":"Task1",
+            "job_id":"13",
+            "job_name":"testname",
+            "text":"testtext",
+            "time":"2022-03-31 19:45:00",
+            "type":"0",
+            "value":null
         }
     ]
 }
