@@ -2,93 +2,25 @@
     "data":
     [
         {
+            "id":"12",
             "task_id":"1",
             "task_name":"Task1",
             "job_id":"1",
             "job_name":"Detail1",
             "text":"Das ist ein ganz langer Text...",
-            "time":"2022-03-31 17:45:00",
+            "time":"2022-04-01 17:45:00",
             "type":"0",
             "value":null
         },
         {
+            "id":"13",
             "task_id":"1",
             "task_name":"Task1",
             "job_id":"3",
             "job_name":"Detail3",
             "text":"Bitte ein Bild als Beweis:",
-            "time":"2022-03-31 17:45:00",
+            "time":"2022-04-01 17:45:00",
             "type":"2",
-            "value":null
-        },
-        {
-            "task_id":"1",
-            "task_name":"Task1",
-            "job_id":"13",
-            "job_name":"testname",
-            "text":"testtext",
-            "time":"2022-03-31 17:45:00",
-            "type":"0",
-            "value":null
-        },
-        {
-            "task_id":"1",
-            "task_name":"Task1",
-            "job_id":"1",
-            "job_name":"Detail1",
-            "text":"Das ist ein ganz langer Text...",
-            "time":"2022-03-31 18:45:00",
-            "type":"0",
-            "value":null
-        },
-        {
-            "task_id":"1",
-            "task_name":"Task1",
-            "job_id":"3",
-            "job_name":"Detail3",
-            "text":"Bitte ein Bild als Beweis:",
-            "time":"2022-03-31 18:45:00",
-            "type":"2",
-            "value":null
-        },
-        {
-            "task_id":"1",
-            "task_name":"Task1",
-            "job_id":"13",
-            "job_name":"testname",
-            "text":"testtext",
-            "time":"2022-03-31 18:45:00",
-            "type":"0",
-            "value":null
-        },
-        {
-            "task_id":"1",
-            "task_name":"Task1",
-            "job_id":"1",
-            "job_name":"Detail1",
-            "text":"Das ist ein ganz langer Text...",
-            "time":"2022-03-31 19:45:00",
-            "type":"0",
-            "value":null
-        },
-        {
-            "task_id":"1",
-            "task_name":"Task1",
-            "job_id":"3",
-            "job_name":"Detail3",
-            "text":"Bitte ein Bild als Beweis:",
-            "time":"2022-03-31 19:45:00",
-            "type":"2",
-            "value":null
-        },
-        {
-            "task_id":"1",
-            "task_name":"Task1",
-            "job_id":"13",
-            "job_name":"testname",
-            "text":"testtext",
-            "time":"2022-03-31 19:45:00",
-            "type":"0",
             "value":null
         }
     ]

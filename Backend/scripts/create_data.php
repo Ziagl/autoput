@@ -172,7 +172,7 @@ while($task = $task_result->fetch())
 }
 
 // save to database
-foreach($data_array['data'] as $data)
+foreach($data_array['data'] as &$data)
 {
     $stmt = $db->prepare("INSERT INTO data SET task_id=:task_id, task_name=:task_name, time=:time, job_id=:job_id, job_name=:job_name, text=:text, type=:type");
     $stmt->bindParam(":task_id", $data->task_id);
@@ -182,7 +182,10 @@ foreach($data_array['data'] as $data)
     $stmt->bindParam(":job_name", $data->job_name);
     $stmt->bindParam(":text", $data->text);
     $stmt->bindParam(":type", $data->type);
-    $stmt->execute();
+    if($stmt->execute())
+    {
+        $data->id=$db->lastInsertId();
+    }
 }
 
 // save json

@@ -1,18 +1,24 @@
 import React from 'react';
 import {
   SafeAreaView,
-  StyleSheet,
+  Alert,
   ActivityIndicator,
   Image,
   Dimensions,
   Text,
 } from 'react-native';
 
-interface Props { }
+import { Api } from '../Api';
+import styles from '../Style';
+
+// components
+import Loader from '../components/Loader';
+
+interface Props {
+  navigation: any,
+}
 interface State {
-  imgUrl: string,
-  imgWidth: number,
-  imgHeight: number,
+  loading: boolean,
 }
 
 class Home extends React.Component<Props, State> {
@@ -20,42 +26,34 @@ class Home extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      imgUrl: '../img/Logo.png',
-      imgWidth: 0,
-      imgHeight: 0,
+      loading: true,
+    }
+    this.init();
+  }
+
+  async init() {
+    let response = await Api.getInstance().getJson();
+    if (!response) {
+      Alert.alert(
+        "API Error",
+        "Please check your internet connection!",
+        [
+          { text: "Try again", onPress: () => this.init() },
+        ]
+      );
+    }
+    else {
+      this.props.navigation.navigate("TaskList");
     }
   }
 
-  componentDidMount() {
-    // get image metadata
-    const imgProps = Image.resolveAssetSource(require('../img/Logo.png'));
-    // calculate image width and height 
-    const screenWidth = Dimensions.get('window').width
-    const scaleFactor = imgProps.width / screenWidth
-    const imageHeight = imgProps.height / scaleFactor
-    this.setState({ imgWidth: screenWidth, imgHeight: imageHeight })
-  }
-
   render() {
-    const { imgWidth, imgHeight } = this.state
-
     return (
       <SafeAreaView style={styles.container}>
-        <Image
-          source={require('../img/Logo.png')}
-          style={{ width: imgWidth, height: imgHeight, marginTop: (Dimensions.get('window').height / 2) - (imgHeight + 80) / 2 }}
-        />
-        <ActivityIndicator size={80} color="#ed1c2e" />
+        <Loader visible={this.state.loading} />
       </SafeAreaView>
     );
   }
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-  },
-});
 
 export default Home;

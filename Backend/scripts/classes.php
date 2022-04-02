@@ -18,6 +18,7 @@ class Task{
 }
 
 class Data{
+    public $id;
     public $task_id;
     public $task_name;
     public $job_id;

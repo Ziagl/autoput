@@ -1,21 +1,21 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { TaskData } from '../data/Metadata'
+import { ListElement } from '../Api'
 
 interface Props {
-  data: TaskData;
+  data: ListElement;
 }
 
 class TaskListObject extends React.Component<Props, {}> {
   constructor(props: Props) {
     super(props);
-    console.log("TaskListObject: " + props);
+    console.log(props);
   }
 
   render() {
     return (
       <View style={styles.listItemView}>
-        <Text style={styles.text}>Test: {this.props.data.name} {this.props.data.duedate}</Text>
+        <Text style={styles.text}>Test: {this.props.data.task_name + " " + this.props.data.id} {this.props.data.duedate}</Text>
       </View>
     );
   }

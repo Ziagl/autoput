@@ -11,7 +11,9 @@ import {
   TouchableHighlight
 } from 'react-native';
 import TaskDetail from './TaskDetail';
-import { Tasks, TaskData } from '../data/Metadata';
+
+import { Api, List, ListElement } from '../Api';
+import styles from '../Style';
 
 // components
 import TaskListObject from '../components/TaskListObject'
@@ -21,7 +23,7 @@ interface Props {
   navigation: any,
 }
 interface State {
-  list: Tasks | undefined,
+  list: List | undefined,
 }
 
 class TaskList extends React.Component<Props, State> {
@@ -31,29 +33,11 @@ class TaskList extends React.Component<Props, State> {
     this.state = {
       list: undefined
     }
+    this.init();
   }
 
-  componentDidMount() {
-    this.api();
-  }
-
-  async api(): Promise<void> {
-    try {
-      const url = "https://ziegelwanger-edv.at/autoput/data.json";
-      const data = await (await fetch(url)).json();
-      this.setState({ list: data });
-      console.log(this.state.list);
-    } catch (e) {
-      console.log("Error: " + e);
-      Alert.alert(
-        "API Error",
-        "Please check your internet connection!",
-        [
-          { text: "OK", onPress: () => this.api() },
-        ]
-      );
-    }
-    return;
+  async init() {
+    this.setState({ list: await Api.getInstance().getData() });
   }
 
   render() {
@@ -61,10 +45,10 @@ class TaskList extends React.Component<Props, State> {
       <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollView}>
           {this.state.list != undefined ? (
-            this.state.list.tasks.map((element: TaskData) => {
+            this.state.list.data.map((element: ListElement) => {
               return (
                 <TouchableHighlight
-                  key={element.name}
+                  key={element.id}
                   activeOpacity={0.6}
                   underlayColor="#DDDDDD"
                   onPress={() => this.props.navigation.navigate("TaskDetail", { data: element })}
@@ -81,26 +65,5 @@ class TaskList extends React.Component<Props, State> {
     );
   }
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  scrollView: {
-
-  },
-  listItem: {
-    padding: 15,
-    backgroundColor: '#f8f8f8',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
-  },
-  text: {
-    color: 'black',
-    fontSize: 23,
-    textAlign: 'center',
-  },
-});
 
 export default TaskList;

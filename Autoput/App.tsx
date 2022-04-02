@@ -20,10 +20,11 @@ class App extends React.Component<Props, State> {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="TaskList">
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
             name="Home"
             component={Home}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="TaskList"
