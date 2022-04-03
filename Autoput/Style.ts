@@ -20,4 +20,10 @@ export default StyleSheet.create({
     fontSize: 23,
     textAlign: 'center',
   },
+  img: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

@@ -61,10 +61,6 @@ class TaskList extends React.Component<Props, State> {
     this.setState({ tasks: this.state.tasks });
   }
 
-  wait = (timeout) => {
-    return new Promise(resolve => setTimeout(resolve, timeout));
-  }
-
   onAddJobs = (id: number) => {
     this.props.navigation.navigate("TaskJobs", { id: id });
   }

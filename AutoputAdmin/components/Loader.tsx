@@ -7,7 +7,7 @@ const Loader = ({ visible }) => {
     <AnimatedLoader
       visible={visible}
       overlayColor="rgba(238,22,42,0.75)"
-      source={require("../loader.json")}
+      source={require("../assets/loader.json")}
       animationStyle={styles.loader}
       speed={1}
     >

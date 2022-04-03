@@ -1,5 +1,21 @@
 import { format } from 'date-fns';
 
+export interface Job {
+  id: number,
+  job_id: number,
+  name: string,
+  type: number,
+  text: string,
+  value: string,
+}
+
+export interface Task {
+  task_id: number,
+  name: string,
+  time: string,
+  jobs: Job[],
+}
+
 export interface ListElement {
   id: number;
   task_id: number;
@@ -10,10 +26,6 @@ export interface ListElement {
   time: Date;
   type: number;
   value: string;
-};
-
-export interface List {
-  data: ListElement[];
 };
 
 // API class as singleton
@@ -49,12 +61,15 @@ export class Api {
         })
         .catch(error => console.log('error', error));
     }
+    else {
+      success = true;
+    }
     return success;
   }
 
-  public async getData(): Promise<any> {
+  public async getData(): Promise<ListElement[]> {
     // get json data if not already there
     await this.getJson();
-    return this._json;
+    return this._json.data;
   }
 }

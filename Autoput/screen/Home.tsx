@@ -2,10 +2,6 @@ import React from 'react';
 import {
   SafeAreaView,
   Alert,
-  ActivityIndicator,
-  Image,
-  Dimensions,
-  Text,
 } from 'react-native';
 
 import { Api } from '../Api';

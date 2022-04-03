@@ -29,6 +29,7 @@ class App extends React.Component<Props, State> {
           <Stack.Screen
             name="TaskList"
             component={TaskList}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="TaskDetail"
