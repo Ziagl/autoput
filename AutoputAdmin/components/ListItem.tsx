@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const ListItem = ({ item, functions }) => {
   return (
-    <TouchableOpacity style={styles.listItem} key={item.id}>
+    <TouchableOpacity style={styles.listItem}>
       <View style={styles.listItemView}>
         <Text style={styles.listItemText}>{item.name}</Text>
         <View style={styles.listItemButtons}>

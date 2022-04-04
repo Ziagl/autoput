@@ -116,6 +116,7 @@ class TaskJobs extends React.Component<Props, State> {
           <FlatList
             data={this.state.taskJobs}
             renderItem={({ item }) => <ListItem item={item} functions={[{ callback: this.onDeleteJob, icon: "remove", color: "firebrick" }]} />}
+            keyExtractor={(item) => "" + item.id}
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refreshing}

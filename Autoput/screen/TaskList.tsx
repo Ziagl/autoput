@@ -5,19 +5,18 @@ import {
   ImageBackground,
   RefreshControl,
 } from 'react-native';
-import TaskDetail from './TaskDetail';
 
-import { Api, ListElement } from '../Api';
+import { Api, Task } from '../Api';
 import styles from '../Style';
 
 // components
-import ListItem from '../components/ListItem'
+import TaskListItem from '../components/TaskListItem'
 
 interface Props {
   navigation: any,
 }
 interface State {
-  list: ListElement[],
+  list: Task[],
   refreshing: boolean,
 }
 
@@ -33,12 +32,16 @@ class TaskList extends React.Component<Props, State> {
   }
 
   async init() {
-    this.setState({ list: await Api.getInstance().getData(), refreshing: false });
+    this.setState({ list: await Api.getInstance().getTasks(), refreshing: false });
   }
 
   onRefresh = () => {
     this.setState({ refreshing: true });
     this.init();
+  }
+
+  onClick = (task: Task) => {
+    this.props.navigation.navigate("TaskDetail", { task: task });
   }
 
   render() {
@@ -50,7 +53,8 @@ class TaskList extends React.Component<Props, State> {
           style={styles.img}>
           <FlatList
             data={this.state.list}
-            renderItem={({ item }) => <ListItem item={item} functions={[]} />}
+            renderItem={({ item }) => <TaskListItem item={item} callback={this.onClick} />}
+            keyExtractor={(item) => "" + item.jobs[0].id}
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refreshing}

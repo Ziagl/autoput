@@ -4,18 +4,26 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const ListItem = ({ item, functions }) => {
+const TaskListItem = ({ item, callback }) => {
+  let ok = false;
+  item.jobs.map((job) => {
+    if (job.value != null) {
+      ok = true;
+    }
+  });
   return (
-    <TouchableOpacity style={styles.listItem} key={item.id}>
+    <TouchableOpacity
+      style={styles.listItem}
+      onPress={() => callback(item)}
+    >
       <View style={styles.listItemView}>
-        <Text style={styles.listItemText}>{item.task_name + " " + format(DateConverter.dBDateToJSDate(item.time), "HH:mm")}</Text>
+        <Text style={styles.listItemText}>{item.name + " " + format(DateConverter.dBDateToJSDate(item.time), "HH:mm")}</Text>
         <View style={styles.listItemButtons}>
-          {functions === undefined ? null : functions.map(element => (
-            <>
-              <Text>     </Text>
-              <Icon name={element.icon} size={30} color={element.color} onPress={() => element.callback(item.id)} />
-            </>
-          ))}
+          {ok === false ? (
+            <Icon name={"remove"} size={30} color={"firebrick"} />
+          ) : (
+            <Icon name={"check"} size={30} color={"green"} />
+          )}
         </View>
       </View>
     </TouchableOpacity>
@@ -47,4 +55,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ListItem;
+export default TaskListItem;

@@ -85,6 +85,7 @@ class TaskList extends React.Component<Props, State> {
           <FlatList
             data={this.state.tasks}
             renderItem={({ item }) => <ListItem item={item} functions={[{ callback: this.onAddJobs, icon: "handshake-o", color: "blue" }, { callback: this.onEditTask, icon: "edit", color: "green" }, { callback: this.onDeleteTask, icon: "remove", color: "firebrick" }]} />}
+            keyExtractor={(item) => "" + item.id}
             refreshControl={
               <RefreshControl
                 refreshing={this.state.refreshing}

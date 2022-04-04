@@ -28,8 +28,8 @@ class Home extends React.Component<Props, State> {
   }
 
   async init() {
-    let response = await Api.getInstance().getJson();
-    if (!response) {
+    let response = await Api.getInstance().getTasks();
+    if (response === undefined) {
       Alert.alert(
         "API Error",
         "Please check your internet connection!",
