@@ -11,9 +11,22 @@ export default StyleSheet.create({
   },
   listItem: {
     padding: 15,
-    backgroundColor: '#f8f8f8',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
+    backgroundColor: '#f8f8f8aa',
+    borderBottomWidth: 2,
+    borderColor: '#000000aa',
+    width: '100%',
+    alignItems: 'center',
+  },
+  listItemView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: "100%",
+  },
+  listItemText: {
+    color: 'black',
+    fontSize: 20,
+    fontWeight: "500",
   },
   text: {
     color: 'black',

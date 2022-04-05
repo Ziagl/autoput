@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  View,
   SafeAreaView,
   StyleSheet,
   ScrollView,
@@ -45,7 +46,9 @@ class TaskDetail extends React.Component<Props, State> {
           source={require('../assets/login.jpg')}
           resizeMode="stretch"
           style={styles.img}>
-          <Text style={styles.text}>{data.name}</Text>
+          <View style={styles.listItemView && styles.listItem}>
+            <Text style={styles.listItemText}>{data.name}</Text>
+          </View>
           <FlatList
             data={data.jobs}
             renderItem={({ item }) => <JobListItem item={item} callback={this.onClick} />}

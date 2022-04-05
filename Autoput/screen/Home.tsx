@@ -22,9 +22,13 @@ class Home extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      loading: true,
+      loading: false,
     }
     this.init();
+  }
+
+  componentDidMount() {
+    this.setState({ loading: true });
   }
 
   async init() {
@@ -39,6 +43,7 @@ class Home extends React.Component<Props, State> {
       );
     }
     else {
+      this.setState({ loading: false });
       this.props.navigation.navigate("TaskList");
     }
   }
