@@ -4,30 +4,44 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const TaskListItem = ({ item, callback }) => {
-  let ok = false;
-  item.jobs.map((job) => {
-    if (job.value != null) {
-      ok = true;
-    }
-  });
-  return (
-    <TouchableOpacity
-      style={styles.listItem}
-      onPress={() => callback(item)}
-    >
-      <View style={styles.listItemView}>
-        <Text style={styles.listItemText}>{item.name + " " + format(DateConverter.dBDateToJSDate(item.time), "HH:mm")}</Text>
-        <View style={styles.listItemButtons}>
-          {ok === false ? (
-            <Icon name={"remove"} size={30} color={"firebrick"} />
-          ) : (
-            <Icon name={"check"} size={30} color={"green"} />
-          )}
+interface Props {
+  item: any,
+  callback: Function,
+}
+interface State {
+
+}
+
+class TaskListItem extends React.Component<Props, State>{
+  constructor(props: Props) {
+    super(props);
+  }
+
+  render() {
+    let ok = false;
+    this.props.item.jobs.map((job) => {
+      if (job.value != null) {
+        ok = true;
+      }
+    });
+    return (
+      <TouchableOpacity
+        style={styles.listItem}
+        onPress={() => this.props.callback(this.props.item)}
+      >
+        <View style={styles.listItemView}>
+          <Text style={styles.listItemText}>{this.props.item.name + " " + format(DateConverter.dBDateToJSDate(this.props.item.time), "HH:mm")}</Text>
+          <View style={styles.listItemButtons}>
+            {ok === false ? (
+              <Icon name={"remove"} size={30} color={"firebrick"} />
+            ) : (
+              <Icon name={"check"} size={30} color={"green"} />
+            )}
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
+      </TouchableOpacity>
+    );
+  }
 };
 
 const styles = StyleSheet.create({

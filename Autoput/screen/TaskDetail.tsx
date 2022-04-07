@@ -9,7 +9,7 @@ import {
   FlatList,
 } from 'react-native';
 
-import { Job } from '../Api';
+import { Task } from '../Api';
 import styles from '../Style';
 
 // components
@@ -38,8 +38,6 @@ class TaskDetail extends React.Component<Props, State> {
 
   render() {
     const data = this.props.route.params.task;
-    console.log("TaskDetail123:");
-    console.log(this.state.task);
     return (
       <SafeAreaView style={styles.container}>
         <ImageBackground
@@ -51,40 +49,14 @@ class TaskDetail extends React.Component<Props, State> {
           </View>
           <FlatList
             data={data.jobs}
-            renderItem={({ item }) => <JobListItem item={item} callback={this.onClick} />}
+            renderItem={({ item }) => <JobListItem item={item} callback={this.onSave} />}
             keyExtractor={(item) => "" + item.id}
+            style={{ width: '100%' }}
           />
         </ImageBackground>
       </SafeAreaView>
     );
   }
 };
-
-/*
-
-
-<FlatList
-            data={this.state.list}
-            renderItem={({ item }) => <TaskListItem item={item} callback={this.onClick} />}
-            keyExtractor={(item) => "" + item.jobs[0].id}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this.onRefresh}
-              />
-            }
-          />
-
-
-                <ScrollView contentContainerStyle={styles.scrollView}>
-                  <Text style={styles.text}>{data.name}</Text>
-                  {this.state.task.jobs.map((element: Job) => {
-                    return (
-                      <TaskDetailObject key={element.name} data={element} />
-                    );
-                  })
-                  }
-                </ScrollView>
-*/
 
 export default TaskDetail;

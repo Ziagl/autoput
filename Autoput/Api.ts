@@ -118,7 +118,7 @@ export class Api {
       job.job_id = element.job_id;
       job.name = element.job_name;
       job.text = element.text;
-      job.type = element.type;
+      job.type = parseInt(element.type);
       job.value = null;
       lastTask.jobs.push(job);
     });
