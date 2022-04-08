@@ -32,18 +32,6 @@ export class Task {
   }
 }
 
-interface ListElement {
-  id: number;
-  task_id: number;
-  task_name: string;
-  job_id: number;
-  job_name: string;
-  text: string;
-  time: string;
-  type: number;
-  value: string;
-};
-
 // API class as singleton
 export class Api {
   private static _instance: Api;
@@ -52,7 +40,7 @@ export class Api {
   private _timestamp: Date;
 
   private constructor() {
-    this._apiUrl = "https://ziegelwanger-edv.at/autoput/data.json";
+    this._apiUrl = "https://ziegelwanger-edv.at/autoput/";
     this._json = null;
     this._timestamp = new Date("1900-01-01");
   }
@@ -71,7 +59,7 @@ export class Api {
     let now = new Date();
     let success = false;
     if (this._json === null || format(this._timestamp, 'dddd-mm-yy') != format(now, 'dddd-mm-yy')) {
-      await fetch(this._apiUrl)
+      await fetch(this._apiUrl + "data.json")
         .then(response => response.json())
         .then(result => {
           this._json = result;
@@ -84,6 +72,19 @@ export class Api {
       success = true;
     }
     return success;
+  }
+
+  /*
+   * saves value to server
+   */
+  public async saveJob(id: number, value: string): Promise<void> {
+    let data = {
+      id: "" + id,
+      value: value,
+    }
+    await fetch(this._apiUrl + "api/data/update.php", this.prepareRequest(JSON.stringify(data)))
+      .then(response => console.log(response))
+      .catch(error => console.log('error', error));
   }
 
   /*
@@ -126,5 +127,16 @@ export class Api {
       tasks.push(lastTask);
     }
     return tasks;
+  }
+
+  // prepare RequestInit object with data (GET or POST) and header
+  private prepareRequest(data: string = ""): RequestInit {
+    var requestOptions: RequestInit;
+    requestOptions = {
+      method: 'POST',
+      body: data,
+      redirect: 'follow',
+    };
+    return requestOptions;
   }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { Job } from '../Api';
+import { Api, Job } from '../Api';
 import JobListDetail from './JobListDetail'
 
 interface Props {
@@ -23,12 +23,14 @@ class JobListItem extends React.Component<Props, State>{
   }
 
   saveValue = (value: string) => {
-    // save value on local state
-    this.setState(
-      { job: { ...this.state.job, value: value } }
-    );
-    // save value to database
-
+    if (this.state.job.value != value) {
+      // save value on local state
+      this.setState(
+        { job: { ...this.state.job, value: value } }
+      );
+      // save value to database
+      Api.getInstance().saveJob(this.state.job.id, value);
+    }
   }
 
   render() {
