@@ -14,6 +14,7 @@ import TaskListItem from '../components/TaskListItem'
 
 interface Props {
   navigation: any,
+  route: any,
 }
 interface State {
   list: Task[],
@@ -25,10 +26,9 @@ class TaskList extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      list: [],
+      list: this.props.route.params.list,
       refreshing: false,
     }
-    this.init();
   }
 
   async init() {

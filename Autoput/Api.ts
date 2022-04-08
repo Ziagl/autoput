@@ -36,12 +36,10 @@ export class Task {
 export class Api {
   private static _instance: Api;
   private _apiUrl: string;
-  private _data: any;
   private _pagesize: number;
 
   private constructor() {
     this._apiUrl = "https://ziegelwanger-edv.at/autoput/";
-    this._data = null;
     this._pagesize = 1000;
   }
 
@@ -55,31 +53,18 @@ export class Api {
   /*
    * gets data from server and stores it in local variable
    */
-  private async getData(): Promise<boolean> {
-    let success = false;
-    /*if (this._data === null) {
-      await fetch(this._apiUrl + "api/data/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
-        .then(response => response.json())
-        .then(result => {
-          this._data = result.document.records;
-          console.log(this._data);
-          success = true;
-        })
-        .catch(error => console.log('error', error));
-    }
-    else {
-      success = true;
-    }
-    return success;*/
+  private async getData(): Promise<any> {
+    let data = undefined;
     await fetch(this._apiUrl + "api/data/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
       .then(response => response.json())
       .then(result => {
-        this._data = result.document.records;
-        console.log(this._data);
-        success = true;
+        console.log(result.document.records);
+        data = result.document.records;
       })
-      .catch(error => console.log('error', error));
-    return success;
+      .catch(error => {
+        console.log('error', error);
+      });
+    return data;
   }
 
   /*
@@ -100,13 +85,13 @@ export class Api {
    */
   public async getTasks(): Promise<Task[]> {
     // get data if not already there
-    let success = await this.getData();
-    if (!success) {
-      return undefined;
+    let response = await this.getData();
+    if (response === undefined) {
+      return response;
     }
     let tasks: Task[] = [];
     let lastTask: Task = null;
-    this._data.data.map((element) => {
+    response.map((element) => {
       // create new task if needed
       if (lastTask === null ||
         (element.task_id != lastTask.task_id || (

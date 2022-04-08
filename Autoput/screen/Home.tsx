@@ -44,7 +44,7 @@ class Home extends React.Component<Props, State> {
     }
     else {
       this.setState({ loading: false });
-      this.props.navigation.navigate("TaskList");
+      this.props.navigation.navigate("TaskList", { list: response });
     }
   }
 
