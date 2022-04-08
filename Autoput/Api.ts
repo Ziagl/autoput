@@ -36,13 +36,13 @@ export class Task {
 export class Api {
   private static _instance: Api;
   private _apiUrl: string;
-  private _json: any;
-  private _timestamp: Date;
+  private _data: any;
+  private _pagesize: number;
 
   private constructor() {
     this._apiUrl = "https://ziegelwanger-edv.at/autoput/";
-    this._json = null;
-    this._timestamp = new Date("1900-01-01");
+    this._data = null;
+    this._pagesize = 1000;
   }
 
   public static getInstance(): Api {
@@ -53,17 +53,16 @@ export class Api {
   }
 
   /*
-   * gets json from server and stores it in local variable
+   * gets data from server and stores it in local variable
    */
-  private async getJson(): Promise<boolean> {
-    let now = new Date();
+  private async getData(): Promise<boolean> {
     let success = false;
-    if (this._json === null || format(this._timestamp, 'dddd-mm-yy') != format(now, 'dddd-mm-yy')) {
-      await fetch(this._apiUrl + "data.json")
+    /*if (this._data === null) {
+      await fetch(this._apiUrl + "api/data/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
         .then(response => response.json())
         .then(result => {
-          this._json = result;
-          this._timestamp = now;
+          this._data = result.document.records;
+          console.log(this._data);
           success = true;
         })
         .catch(error => console.log('error', error));
@@ -71,6 +70,15 @@ export class Api {
     else {
       success = true;
     }
+    return success;*/
+    await fetch(this._apiUrl + "api/data/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
+      .then(response => response.json())
+      .then(result => {
+        this._data = result.document.records;
+        console.log(this._data);
+        success = true;
+      })
+      .catch(error => console.log('error', error));
     return success;
   }
 
@@ -88,17 +96,17 @@ export class Api {
   }
 
   /*
-   * converts raw json data into task object array
+   * converts raw data into task object array
    */
   public async getTasks(): Promise<Task[]> {
-    // get json data if not already there
-    let success = await this.getJson();
+    // get data if not already there
+    let success = await this.getData();
     if (!success) {
       return undefined;
     }
     let tasks: Task[] = [];
     let lastTask: Task = null;
-    this._json.data.map((element) => {
+    this._data.data.map((element) => {
       // create new task if needed
       if (lastTask === null ||
         (element.task_id != lastTask.task_id || (
@@ -132,11 +140,20 @@ export class Api {
   // prepare RequestInit object with data (GET or POST) and header
   private prepareRequest(data: string = ""): RequestInit {
     var requestOptions: RequestInit;
-    requestOptions = {
-      method: 'POST',
-      body: data,
-      redirect: 'follow',
-    };
+    if (data.length > 0) {
+      console.log(data);
+      requestOptions = {
+        method: 'POST',
+        body: data,
+        redirect: 'follow',
+      };
+    }
+    else {
+      requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+      };
+    }
     return requestOptions;
   }
 }

@@ -187,8 +187,3 @@ foreach($data_array['data'] as &$data)
         $data->id=$db->lastInsertId();
     }
 }
-
-// save json
-$fp = fopen('../data.json', 'w');
-fwrite($fp, json_encode($data_array));
-fclose($fp);

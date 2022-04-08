@@ -83,7 +83,7 @@ public $value;
 		}
 		$offset = ($this->pageNo-1) * $this->no_of_records_per_page; 
 		// select all query
-		$query = "SELECT  t.* FROM ". $this->table_name ." t  LIMIT ".$offset." , ". $this->no_of_records_per_page."";
+		$query = "SELECT  t.* FROM ". $this->table_name ." t  WHERE DATE(time) = CURDATE() LIMIT ".$offset." , ". $this->no_of_records_per_page."";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);
@@ -245,32 +245,18 @@ $stmt->bindParam(":value", $this->value);
 	function update(){
 	 
 		// update query
-		$query ="UPDATE ".$this->table_name." SET task_id=:task_id,task_name=:task_name,time=:time,job_id=:job_id,job_name=:job_name,text=:text,type=:type,value=:value WHERE id = :id";
+		$query ="UPDATE ".$this->table_name." SET value=:value WHERE id = :id";
 	 
 		// prepare query statement
 		$stmt = $this->conn->prepare($query);
 	 
 		// sanitize
 		
-$this->task_id=htmlspecialchars(strip_tags($this->task_id));
-$this->task_name=htmlspecialchars(strip_tags($this->task_name));
-$this->time=htmlspecialchars(strip_tags($this->time));
-$this->job_id=htmlspecialchars(strip_tags($this->job_id));
-$this->job_name=htmlspecialchars(strip_tags($this->job_name));
-$this->text=htmlspecialchars(strip_tags($this->text));
-$this->type=htmlspecialchars(strip_tags($this->type));
 $this->value=htmlspecialchars(strip_tags($this->value));
 $this->id=htmlspecialchars(strip_tags($this->id));
 	 
 		// bind new values
 		
-$stmt->bindParam(":task_id", $this->task_id);
-$stmt->bindParam(":task_name", $this->task_name);
-$stmt->bindParam(":time", $this->time);
-$stmt->bindParam(":job_id", $this->job_id);
-$stmt->bindParam(":job_name", $this->job_name);
-$stmt->bindParam(":text", $this->text);
-$stmt->bindParam(":type", $this->type);
 $stmt->bindParam(":value", $this->value);
 $stmt->bindParam(":id", $this->id);
 	 

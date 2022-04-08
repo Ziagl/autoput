@@ -5,7 +5,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 include_once '../config/database.php';
 include_once '../objects/data.php';
- include_once '../token/validatetoken.php';
+//include_once '../token/validatetoken.php';
 // instantiate database and data object
 $database = new Database();
 $db = $database->getConnection();
