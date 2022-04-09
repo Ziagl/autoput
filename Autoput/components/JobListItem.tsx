@@ -26,10 +26,14 @@ class JobListItem extends React.Component<Props, State>{
     if (this.state.job.value != value) {
       // save value on local state
       this.setState(
-        { job: { ...this.state.job, value: value } }
+        { job: { ...this.state.job, value: value } },
+        () => {
+          // save value to database
+          Api.getInstance().saveJob(this.state.job.id, value);
+          // callback changed data
+          this.props.callback(this.state.job);
+        }
       );
-      // save value to database
-      Api.getInstance().saveJob(this.state.job.id, value);
     }
   }
 

@@ -2,14 +2,13 @@ import React from 'react';
 import {
   View,
   SafeAreaView,
-  StyleSheet,
-  ScrollView,
   Text,
   ImageBackground,
   FlatList,
+  NativeEventEmitter,
 } from 'react-native';
 
-import { Task } from '../Api';
+import { Task, Job } from '../Api';
 import styles from '../Style';
 
 // components
@@ -24,20 +23,39 @@ interface State {
 }
 
 class TaskDetail extends React.Component<Props, State> {
+  private _eventEmitter: NativeEventEmitter;
+
   constructor(props: Props) {
     super(props);
+
+    console.log(props.route.params.task);
+
+    this._eventEmitter = new NativeEventEmitter;
 
     this.state = {
       task: props.route.params.task,
     }
   }
 
-  onSave = () => {
-    console.log("TaskDetail onSave");
+  onSave = (job: Job) => {
+    // update one job from sub component change
+    let jobArray = this.state.task.jobs.slice();
+    let index = 0;
+    for (let i = 0; i < jobArray.length; ++i) {
+      if (jobArray[i].id == job.id) {
+        index = i;
+        break;
+      }
+    }
+    jobArray[index] = job;
+    // save value on local state
+    this.setState(
+      { task: { ...this.state.task, jobs: jobArray } },
+      () => this._eventEmitter.emit("TaskList.onSave", this.state.task)
+    );
   }
 
   render() {
-    const data = this.props.route.params.task;
     return (
       <SafeAreaView style={styles.container}>
         <ImageBackground
@@ -45,10 +63,10 @@ class TaskDetail extends React.Component<Props, State> {
           resizeMode="stretch"
           style={styles.img}>
           <View style={styles.listItemView && styles.listItem}>
-            <Text style={styles.listItemText}>{data.name}</Text>
+            <Text style={styles.listItemText}>{this.state.task.name}</Text>
           </View>
           <FlatList
-            data={data.jobs}
+            data={this.state.task.jobs}
             renderItem={({ item }) => <JobListItem item={item} callback={this.onSave} />}
             keyExtractor={(item) => "" + item.id}
             style={{ width: '100%' }}

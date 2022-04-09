@@ -24,9 +24,10 @@ class JobListDetail extends React.Component<Props, State>{
 
   saveValue = (value: string) => {
     this.setState(
-      { job: { ...this.state.job, value: value } }
+      { job: { ...this.state.job, value: value } },
+      () => this.props.callback(value)
     );
-    this.props.callback(value);
+
   }
 
   /*
@@ -116,7 +117,6 @@ class JobListDetail extends React.Component<Props, State>{
         );
     }
   }
-
 };
 
 const styles = StyleSheet.create({

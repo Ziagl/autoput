@@ -1,5 +1,3 @@
-import { format } from 'date-fns';
-
 export class Job {
   public id: number;
   public job_id: number;
@@ -58,12 +56,10 @@ export class Api {
     await fetch(this._apiUrl + "api/data/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
       .then(response => response.json())
       .then(result => {
-        console.log(result.document.records);
+        //console.log(result.document.records);
         data = result.document.records;
       })
-      .catch(error => {
-        console.log('error', error);
-      });
+      .catch(error => console.log('error', error));
     return data;
   }
 
@@ -76,7 +72,7 @@ export class Api {
       value: value,
     }
     await fetch(this._apiUrl + "api/data/update.php", this.prepareRequest(JSON.stringify(data)))
-      .then(response => console.log(response))
+      //.then(response => console.log(response))
       .catch(error => console.log('error', error));
   }
 

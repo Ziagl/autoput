@@ -4,13 +4,13 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import { Task } from '../Api';
+
 interface Props {
-  item: any,
+  item: Task,
   callback: Function,
 }
-interface State {
-
-}
+interface State { }
 
 class TaskListItem extends React.Component<Props, State>{
   constructor(props: Props) {
@@ -18,11 +18,9 @@ class TaskListItem extends React.Component<Props, State>{
   }
 
   render() {
-    let ok = false;
-    this.props.item.jobs.map((job) => {
-      if (job.value != null) {
-        ok = true;
-      }
+    let ok = true;
+    this.props.item.jobs.map((element) => {
+      if (element.value === null) ok = false;
     });
     return (
       <TouchableOpacity
@@ -32,10 +30,10 @@ class TaskListItem extends React.Component<Props, State>{
         <View style={styles.listItemView}>
           <Text style={styles.listItemText}>{this.props.item.name + " " + format(DateConverter.dBDateToJSDate(this.props.item.time), "HH:mm")}</Text>
           <View style={styles.listItemButtons}>
-            {ok === false ? (
-              <Icon name={"remove"} size={30} color={"firebrick"} />
-            ) : (
+            {ok ? (
               <Icon name={"check"} size={30} color={"green"} />
+            ) : (
+              <Icon name={"remove"} size={30} color={"firebrick"} />
             )}
           </View>
         </View>

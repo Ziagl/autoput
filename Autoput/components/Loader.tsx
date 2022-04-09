@@ -5,9 +5,7 @@ import AnimatedLoader from "react-native-animated-loader";
 interface Props {
   visible: boolean,
 }
-interface State {
-
-}
+interface State { }
 
 class Loader extends React.Component<Props, State>{
   constructor(props: Props) {
@@ -27,7 +25,6 @@ class Loader extends React.Component<Props, State>{
       </AnimatedLoader>
     );
   }
-
 };
 
 const styles = StyleSheet.create({
