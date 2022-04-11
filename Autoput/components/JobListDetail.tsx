@@ -3,7 +3,7 @@ import { Text, StyleSheet, Button, Image, Alert } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import { launchCamera } from 'react-native-image-picker';
 
-import { Job } from '../Api';
+import { Api, Job } from '../Api';
 
 interface Props {
   item: Job,
@@ -39,6 +39,7 @@ class JobListDetail extends React.Component<Props, State>{
       maxWidth: 2000,
       maxHeight: 2000,
       cameraType: 'back',
+      includeBase64: true,
     });
 
     if (result.errorMessage != undefined) {
@@ -52,7 +53,7 @@ class JobListDetail extends React.Component<Props, State>{
     }
 
     if (result.assets) {
-      this.saveValue(result.assets[0].uri as string);
+      this.saveValue(await Api.getInstance().uploadPhoto(result.assets[0]));
     }
   }
 

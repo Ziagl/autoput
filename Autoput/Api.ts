@@ -1,3 +1,5 @@
+import uuid from 'react-native-uuid';
+
 export class Job {
   public id: number;
   public job_id: number;
@@ -56,8 +58,11 @@ export class Api {
     await fetch(this._apiUrl + "api/data/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
       .then(response => response.json())
       .then(result => {
-        //console.log(result.document.records);
-        data = result.document.records;
+        if (result.document === "") {
+          data = [];
+        } else {
+          data = result.document.records;
+        }
       })
       .catch(error => console.log('error', error));
     return data;
@@ -117,6 +122,31 @@ export class Api {
     }
     return tasks;
   }
+
+  public async uploadPhoto(image: any): Promise<string> {
+    let filename = uuid.v4() + ".jpg";
+    let ret = "";
+
+    await fetch(this._apiUrl + 'scripts/upload.php', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        filename: filename,
+        image: image.base64,
+      }),
+    })
+      .then((response) => {
+        ret = filename;
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
+
+    return ret;
+  };
 
   // prepare RequestInit object with data (GET or POST) and header
   private prepareRequest(data: string = ""): RequestInit {
