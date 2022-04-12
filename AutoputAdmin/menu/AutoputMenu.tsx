@@ -29,8 +29,6 @@ class AutoputMenu extends React.Component<Props, State> {
   showMenu = () => { this.setState({ isVisible: true }) }
 
   render() {
-    let _menu = null;
-
     return (
       <View style={styles.menu}>
         <Menu
