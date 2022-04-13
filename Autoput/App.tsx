@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screen/Home';
 import TaskList from './screen/TaskList';
 import TaskDetail from './screen/TaskDetail';
+import Settings from './screen/Settings';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +35,10 @@ class App extends React.Component<Props, State> {
           <Stack.Screen
             name="TaskDetail"
             component={TaskDetail}
+          />
+          <Stack.Screen
+            name="Settings"
+            component={Settings}
           />
         </Stack.Navigator>
       </NavigationContainer>

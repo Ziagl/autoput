@@ -28,8 +28,6 @@ class TaskDetail extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    console.log(props.route.params.task);
-
     this._eventEmitter = new NativeEventEmitter;
 
     this.state = {

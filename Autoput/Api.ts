@@ -39,7 +39,7 @@ export class Api {
   private _pagesize: number;
 
   private constructor() {
-    this._apiUrl = "https://ziegelwanger-edv.at/autoput/";
+    this._apiUrl = "";
     this._pagesize = 1000;
   }
 
@@ -48,6 +48,10 @@ export class Api {
       Api._instance = new Api();
     }
     return Api._instance;
+  }
+
+  public setUrl(url: string) {
+    this._apiUrl = url;
   }
 
   /*
