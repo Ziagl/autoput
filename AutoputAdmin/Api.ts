@@ -92,7 +92,7 @@ export class Api {
   private _pagesize: number;
 
   private constructor() {
-    this._apiUrl = "https://ziegelwanger-edv.at/autoput/api";
+    this._apiUrl = "";
     this._username = "";
     this._password = "";
     this._token = { access_token: "", expires_in: 0, token_type: "" };
@@ -109,6 +109,10 @@ export class Api {
       Api._instance = new Api();
     }
     return Api._instance;
+  }
+
+  public setUrl(url: string) {
+    this._apiUrl = url;
   }
 
   public isLoggedIn(): boolean {

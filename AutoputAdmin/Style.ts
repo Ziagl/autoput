@@ -121,5 +121,13 @@ export default StyleSheet.create({
     marginTop: 20,
     fontSize: 30,
     fontWeight: '500',
-  }
+  },
+  settingsText: {
+    color: 'black',
+    fontSize: 23,
+    textAlign: 'left',
+  },
+  scrollView: {
+
+  },
 });

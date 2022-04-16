@@ -5,8 +5,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Alert,
+  NativeEventEmitter,
+  EmitterSubscription,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { Api } from '../Api';
@@ -22,30 +24,69 @@ interface State {
 }
 
 class Login extends React.Component<Props, State> {
+  private _eventEmitter: NativeEventEmitter;
+  private _emitterSubscription: EmitterSubscription;
+
   constructor(props: Props) {
     super(props);
+
+    this._emitterSubscription = null;
+    this._eventEmitter = new NativeEventEmitter;
 
     this.state = {
       username: "",
       password: "",
       errorMessage: "",
     }
+    this.init();
+  }
+
+  componentDidMount() {
+    // Attach listeners on mount
+    if (this._emitterSubscription == null) {
+      this._emitterSubscription = this._eventEmitter.addListener('Home.onUpdate', (e) => this.onUpdate(e))
+    }
+  }
+
+  componentWillUnmount() {
+    // Remove listeners on unmount
+    if (this._emitterSubscription != null) {
+      this._emitterSubscription.remove();
+    }
+  }
+
+  onUpdate = (e: any) => {
+    this.init();
+  }
+
+  navigateToSettings = () => {
+    this.props.navigation.navigate("Settings");
+  }
+
+  async init() {
+    const savedUrl = await AsyncStorage.getItem('url');
+    if (savedUrl === null) {
+      this.navigateToSettings();
+    } else {
+      Api.getInstance().setUrl(savedUrl);
+    }
   }
 
   onChangeUsername = textValue => this.setState({ username: textValue });
   onChangePassword = textValue => this.setState({ password: textValue });
   onLogin = async () => {
+    this.init();
     this.setState({ errorMessage: "" });
     if (await Api.getInstance().ping()) {
       if (await Api.getInstance().login(this.state.username, this.state.password)) {
         this.props.navigation.navigate("TaskList");
       }
       else {
-        this.setState({ errorMessage: "Username or Password wrong." });
+        this.setState({ errorMessage: "Username or password wrong." });
       }
     }
     else {
-      this.setState({ errorMessage: "Connection to Server failed." });
+      this.setState({ errorMessage: "Connection to server failed." });
     }
 
     setTimeout(() => { this.setState({ errorMessage: "" }) }, 5000);

@@ -9,6 +9,7 @@ import TaskDetail from './screen/TaskDetail';
 import JobList from './screen/JobList';
 import JobDetail from './screen/JobDetail';
 import TaskJobs from './screen/TaskJobs';
+import Settings from './screen/Settings';
 
 // menu
 import AutoputMenu from './menu/AutoputMenu';
@@ -63,6 +64,10 @@ class App extends React.Component<Props, State> {
           <Stack.Screen
             name="TaskJobs"
             component={TaskJobs}
+          />
+          <Stack.Screen
+            name="Settings"
+            component={Settings}
           />
         </Stack.Navigator>
       </NavigationContainer>
