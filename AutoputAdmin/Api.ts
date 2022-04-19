@@ -116,8 +116,6 @@ export class Api {
   }
 
   public isLoggedIn(): boolean {
-    console.log("access token:");
-    console.log(this._token.access_token);
     return this._token.access_token != "" && this._token.access_token != undefined ? true : false;
   }
 
@@ -145,10 +143,8 @@ export class Api {
     await fetch(this._apiUrl + "/job/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
       .then(response => response.json())
       .then(result => {
-        console.log(result);
         let jobResponse = result as JobsResponse;
         this._jobs = jobResponse.document as Jobs;
-        console.log("set jobs with data: " + JSON.stringify(this._jobs))
       })
       .catch(error => console.log('error', error));
     return this._jobs.records;
@@ -159,10 +155,8 @@ export class Api {
     await fetch(this._apiUrl + "/job/read_one.php?id=" + id, this.prepareRequest())
       .then(response => response.json())
       .then(result => {
-        console.log(result);
         let jobResponse = result as JobResponse;
         this._job = jobResponse.document as Job;
-        console.log("set job with data: " + JSON.stringify(this._job))
       })
       .catch(error => console.log('error', error));
     return this._job;
@@ -207,10 +201,8 @@ export class Api {
     await fetch(this._apiUrl + "/task/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
       .then(response => response.json())
       .then(result => {
-        console.log(result);
         let taskResponse = result as TasksResponse;
         this._tasks = taskResponse.document as Tasks;
-        console.log("set tasks with data: " + JSON.stringify(this._tasks))
       })
       .catch(error => console.log('error', error));
     return this._tasks.records;
@@ -221,10 +213,8 @@ export class Api {
     await fetch(this._apiUrl + "/task/read_one.php?id=" + id, this.prepareRequest())
       .then(response => response.json())
       .then(result => {
-        console.log(result);
         let taskResponse = result as TaskResponse;
         this._task = taskResponse.document as Task;
-        console.log("set task with data: " + JSON.stringify(this._task))
       })
       .catch(error => console.log('error', error));
     return this._task;
@@ -272,11 +262,9 @@ export class Api {
     await fetch(this._apiUrl + "/task_job/read_by_task_id.php?task_id=" + id, this.prepareRequest())
       .then(response => response.json())
       .then(result => {
-        console.log(result);
         let taskjobResponse = result as TaskJobsResponse;
         let taskjob = taskjobResponse.document as TaskJobs;
         this._taskjobs = taskjob.records;
-        console.log(this._taskjobs);
       })
       .catch(error => console.log('error', error));
     return this._taskjobs;
@@ -311,11 +299,8 @@ export class Api {
     fetch(this._apiUrl + "/token/generate.php", this.prepareRequest(data))
       .then(response => response.json())
       .then(result => {
-        console.log(result);
         let tokenResponse = result as TokenResponse;
-        console.log("tokenResult: " + JSON.stringify(tokenResponse));
         this._token = tokenResponse.document as Token;
-        console.log("set token with data: " + JSON.stringify(this._token))
         return this.isLoggedIn();
       })
       .catch(error => console.log('error', error));
@@ -325,7 +310,6 @@ export class Api {
   private prepareRequest(data: string = ""): RequestInit {
     var requestOptions: RequestInit;
     if (data.length > 0) {
-      console.log(data);
       requestOptions = {
         method: 'POST',
         headers: this.prepareHeaders(this.isLoggedIn()),

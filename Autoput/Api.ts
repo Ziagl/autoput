@@ -156,7 +156,6 @@ export class Api {
   private prepareRequest(data: string = ""): RequestInit {
     var requestOptions: RequestInit;
     if (data.length > 0) {
-      console.log(data);
       requestOptions = {
         method: 'POST',
         body: data,
