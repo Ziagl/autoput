@@ -64,37 +64,30 @@ class JobListDetail extends React.Component<Props, State>{
           setTimeout(() => this.saveValue('ok'), 5000);
         }
         return (
-          <>
-            <Text style={styles.textHeader}>{this.props.item.name}</Text>
-            <Text style={styles.text}>{this.props.item.text}</Text>
-          </>
+          <Text style={styles.text}>{this.props.item.text}</Text>
         );
       case 1: //bool
         // https://github.com/crazycodeboy/react-native-check-box
         return (
-          <>
-            <Text style={styles.textHeader}>{this.props.item.name}</Text>
-            <CheckBox
-              style={styles.checkbox}
-              rightTextStyle={styles.checkboxText}
-              rightText={this.props.item.text}
-              isChecked={this.state.job.value === 'true'}
-              onClick={() => {
-                if (this.state.job.value != 'true') {
-                  this.saveValue('true');
-                }
-                else {
-                  this.saveValue('false');
-                }
-              }}
-            />
-          </>
+          <CheckBox
+            style={styles.checkbox}
+            rightTextStyle={styles.checkboxText}
+            rightText={this.props.item.text}
+            isChecked={this.state.job.value === 'true'}
+            onClick={() => {
+              if (this.state.job.value != 'true') {
+                this.saveValue('true');
+              }
+              else {
+                this.saveValue('false');
+              }
+            }}
+          />
         );
       case 2: //image
         // https://github.com/react-native-image-picker/react-native-image-picker
         return (
           <>
-            <Text style={styles.textHeader}>{this.props.item.name}</Text>
             <Text style={styles.text}>{this.props.item.text}</Text>
             {this.state.job.value === null ? (
               <Button
@@ -148,13 +141,6 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 20,
     fontWeight: "500",
-  },
-  textHeader: {
-    flex: 1,
-    color: 'black',
-    fontSize: 28,
-    fontWeight: 'bold',
-    textAlign: 'left',
   },
   text: {
     flex: 1,

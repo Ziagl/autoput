@@ -63,7 +63,6 @@ class TaskList extends React.Component<Props, State> {
   }
 
   onSave = (task: Task) => {
-    console.log("TaskList onSave");
     // update one job from sub component change
     let taskArray = this.state.list.slice();
     let index = 0;

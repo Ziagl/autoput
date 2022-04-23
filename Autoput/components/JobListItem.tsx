@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   listItemText: {
     color: 'black',
-    fontSize: 20,
+    fontSize: 28,
     fontWeight: "500",
   },
 });

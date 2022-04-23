@@ -83,7 +83,6 @@ class Home extends React.Component<Props, State> {
   }
 
   render() {
-    console.log("render");
     return (
       <SafeAreaView style={styles.container}>
         <Loader visible={this.state.loading} />
