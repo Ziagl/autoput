@@ -17,7 +17,7 @@ class ListItem extends React.Component<Props, State>{
 
   render() {
     return (
-      <TouchableOpacity style={styles.listItem}>
+      <TouchableOpacity style={styles.listItem} key={this.props.item.id}>
         <View style={styles.listItemView}>
           <Text style={styles.listItemText}>{this.props.item.name}</Text>
           <View style={styles.listItemButtons}>

@@ -128,7 +128,7 @@ export class Api {
 
   public async ping(): Promise<boolean> {
     let success = false;
-    await fetch(this._apiUrl)
+    await fetch(this._apiUrl + "api/")
       .then(response => {
         if (response.status === 200) {
           success = true;
@@ -140,7 +140,7 @@ export class Api {
 
   // get list of jobs
   public async fetchJobs(): Promise<Job[]> {
-    await fetch(this._apiUrl + "/job/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
+    await fetch(this._apiUrl + "api/job/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
       .then(response => response.json())
       .then(result => {
         let jobResponse = result as JobsResponse;
@@ -152,7 +152,7 @@ export class Api {
 
   // get one job by id
   public async fetchJob(id: number): Promise<Job> {
-    await fetch(this._apiUrl + "/job/read_one.php?id=" + id, this.prepareRequest())
+    await fetch(this._apiUrl + "api/job/read_one.php?id=" + id, this.prepareRequest())
       .then(response => response.json())
       .then(result => {
         let jobResponse = result as JobResponse;
@@ -170,7 +170,7 @@ export class Api {
       text: job.text,
       value: job.value,
     }
-    await fetch(this._apiUrl + "/job/create.php", this.prepareRequest(JSON.stringify(data)))
+    await fetch(this._apiUrl + "api/job/create.php", this.prepareRequest(JSON.stringify(data)))
       .then(response => console.log(response))
       .catch(error => console.log('error', error));
   }
@@ -178,7 +178,7 @@ export class Api {
   // delete job
   public async deleteJob(id: number): Promise<void> {
     let data = { id: id };
-    await fetch(this._apiUrl + "/job/delete.php", this.prepareRequest(JSON.stringify(data)))
+    await fetch(this._apiUrl + "api/job/delete.php", this.prepareRequest(JSON.stringify(data)))
       .then(response => console.log(response))
       .catch(error => console.log('error', error));
   }
@@ -191,14 +191,14 @@ export class Api {
       type: job.type,
       text: job.text,
     }
-    await fetch(this._apiUrl + "/job/update.php", this.prepareRequest(JSON.stringify(data)))
+    await fetch(this._apiUrl + "api/job/update.php", this.prepareRequest(JSON.stringify(data)))
       .then(response => console.log(response))
       .catch(error => console.log('error', error));
   }
 
   // get list of tasks
   public async fetchTasks(): Promise<Task[]> {
-    await fetch(this._apiUrl + "/task/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
+    await fetch(this._apiUrl + "api/task/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
       .then(response => response.json())
       .then(result => {
         let taskResponse = result as TasksResponse;
@@ -210,7 +210,7 @@ export class Api {
 
   // get one task by id
   public async fetchTask(id: number): Promise<Task> {
-    await fetch(this._apiUrl + "/task/read_one.php?id=" + id, this.prepareRequest())
+    await fetch(this._apiUrl + "api/task/read_one.php?id=" + id, this.prepareRequest())
       .then(response => response.json())
       .then(result => {
         let taskResponse = result as TaskResponse;
@@ -229,7 +229,7 @@ export class Api {
       date_recurrency: task.date_recurrency,
       time_recurrency: task.time_recurrency,
     }
-    await fetch(this._apiUrl + "/task/create.php", this.prepareRequest(JSON.stringify(data)))
+    await fetch(this._apiUrl + "api/task/create.php", this.prepareRequest(JSON.stringify(data)))
       .then(response => console.log(response))
       .catch(error => console.log('error', error));
   }
@@ -237,7 +237,7 @@ export class Api {
   // delete task
   public async deleteTask(id: number): Promise<void> {
     let data = { id: id };
-    await fetch(this._apiUrl + "/task/delete.php", this.prepareRequest(JSON.stringify(data)))
+    await fetch(this._apiUrl + "api/task/delete.php", this.prepareRequest(JSON.stringify(data)))
       .then(response => console.log(response))
       .catch(error => console.log('error', error));
   }
@@ -252,14 +252,14 @@ export class Api {
       date_recurrency: "" + task.date_recurrency,
       time_recurrency: "" + task.time_recurrency,
     }
-    await fetch(this._apiUrl + "/task/update.php", this.prepareRequest(JSON.stringify(data)))
+    await fetch(this._apiUrl + "api/task/update.php", this.prepareRequest(JSON.stringify(data)))
       .then(response => console.log(response))
       .catch(error => console.log('error', error));
   }
 
   // fetch TaskJobs
   public async fetchTaskJobs(id: number): Promise<TaskJob[]> {
-    await fetch(this._apiUrl + "/task_job/read_by_task_id.php?task_id=" + id, this.prepareRequest())
+    await fetch(this._apiUrl + "api/task_job/read_by_task_id.php?task_id=" + id, this.prepareRequest())
       .then(response => response.json())
       .then(result => {
         let taskjobResponse = result as TaskJobsResponse;
@@ -273,7 +273,7 @@ export class Api {
   // delete TaskJob
   public async deleteTaskJob(id: number): Promise<void> {
     let data = { id: id };
-    await fetch(this._apiUrl + "/task_job/delete.php", this.prepareRequest(JSON.stringify(data)))
+    await fetch(this._apiUrl + "api/task_job/delete.php", this.prepareRequest(JSON.stringify(data)))
       .then(response => console.log(response))
       .catch(error => console.log('error', error));
   }
@@ -284,7 +284,7 @@ export class Api {
       task_id: task_id,
       job_id: job_id,
     }
-    await fetch(this._apiUrl + "/task_job/create.php", this.prepareRequest(JSON.stringify(data)))
+    await fetch(this._apiUrl + "api/task_job/create.php", this.prepareRequest(JSON.stringify(data)))
       .then(response => console.log(response))
       .catch(error => console.log('error', error));
   }
@@ -296,7 +296,7 @@ export class Api {
       "password": this._password,
     });
 
-    fetch(this._apiUrl + "/token/generate.php", this.prepareRequest(data))
+    fetch(this._apiUrl + "api/token/generate.php", this.prepareRequest(data))
       .then(response => response.json())
       .then(result => {
         let tokenResponse = result as TokenResponse;
