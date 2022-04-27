@@ -21,6 +21,7 @@ interface State {
   username: string,
   password: string,
   errorMessage: string,
+  demoMode: boolean,
 }
 
 class Login extends React.Component<Props, State> {
@@ -37,6 +38,7 @@ class Login extends React.Component<Props, State> {
       username: "",
       password: "",
       errorMessage: "",
+      demoMode: false,
     }
     this.init();
   }
@@ -44,7 +46,7 @@ class Login extends React.Component<Props, State> {
   componentDidMount() {
     // Attach listeners on mount
     if (this._emitterSubscription == null) {
-      this._emitterSubscription = this._eventEmitter.addListener('Home.onUpdate', (e) => this.onUpdate(e))
+      this._emitterSubscription = this._eventEmitter.addListener('Login.onUpdate', (e) => this.onUpdate(e))
     }
   }
 
@@ -65,10 +67,13 @@ class Login extends React.Component<Props, State> {
 
   async init() {
     const savedUrl = await AsyncStorage.getItem('url');
+    console.log(savedUrl);
     if (savedUrl === null) {
-      this.navigateToSettings();
+      //this.navigateToSettings();
+      this.setState({ demoMode: true });
     } else {
       Api.getInstance().setUrl(savedUrl);
+      this.setState({ demoMode: false });
     }
   }
 
@@ -91,6 +96,16 @@ class Login extends React.Component<Props, State> {
 
     setTimeout(() => { this.setState({ errorMessage: "" }) }, 5000);
   }
+  onLoginDemo = async () => {
+    if (Api.getInstance().demo()) {
+      this.props.navigation.navigate("TaskList");
+    }
+    else {
+      this.setState({ errorMessage: "No demo data found." });
+    }
+
+    setTimeout(() => { this.setState({ errorMessage: "" }) }, 5000);
+  }
 
   render() {
     return (
@@ -99,20 +114,35 @@ class Login extends React.Component<Props, State> {
           source={require('../assets/login.jpg')}
           resizeMode="stretch"
           style={styles.img}>
-          <TextInput
-            placeholder="Username"
-            placeholderTextColor="black"
-            style={styles.loginInput}
-            onChangeText={this.onChangeUsername} />
-          <TextInput
-            placeholder="Password"
-            placeholderTextColor="black"
-            secureTextEntry={true}
-            style={styles.loginInput}
-            onChangeText={this.onChangePassword} />
-          <TouchableOpacity style={styles.loginBtn} onPress={() => this.onLogin()}>
-            <Text style={styles.loginBtnText}><Icon name="sign-in" size={30} /> Login</Text>
-          </TouchableOpacity>
+          {this.state.demoMode === true ? (
+            <>
+              <TouchableOpacity style={styles.loginBtn} onPress={() => this.onLoginDemo()}>
+                <Text style={styles.loginBtnText}><Icon name="sign-in" size={30} /> Demo</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.loginBtn} onPress={() => this.navigateToSettings()}>
+                <Text style={styles.loginBtnText}><Icon name="gear" size={30} /> Settings</Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <TextInput
+                placeholder="Username"
+                placeholderTextColor="black"
+                style={styles.loginInput}
+                onChangeText={this.onChangeUsername}
+                textContentType="username" />
+              <TextInput
+                placeholder="Password"
+                placeholderTextColor="black"
+                secureTextEntry={true}
+                style={styles.loginInput}
+                onChangeText={this.onChangePassword}
+                textContentType="password" />
+              <TouchableOpacity style={styles.loginBtn} onPress={() => this.onLogin()}>
+                <Text style={styles.loginBtnText}><Icon name="sign-in" size={30} /> Login</Text>
+              </TouchableOpacity>
+            </>
+          )}
           <Text style={styles.loginError}>{this.state.errorMessage}</Text>
         </ImageBackground>
       </SafeAreaView>

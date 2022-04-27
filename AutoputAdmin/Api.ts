@@ -88,6 +88,7 @@ export class Api {
   private _job: Job;
   private _task: Task;
   private _taskjobs: TaskJob[];
+  private _demo: boolean;
 
   private _pagesize: number;
 
@@ -102,6 +103,7 @@ export class Api {
     this._job = { id: 0, name: "", type: 0, text: "", value: "" };
     this._taskjobs = [];
     this._pagesize = 1000;
+    this._demo = false;
   }
 
   public static getInstance(): Api {
@@ -113,10 +115,16 @@ export class Api {
 
   public setUrl(url: string) {
     this._apiUrl = url;
+    this._demo = false;
   }
 
   public isLoggedIn(): boolean {
     return this._token.access_token != "" && this._token.access_token != undefined ? true : false;
+  }
+
+  public demo(): boolean {
+    this._demo = true;
+    return this._demo;
   }
 
   public async login(username: string, password: string): Promise<boolean> {
@@ -140,14 +148,19 @@ export class Api {
 
   // get list of jobs
   public async fetchJobs(): Promise<Job[]> {
-    await fetch(this._apiUrl + "api/job/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
-      .then(response => response.json())
-      .then(result => {
-        let jobResponse = result as JobsResponse;
-        this._jobs = jobResponse.document as Jobs;
-      })
-      .catch(error => console.log('error', error));
-    return this._jobs.records;
+    if (this._demo) {
+      return;
+    }
+    else {
+      await fetch(this._apiUrl + "api/job/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
+        .then(response => response.json())
+        .then(result => {
+          let jobResponse = result as JobsResponse;
+          this._jobs = jobResponse.document as Jobs;
+        })
+        .catch(error => console.log('error', error));
+      return this._jobs.records;
+    }
   }
 
   // get one job by id
