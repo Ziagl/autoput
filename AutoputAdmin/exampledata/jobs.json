@@ -1,1 +1,0 @@
-[{"id": "1", "name": "Explanation", "text": "Every day you need to check if all doors are closed.", "type": "0"}, {"id": "2", "name": "Front door", "text": "Closed?", "type": "1"}, {"id": "3", "name": "Front door", "text": "Please add a current image of that door", "type": "2"}, {"id": "13", "name": "testname", "text": "testtext", "type": "0"}]

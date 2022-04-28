@@ -1,3 +1,5 @@
+import { Examples } from './Examples';
+
 interface Response {
   status: string,
   code: number,
@@ -149,7 +151,7 @@ export class Api {
   // get list of jobs
   public async fetchJobs(): Promise<Job[]> {
     if (this._demo) {
-      return;
+      return JSON.parse(Examples.getJobs());
     }
     else {
       await fetch(this._apiUrl + "api/job/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
@@ -211,14 +213,19 @@ export class Api {
 
   // get list of tasks
   public async fetchTasks(): Promise<Task[]> {
-    await fetch(this._apiUrl + "api/task/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
-      .then(response => response.json())
-      .then(result => {
-        let taskResponse = result as TasksResponse;
-        this._tasks = taskResponse.document as Tasks;
-      })
-      .catch(error => console.log('error', error));
-    return this._tasks.records;
+    if (this._demo) {
+      return JSON.parse(Examples.getTasks());
+    }
+    else {
+      await fetch(this._apiUrl + "api/task/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
+        .then(response => response.json())
+        .then(result => {
+          let taskResponse = result as TasksResponse;
+          this._tasks = taskResponse.document as Tasks;
+        })
+        .catch(error => console.log('error', error));
+      return this._tasks.records;
+    }
   }
 
   // get one task by id
