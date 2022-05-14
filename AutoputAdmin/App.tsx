@@ -48,22 +48,27 @@ class App extends React.Component<Props, State> {
           <Stack.Screen
             name="TaskList"
             component={TaskList}
+            options={{ headerTitle: "Tasks" }}
           />
           <Stack.Screen
             name="TaskDetail"
             component={TaskDetail}
+            options={{ headerTitle: "Task Details" }}
           />
           <Stack.Screen
             name="JobList"
             component={JobList}
+            options={{ headerTitle: "Jobs" }}
           />
           <Stack.Screen
             name="JobDetail"
             component={JobDetail}
+            options={{ headerTitle: "Job Details" }}
           />
           <Stack.Screen
             name="TaskJobs"
             component={TaskJobs}
+            options={{ headerTitle: "Tasks and Jobs" }}
           />
           <Stack.Screen
             name="Settings"

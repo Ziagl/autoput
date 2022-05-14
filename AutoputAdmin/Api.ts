@@ -91,7 +91,6 @@ export class Api {
   private _task: Task;
   private _taskjobs: TaskJob[];
   private _demo: boolean;
-
   private _pagesize: number;
 
   private constructor() {
@@ -230,14 +229,19 @@ export class Api {
 
   // get one task by id
   public async fetchTask(id: number): Promise<Task> {
-    await fetch(this._apiUrl + "api/task/read_one.php?id=" + id, this.prepareRequest())
-      .then(response => response.json())
-      .then(result => {
-        let taskResponse = result as TaskResponse;
-        this._task = taskResponse.document as Task;
-      })
-      .catch(error => console.log('error', error));
-    return this._task;
+    if (this._demo) {
+      return JSON.parse(Examples.getTask());
+    }
+    else {
+      await fetch(this._apiUrl + "api/task/read_one.php?id=" + id, this.prepareRequest())
+        .then(response => response.json())
+        .then(result => {
+          let taskResponse = result as TaskResponse;
+          this._task = taskResponse.document as Task;
+        })
+        .catch(error => console.log('error', error));
+      return this._task;
+    }
   }
 
   // add new task
@@ -279,15 +283,26 @@ export class Api {
 
   // fetch TaskJobs
   public async fetchTaskJobs(id: number): Promise<TaskJob[]> {
-    await fetch(this._apiUrl + "api/task_job/read_by_task_id.php?task_id=" + id, this.prepareRequest())
-      .then(response => response.json())
-      .then(result => {
-        let taskjobResponse = result as TaskJobsResponse;
-        let taskjob = taskjobResponse.document as TaskJobs;
-        this._taskjobs = taskjob.records;
-      })
-      .catch(error => console.log('error', error));
-    return this._taskjobs;
+    if (this._demo) {
+      if (id == 1) {
+        return JSON.parse(Examples.getTaskJobs());
+      }
+      else {
+        return undefined;
+      }
+    }
+    else {
+      await fetch(this._apiUrl + "api/task_job/read_by_task_id.php?task_id=" + id, this.prepareRequest())
+        .then(response => response.json())
+        .then(result => {
+          let taskjobResponse = result as TaskJobsResponse;
+          let taskjob = taskjobResponse.document as TaskJobs;
+          this._taskjobs = taskjob.records;
+        })
+        .catch(error => console.log('error', error));
+      console.log(this._taskjobs);
+      return this._taskjobs;
+    }
   }
 
   // delete TaskJob
