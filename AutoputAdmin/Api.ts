@@ -179,10 +179,10 @@ export class Api {
   // add new job
   public async addJob(job: Job): Promise<void> {
     let data = {
-      name: job.name,
-      type: "" + job.type,
-      text: job.text,
-      value: job.value,
+      name: job.name.toString(),
+      type: job.type.toString(),
+      text: job.text.toString(),
+      value: job.value.toString(),
     }
     await fetch(this._apiUrl + "api/job/create.php", this.prepareRequest(JSON.stringify(data)))
       .then(response => console.log(response))
@@ -200,10 +200,10 @@ export class Api {
   // update job
   public async updateJob(job: Job): Promise<void> {
     let data = {
-      id: "" + job.id,
-      name: job.name,
-      type: job.type,
-      text: job.text,
+      id: job.id.toString(),
+      name: job.name.toString(),
+      type: job.type.toString(),
+      text: job.text.toString(),
     }
     await fetch(this._apiUrl + "api/job/update.php", this.prepareRequest(JSON.stringify(data)))
       .then(response => console.log(response))
@@ -216,6 +216,7 @@ export class Api {
       return JSON.parse(Examples.getTasks());
     }
     else {
+      console.log(this._apiUrl + "api/task/read.php?pageno=1&pagesize=" + this._pagesize);
       await fetch(this._apiUrl + "api/task/read.php?pageno=1&pagesize=" + this._pagesize, this.prepareRequest())
         .then(response => response.json())
         .then(result => {
@@ -247,11 +248,11 @@ export class Api {
   // add new task
   public async addTask(task: Task): Promise<void> {
     let data = {
-      name: task.name,
-      duedate: task.startdate,
-      enddate: task.enddate,
-      date_recurrency: task.date_recurrency,
-      time_recurrency: task.time_recurrency,
+      name: task.name.toString(),
+      startdate: task.startdate.toString(),
+      enddate: task.enddate.toString(),
+      date_recurrency: task.date_recurrency.toString(),
+      time_recurrency: task.time_recurrency.toString(),
     }
     await fetch(this._apiUrl + "api/task/create.php", this.prepareRequest(JSON.stringify(data)))
       .then(response => console.log(response))
@@ -269,12 +270,12 @@ export class Api {
   // update task
   public async updateTask(task: Task): Promise<void> {
     let data = {
-      id: "" + task.id,
-      name: task.name,
-      startdate: task.startdate,
-      enddate: task.enddate,
-      date_recurrency: "" + task.date_recurrency,
-      time_recurrency: "" + task.time_recurrency,
+      id: task.id.toString(),
+      name: task.name.toString(),
+      startdate: task.startdate.toString(),
+      enddate: task.enddate.toString(),
+      date_recurrency: task.date_recurrency.toString(),
+      time_recurrency: task.time_recurrency.toString(),
     }
     await fetch(this._apiUrl + "api/task/update.php", this.prepareRequest(JSON.stringify(data)))
       .then(response => console.log(response))
@@ -331,14 +332,14 @@ export class Api {
       "password": this._password,
     });
 
-    fetch(this._apiUrl + "api/token/generate.php", this.prepareRequest(data))
+    await fetch(this._apiUrl + "api/token/generate.php", this.prepareRequest(data))
       .then(response => response.json())
       .then(result => {
         let tokenResponse = result as TokenResponse;
         this._token = tokenResponse.document as Token;
-        return this.isLoggedIn();
       })
       .catch(error => console.log('error', error));
+    return this.isLoggedIn();
   }
 
   // prepare RequestInit object with data (GET or POST) and header

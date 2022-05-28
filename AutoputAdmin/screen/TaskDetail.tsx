@@ -54,7 +54,6 @@ class TaskDetail extends React.Component<Props, State> {
 
   dbDateToDate(date: string): Date {
     var t = date.split(/[- :]/);
-    console.log(t);
     return new Date(
       parseInt(t[0]),
       parseInt(t[1]) - 1,
